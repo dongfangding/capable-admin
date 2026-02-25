@@ -1,5 +1,6 @@
 package com.ddf.boot.capableadmin.application;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.ddf.boot.common.api.model.authentication.AuthenticateToken;
 import com.ddf.boot.common.api.model.authentication.UserClaim;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
