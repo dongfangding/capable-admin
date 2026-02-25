@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.mapper.ToolQiniuConfigMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig">
+    <!--@mbg.generated-->
+    <!--@Table tool_qiniu_config-->
+    <id column="config_id" jdbcType="BIGINT" property="configId" />
+    <result column="access_key" jdbcType="LONGVARCHAR" property="accessKey" />
+    <result column="bucket" jdbcType="VARCHAR" property="bucket" />
+    <result column="host" jdbcType="VARCHAR" property="host" />
+    <result column="secret_key" jdbcType="LONGVARCHAR" property="secretKey" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="zone" jdbcType="VARCHAR" property="zone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    config_id, access_key, bucket, `host`, secret_key, `type`, `zone`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from tool_qiniu_config
+    where config_id = #{configId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from tool_qiniu_config
+    where config_id = #{configId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig">
+    <!--@mbg.generated-->
+    insert into tool_qiniu_config (config_id, access_key, bucket, 
+      `host`, secret_key, `type`, 
+      `zone`)
+    values (#{configId,jdbcType=BIGINT}, #{accessKey,jdbcType=LONGVARCHAR}, #{bucket,jdbcType=VARCHAR}, 
+      #{host,jdbcType=VARCHAR}, #{secretKey,jdbcType=LONGVARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{zone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig">
+    <!--@mbg.generated-->
+    insert into tool_qiniu_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="configId != null">
+        config_id,
+      </if>
+      <if test="accessKey != null">
+        access_key,
+      </if>
+      <if test="bucket != null">
+        bucket,
+      </if>
+      <if test="host != null">
+        `host`,
+      </if>
+      <if test="secretKey != null">
+        secret_key,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="zone != null">
+        `zone`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="configId != null">
+        #{configId,jdbcType=BIGINT},
+      </if>
+      <if test="accessKey != null">
+        #{accessKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="bucket != null">
+        #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null">
+        #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="secretKey != null">
+        #{secretKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null">
+        #{zone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig">
+    <!--@mbg.generated-->
+    update tool_qiniu_config
+    <set>
+      <if test="accessKey != null">
+        access_key = #{accessKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="bucket != null">
+        bucket = #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null">
+        `host` = #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="secretKey != null">
+        secret_key = #{secretKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null">
+        `zone` = #{zone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where config_id = #{configId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig">
+    <!--@mbg.generated-->
+    update tool_qiniu_config
+    set access_key = #{accessKey,jdbcType=LONGVARCHAR},
+      bucket = #{bucket,jdbcType=VARCHAR},
+      `host` = #{host,jdbcType=VARCHAR},
+      secret_key = #{secretKey,jdbcType=LONGVARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      `zone` = #{zone,jdbcType=VARCHAR}
+    where config_id = #{configId,jdbcType=BIGINT}
+  </update>
+</mapper>

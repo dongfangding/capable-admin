@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>ddf-common</artifactId>
+		<groupId>io.github.dongfangding</groupId>
+		<version>boot3.5-2025.1-SNAPSHOT</version>
+		<relativePath/>
+	</parent>
+
+    <groupId>com.banma.biz</groupId>
+    <artifactId>capable-admin</artifactId>
+    <version>1.0.1_build-SNAPSHOT</version>
+
+
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<ddf-common.version>boot3.5-2025.1-SNAPSHOT</ddf-common.version>
+	</properties>
+
+    <dependencies>
+		<!--Spring boot 安全框架-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-security</artifactId>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-spring-boot3-starter</artifactId>
+			<version>1.44.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-core</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-mvc</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-authentication</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-third-party</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-captcha</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-limit</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-redis</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-vps</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-rocketmq</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-mqtt</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-s3</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+	</dependencies>
+
+    <build>
+        <finalName>capable-admin</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

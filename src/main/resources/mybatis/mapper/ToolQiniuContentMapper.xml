@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.mapper.ToolQiniuContentMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.capableadmin.model.entity.ToolQiniuContent">
+    <!--@mbg.generated-->
+    <!--@Table tool_qiniu_content-->
+    <id column="content_id" jdbcType="BIGINT" property="contentId" />
+    <result column="bucket" jdbcType="VARCHAR" property="bucket" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="suffix" jdbcType="VARCHAR" property="suffix" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    content_id, bucket, `name`, `size`, `type`, url, suffix, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from tool_qiniu_content
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from tool_qiniu_content
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="content_id" keyProperty="contentId" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuContent" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into tool_qiniu_content (bucket, `name`, `size`, 
+      `type`, url, suffix, 
+      update_time)
+    values (#{bucket,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="content_id" keyProperty="contentId" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuContent" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into tool_qiniu_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bucket != null">
+        bucket,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="size != null">
+        `size`,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="suffix != null">
+        suffix,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bucket != null">
+        #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null">
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuContent">
+    <!--@mbg.generated-->
+    update tool_qiniu_content
+    <set>
+      <if test="bucket != null">
+        bucket = #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        `size` = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null">
+        suffix = #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.ToolQiniuContent">
+    <!--@mbg.generated-->
+    update tool_qiniu_content
+    set bucket = #{bucket,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      `size` = #{size,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where content_id = #{contentId,jdbcType=BIGINT}
+  </update>
+</mapper>

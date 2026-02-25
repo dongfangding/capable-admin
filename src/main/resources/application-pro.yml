@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        namespace: d473baa9-7b63-4b9e-bd6b-03d411ea28e2
+        group: KVITA_GROUP
+      config:
+        namespace: d473baa9-7b63-4b9e-bd6b-03d411ea28e2
+        group: JAVA_GROUP
+  config:
+    import:
+      - optional:nacos:common-redis.yaml
+      - optional:nacos:common-datasource.yaml
+      - optional:nacos:common-server.yaml
+      - optional:nacos:mybatis.yaml
+      - optional:nacos:comm-rocketmq.yaml
+      - optional:nacos:openfeign.yaml

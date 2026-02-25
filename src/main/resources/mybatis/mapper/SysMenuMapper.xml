@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.capableadmin.model.entity.SysMenu">
+    <!--@mbg.generated-->
+    <!--@Table sys_menu-->
+    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="component_name" jdbcType="VARCHAR" property="componentName" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="is_frame" jdbcType="BIT" property="isFrame" />
+    <result column="cache" jdbcType="BIT" property="cache" />
+    <result column="hidden" jdbcType="BIT" property="hidden" />
+    <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="sub_count" jdbcType="INTEGER" property="subCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    menu_id, pid, `type`, title, component_name, component, sort, icon, `path`, is_frame, 
+    `cache`, hidden, permission, create_by, update_by, create_time, update_time, sub_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_menu
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_menu (pid, `type`, title, 
+      component_name, component, sort, 
+      icon, `path`, is_frame, `cache`, 
+      hidden, permission, create_by, 
+      update_by, create_time, update_time, 
+      sub_count)
+    values (#{pid,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{componentName,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{isFrame,jdbcType=BIT}, #{cache,jdbcType=BIT}, 
+      #{hidden,jdbcType=BIT}, #{permission,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
+      #{subCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="componentName != null">
+        component_name,
+      </if>
+      <if test="component != null">
+        component,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="path != null">
+        `path`,
+      </if>
+      <if test="isFrame != null">
+        is_frame,
+      </if>
+      <if test="cache != null">
+        `cache`,
+      </if>
+      <if test="hidden != null">
+        hidden,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="subCount != null">
+        sub_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="componentName != null">
+        #{componentName,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrame != null">
+        #{isFrame,jdbcType=BIT},
+      </if>
+      <if test="cache != null">
+        #{cache,jdbcType=BIT},
+      </if>
+      <if test="hidden != null">
+        #{hidden,jdbcType=BIT},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="subCount != null">
+        #{subCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu">
+    <!--@mbg.generated-->
+    update sys_menu
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="componentName != null">
+        component_name = #{componentName,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrame != null">
+        is_frame = #{isFrame,jdbcType=BIT},
+      </if>
+      <if test="cache != null">
+        `cache` = #{cache,jdbcType=BIT},
+      </if>
+      <if test="hidden != null">
+        hidden = #{hidden,jdbcType=BIT},
+      </if>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="subCount != null">
+        sub_count = #{subCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu">
+    <!--@mbg.generated-->
+    update sys_menu
+    set pid = #{pid,jdbcType=BIGINT},
+      `type` = #{type,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      component_name = #{componentName,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      `path` = #{path,jdbcType=VARCHAR},
+      is_frame = #{isFrame,jdbcType=BIT},
+      `cache` = #{cache,jdbcType=BIT},
+      hidden = #{hidden,jdbcType=BIT},
+      permission = #{permission,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      sub_count = #{subCount,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </update>
+</mapper>

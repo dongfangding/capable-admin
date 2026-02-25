@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        namespace: local
+        group: KVITA_GROUP
+      config:
+        namespace: local
+        group: JAVA_GROUP
+  config:
+    import:
+      - optional:nacos:common-redis.yaml
+      - optional:nacos:common-datasource.yaml
+      - optional:nacos:common-server.yaml
+      - optional:nacos:comm-rocketmq.yaml
+      - optional:nacos:mybatis.yaml
+      - optional:nacos:openfeign.yaml
+      - optional:nacos:pretty-admin-service.yaml
+      - optional:nacos:resource-properties.yaml?refreshEnabled=true
+logging:
+  level:
+    root: info
+    com:
+      kewta:
+        biz:
+          admin:
+            mapper: debug
+  charset:
+    console: utf-8
