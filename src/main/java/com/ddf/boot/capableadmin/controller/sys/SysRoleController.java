@@ -1,17 +1,16 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
-import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
-import com.ddf.boot.common.api.model.common.response.ResponseData;
-import com.ddf.boot.capableadmin.config.annotation.RequirePermission;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleMenuUpdateRequest;
 import com.ddf.boot.capableadmin.model.response.sys.SysRoleRes;
 import com.ddf.boot.capableadmin.service.SysRoleService;
+import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2025/01/07 19:27
  */
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("sys-role")
@@ -39,7 +38,7 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("list-all")
-    @RequirePermission("roles:list")
+    @SaCheckPermission("roles:list")
     public ResponseData<List<SysRoleRes>> listAll() {
         return ResponseData.success(sysRoleService.listAll());
     }
@@ -50,7 +49,7 @@ public class SysRoleController {
      * @param request
      */
     @PostMapping("persist")
-    @RequirePermission(value = { "roles:add", "roles:edit" })
+    @SaCheckPermission(value = { "roles:add", "roles:edit" })
     public ResponseData<Boolean> persist(@RequestBody @Valid SysRoleCreateRequest request) {
         sysRoleService.persist(request);
         return ResponseData.success(Boolean.TRUE);
@@ -62,7 +61,7 @@ public class SysRoleController {
      * @param request
      */
     @PostMapping("update-role-menu")
-    @RequirePermission("roles:edit")
+    @SaCheckPermission("roles:edit")
     public ResponseData<Boolean> updateRoleMenu(@RequestBody @Valid SysRoleMenuUpdateRequest request) {
         sysRoleService.updateRoleMenu(request);
         return ResponseData.success(Boolean.TRUE);
@@ -74,7 +73,7 @@ public class SysRoleController {
      * @param request
      */
     @PostMapping("delete")
-    @RequirePermission("roles:del")
+    @SaCheckPermission("roles:del")
     public ResponseData<Boolean> delete(@RequestBody BatchIdRequest request) {
         sysRoleService.delete(request.getIds());
         return ResponseData.success(Boolean.TRUE);

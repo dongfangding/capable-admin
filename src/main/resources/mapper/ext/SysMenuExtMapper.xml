@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.infra.mapper.SysMenuMapper">
+    <select id="findByIds" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        WHERE menu_id in
+        <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+            #{menuId}
+        </foreach>
+        ORDER BY sort, menu_id desc
+    </select>
+
+    <select id="findByPid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        WHERE pid = #{pid}
+        ORDER BY sort, menu_id desc
+    </select>
+
+    <select id="findByPidList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        WHERE pid in
+        <foreach collection="pidList" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+        ORDER BY sort, menu_id desc
+    </select>
+
+    <select id="findByTitle" resultMap="BaseResultMap">
+        SELECT menu_id
+        FROM sys_menu
+        WHERE title = #{title}
+    </select>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        SELECT menu_id
+        FROM sys_menu
+        WHERE component_name = #{name}
+    </select>
+
+    <select id="countByPid" resultType="int">
+        SELECT count(*)
+        FROM sys_menu
+        WHERE pid = #{pid}
+    </select>
+
+    <update id="updateSubCount">
+        update sys_menu
+        set sub_count = #{count}
+        where menu_id = #{menuId}
+    </update>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from sys_menu
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (title like concat('%', #{keyword}, '%')
+                        or component_name like concat('%', #{keyword}, '%')
+                        or permission like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by sort, menu_id desc
+    </select>
+
+    <delete id="deleteByMenuIds">
+        delete
+        from sys_menu
+        where menu_id in
+        <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+            #{menuId}
+        </foreach>
+    </delete>
+
+    <select id="getUserAllMenuExcludeBtn" resultMap="BaseResultMap">
+        SELECT menu.*
+        from sys_role role
+                 inner join sys_role_menu srm on role.role_id = srm.role_id
+                 inner join sys_menu menu on menu.menu_id = srm.menu_id
+                 inner join sys_user_role ur on role.role_id = ur.role_id
+        WHERE role.role_id = ur.role_id
+          AND ur.user_id = #{userId}
+          and menu.hidden = 0
+          and type != ${@com.kewta.biz.admin.enums.MenuTypeEnum@BUTTON.getValue()}
+        order by sort, menu_id desc
+    </select>
+
+    <select id="getAdminUserAllMenuExcludeBtn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from sys_menu
+        where hidden = 0
+          and type != ${@enums.com.ddf.boot.capableadmin.MenuTypeEnum@BUTTON.getValue()}
+        order by sort, menu_id desc
+    </select>
+
+    <insert id="batchInsert" keyColumn="menu_id" keyProperty="menuId" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_menu
+        (pid, `type`, title, component_name, component, sort, icon, `path`, is_frame, `cache`,
+        hidden, permission, create_by, update_by, create_time, update_time, sub_count)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.pid,jdbcType=BIGINT}, #{item.type,jdbcType=INTEGER}, #{item.title,jdbcType=VARCHAR},
+            #{item.componentName,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER},
+            #{item.icon,jdbcType=VARCHAR}, #{item.path,jdbcType=VARCHAR}, #{item.isFrame,jdbcType=BIT},
+            #{item.cache,jdbcType=BIT}, #{item.hidden,jdbcType=BIT}, #{item.permission,jdbcType=VARCHAR},
+            #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
+            #{item.updateTime,jdbcType=BIGINT}, #{item.subCount,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!-- 查询用户的权限标识 -->
+    <select id="findPermissionsByUserId" resultType="java.lang.String">
+        SELECT DISTINCT m.permission
+        FROM sys_menu m
+                 INNER JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+                 INNER JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND m.permission IS NOT NULL
+          AND m.permission != ''
+    </select>
+
+    <!-- 查询角色的权限标识 -->
+    <select id="findPermissionsByRoleIds" resultType="java.lang.String">
+        SELECT DISTINCT m.permission
+        FROM sys_menu m
+                 INNER JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        WHERE rm.role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        AND m.permission IS NOT NULL
+        AND m.permission != ''
+    </select>
+</mapper>

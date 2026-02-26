@@ -1,17 +1,17 @@
 package com.ddf.boot.capableadmin.service;
 
-import com.ddf.boot.common.api.exception.BusinessException;
-import com.ddf.boot.common.api.util.DateUtils;
-import com.ddf.boot.common.core.util.BeanCopierUtils;
-import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.core.util.TreeConvertUtil;
-import com.ddf.boot.capableadmin.mapper.SysDeptMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysDeptMapper;
 import com.ddf.boot.capableadmin.model.entity.SysDept;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptSuperiorQuery;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
+import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.api.util.DateUtils;
+import com.ddf.boot.common.core.util.BeanCopierUtils;
+import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.common.core.util.TreeConvertUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

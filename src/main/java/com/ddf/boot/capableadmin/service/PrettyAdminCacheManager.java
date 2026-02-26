@@ -1,16 +1,15 @@
 package com.ddf.boot.capableadmin.service;
 
-import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
-import com.ddf.boot.capableadmin.mapper.SysMenuMapper;
-import com.ddf.boot.capableadmin.mapper.SysRoleMapper;
-import com.ddf.boot.capableadmin.mapper.SysUserMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysMenuMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysRoleMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
+import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
+@RequiredArgsConstructor
 public class PrettyAdminCacheManager {
 
     private final RedisCommandHelper redisCommandHelper;

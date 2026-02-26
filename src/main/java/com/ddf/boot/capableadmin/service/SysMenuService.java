@@ -1,17 +1,9 @@
 package com.ddf.boot.capableadmin.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ddf.boot.common.api.exception.BusinessException;
-import com.ddf.boot.common.core.util.BeanCopierUtils;
-import com.ddf.boot.common.core.util.StringExtUtil;
-import com.ddf.boot.common.core.util.TreeConvertUtil;
-import com.google.common.collect.Lists;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
-import com.ddf.boot.capableadmin.feature.permission.permission.PermissionMenuType;
-import com.ddf.boot.capableadmin.feature.permission.permission.ScanPermissionPayload;
-import com.ddf.boot.capableadmin.feature.permission.permission.SysMenuFunction;
-import com.ddf.boot.capableadmin.mapper.SysMenuMapper;
-import com.ddf.boot.capableadmin.mapper.SysRoleMenuMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysMenuMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysRoleMenuMapper;
 import com.ddf.boot.capableadmin.model.entity.SysMenu;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
@@ -20,6 +12,14 @@ import com.ddf.boot.capableadmin.model.response.sys.BuildMenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.MenuMetaVo;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
+import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.core.util.BeanCopierUtils;
+import com.ddf.boot.common.core.util.StringExtUtil;
+import com.ddf.boot.common.core.util.TreeConvertUtil;
+import com.ddf.boot.common.mvc.permissionscan.PermissionMenuType;
+import com.ddf.boot.common.mvc.permissionscan.ScanPermissionPayload;
+import com.ddf.boot.common.mvc.permissionscan.SysMenuFunction;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -45,7 +44,7 @@ import org.springframework.util.CollectionUtils;
  * @version 1.0
  * @date 2025/01/04 20:28
  */
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class SysMenuService {

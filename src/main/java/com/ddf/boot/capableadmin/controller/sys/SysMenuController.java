@@ -1,10 +1,6 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
-import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
-import com.ddf.boot.common.api.model.common.response.ResponseData;
-import com.ddf.boot.capableadmin.config.annotation.RequirePermission;
-import com.ddf.boot.capableadmin.feature.permission.permission.PermissionMenuScanner;
-import com.ddf.boot.capableadmin.feature.permission.permission.ScanPermissionPayload;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuSuperiorQuery;
@@ -12,7 +8,11 @@ import com.ddf.boot.capableadmin.model.response.sys.BuildMenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
 import com.ddf.boot.capableadmin.service.SysMenuService;
-import com.ddf.boot.capableadmin.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
+import com.ddf.boot.common.mvc.permissionscan.PermissionMenuScanner;
+import com.ddf.boot.common.mvc.permissionscan.ScanPermissionPayload;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class SysMenuController {
      * @param request
      */
     @PostMapping("persist")
-    @RequirePermission(value = { "menu:add", "menu:edit" })
+    @SaCheckPermission(value = { "menu:add", "menu:edit" })
     public ResponseData<Boolean> persist(@RequestBody @Valid SysMenuCreateRequest request) {
         sysMenuService.persist(request);
         return ResponseData.success(Boolean.TRUE);
@@ -58,7 +58,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("list")
-    @RequirePermission("menu:list")
+    @SaCheckPermission("menu:list")
     public ResponseData<List<SysMenuRes>> list(SysMenuListQuery query) {
         return ResponseData.success(sysMenuService.list(query));
     }
@@ -69,7 +69,7 @@ public class SysMenuController {
      * @param request
      */
     @PostMapping("delete")
-    @RequirePermission("menu:del")
+    @SaCheckPermission("menu:del")
     public ResponseData<Boolean> delete(@RequestBody BatchIdRequest request) {
         sysMenuService.delete(request.getIds());
         return ResponseData.success(Boolean.TRUE);
@@ -82,7 +82,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("superior")
-    @RequirePermission("menu:list")
+    @SaCheckPermission("menu:list")
     public ResponseData<List<SysMenuNode>> fetchSameAndSuperiorData(SysMenuSuperiorQuery query) {
         return ResponseData.success(sysMenuService.fetchSameAndSuperiorData(query));
     }
@@ -103,9 +103,9 @@ public class SysMenuController {
      * @return
      */
     @PostMapping("sync")
-    @RequirePermission("menu:sync")
+    @SaCheckPermission("menu:sync")
     public ResponseData<Boolean> syncMenu() {
-        final ScanPermissionPayload payload = permissionMenuScanner.scanPermissionFunctionMethods();
+        final ScanPermissionPayload payload = permissionMenuScanner.scanPreAuthorizeMethods();
         sysMenuService.autoCreateMenu(payload);
         return ResponseData.success(Boolean.TRUE);
     }

@@ -15,12 +15,12 @@
  */
 package com.ddf.boot.capableadmin.controller.sys;
 
-import com.ddf.boot.common.api.model.common.response.PageResult;
-import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobQuery;
 import com.ddf.boot.capableadmin.model.response.sys.SysJobRes;
 import com.ddf.boot.capableadmin.service.SysJobService;
+import com.ddf.boot.common.api.model.common.response.PageResult;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

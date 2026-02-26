@@ -19,7 +19,7 @@ public enum PrettyAdminExceptionCode implements BaseCallbackCode {
     MENU_COMPONENT_NAME_EXISTS("MENU_COMPONENT_NAME_EXISTS", "菜单组件名称已存在"),
     MENU_FRAME_PATH_INVALID("MENU_FRAME_PATH_INVALID", "菜单外链连接不正确"),
     MENU_NOT_EXISTS("MENU_TITLE_EXISTS", "菜单不存在"),
-    USER_NOT_NOT_EXISTS("USER_NOT_NOT_EXISTS", "用户不存在"),
+    USER_NOT_NOT_EXISTS("USER_NOT_NOT_EXISTS", "用户{0}不存在"),
     USER_NAME_EXISTS("USER_NAME_EXISTS", "用户名称已存在"),
     EMAIL_EXISTS("EMAIL_EXISTS", "邮箱已存在"),
     MOBILE_EXISTS("MOBILE_EXISTS", "手机号已存在"),

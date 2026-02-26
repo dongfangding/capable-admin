@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.infra.mapper.SysDeptMapper">
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from sys_dept
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="enabled != null">
+                and enabled = #{enabled}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by sort, dept_id desc
+    </select>
+
+    <select id="countByPid" resultType="int">
+        select count(*)
+        from sys_dept
+        where pid = #{pid}
+    </select>
+
+    <update id="updateSubCount">
+        update sys_dept
+        set sub_count = #{subCount}
+        where dept_id = #{deptId}
+    </update>
+
+    <delete id="deleteByDeptIds">
+        delete
+        from sys_dept
+        <where>
+            <foreach collection="deptIds" item="deptId" open="(" separator="or" close=")">
+                dept_id = #{deptId}
+            </foreach>
+        </where>
+    </delete>
+
+    <select id="selectByDeptIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from sys_dept
+        <where>
+            <foreach collection="deptIds" item="deptId" open="(" separator="or" close=")">
+                dept_id = #{deptId}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="findByPid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from sys_dept
+        where pid = #{pid}
+    </select>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where name = #{name}
+        limit 1
+    </select>
+</mapper>
+        <!--reformat-->
+        <!--reformat-->
+        <!--reformat-->
+        <!--reformat-->
+        <!--reformat-->
+        <!--reformat-->
+        <!--reformat-->

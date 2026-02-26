@@ -1,26 +1,25 @@
 package com.ddf.boot.capableadmin.application;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.ddf.boot.common.api.model.authentication.AuthenticateToken;
-import com.ddf.boot.common.api.model.authentication.UserClaim;
-import com.ddf.boot.common.authentication.util.UserContextUtil;
-import com.ddf.boot.common.core.authentication.TokenUtil;
-import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
-import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.mvc.util.WebUtil;
-import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
-import com.ddf.boot.capableadmin.mapper.SysUserMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
+import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
+import com.ddf.boot.capableadmin.model.response.auth.LoginUserRes;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.capableadmin.service.PrettyAdminCacheManager;
+import com.ddf.boot.capableadmin.service.PrettyAdminUserDetailsService;
+import com.ddf.boot.common.api.util.JsonUtil;
+import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
+import com.ddf.boot.common.core.util.BeanCopierUtils;
+import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  * @date 2025/01/03 17:50
  */
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class AuthApplicationService {
@@ -43,6 +42,7 @@ public class AuthApplicationService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PrettyAdminCacheManager cacheManager;
     private final RedisCommandHelper redisCommandHelper;
+	private final PrettyAdminUserDetailsService prettyAdminUserDetailsService;
 
     /**
      * 用户登录
@@ -54,29 +54,19 @@ public class AuthApplicationService {
      */
     @Transactional(rollbackFor = Exception.class)
     public PrettyAdminLoginResponse login(AdminLoginRequest request, HttpServletRequest httpRequest) {
-        // 1. 验证用户名密码
         final SysUser sysUser = validateCredentials(request);
 
-        // 2. 【关键】清理该用户的所有旧缓存
-        log.info("用户登录,清理旧缓存, userId: {}, username: {}", sysUser.getUserId(), sysUser.getUsername());
-        cacheManager.cleanUserAllCache(sysUser.getUserId());
+		final Long userId = sysUser.getUserId();
+		StpUtil.login(userId);
 
-        // 3. 生成新Token
-        final UserClaim claim = new UserClaim();
-        claim.setUserId(String.valueOf(sysUser.getUserId()));
-        claim.setUsername(sysUser.getUsername());
-        claim.setCredit(WebUtil.getUserAgent());
-        final AuthenticateToken authenticateToken = TokenUtil.createToken(claim);
-        final String token = authenticateToken.getToken();
+		final PrettyAdminUserDetails details = prettyAdminUserDetailsService.loadUserById(userId);
+		StpUtil.getSession(true).set(PrettyAdminRedisKeyEnum.USER_DETAILS.getKey(userId.toString()), JsonUtil.toJson(details));
 
-        // 4. 保存在线用户信息
-        saveOnlineUser(sysUser, token, httpRequest);
-
-        // 5. 返回登录信息
+		// 返回登录信息
         final PrettyAdminLoginResponse response = new PrettyAdminLoginResponse();
-        response.setAccessToken(token);
-
-        log.info("用户登录成功, userId: {}, username: {}", sysUser.getUserId(), sysUser.getUsername());
+        response.setAccessToken(StpUtil.getTokenValue());
+		response.setUser(BeanCopierUtils.copy(sysUser, LoginUserRes.class));
+        log.info("用户登录成功, userId: {}, username: {}", userId, sysUser.getUsername());
         return response;
     }
 
@@ -87,14 +77,9 @@ public class AuthApplicationService {
      */
     public void logout() {
         try {
-            // 1. 从Token中提取用户ID
-            final UserClaim userClaim = UserContextUtil.getUserClaim();
-            final Long userId = Long.parseLong(userClaim.getUserId());
-
-            // 2. 删除在线用户记录
-            cacheManager.cleanOnlineUserCache(UserContextUtil.getRequestContext().getToken());
-
-            // 3. 【关键】清理用户所有缓存
+			final long userId = StpUtil.getLoginIdAsLong();
+			StpUtil.logout();
+			// 3. 【关键】清理用户所有缓存
             log.info("用户登出,清理缓存, userId: {}", userId);
             cacheManager.cleanUserAllCache(userId);
 

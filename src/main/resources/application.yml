@@ -1,22 +1,109 @@
 server:
-  port: 9107
+  tomcat:
+    max-connections: 10000
+    # 并发线程满之后允许后续请求排队数量，太大会导致后续请求响应时间过长
+    acceptCount: 100
+    threads:
+      max: 600
+      min-spare: 50
+    processor-cache: 200
+  # 服务优雅下线
+  shutdown: graceful
   servlet:
     context-path: /capable-admin
+  port: 8083
+
 spring:
-  application:
-    name: capable-admin-service
+  messages:
+    basename: i18n/messages,i18n/biz_messages
+    encoding: UTF-8
+  lifecycle:
+    timeout-per-shutdown-phase: 120s
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB
+      max-request-size: 15MB
   profiles:
-    active: dev
-logging:
-  level:
-    root: info
+    active: local
+  application:
+    name: capable-admin
+  redis:
+    redisson:
+      file: classpath:redisson.yml
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      username: root
+      password: Aa&123456
+      url: jdbc:mysql://${mysql_host}:3306/capable-admin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      initial-size: 1
+      asyncInit: false
+      max-active: 200
+      min-idle: 5
+      keep-alive: true
+      max-wait: 60000
+      use-unfair-lock: true
+      time-between-eviction-runs-millis: 59000
+      min-evictable-idle-time-millis: 590000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      poolPreparedStatements: false
+      max-open-prepared-statements: 20
+      # 连接失败后快速失败
+      connection-error-retry-attempts: 2
+      break-after-acquire-failure: true
+      time-between-connect-error-millis: 3000
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 3000
+        wall:
+          enabled: true
+          db-type: mysql
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: Aa&123456
+        allow:
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 1041765757@qq.com
+    password: nwvxzrwawmwubdic
+    properties:
+      from: Snowball Notice <1041765757@qq.com>
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml,classpath:/mapper/ext/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: access-token
   # token 有效期（单位：秒） 默认30天，-1 代表永久有效
-  timeout: 2592000
+  timeout: 3600
   # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
   active-timeout: -1
   # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
@@ -25,5 +112,39 @@ sa-token:
   is-share: false
   # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
   token-style: uuid
+  # 是否尝试从 cookie 里读取 Token，此值为 false 后，StpUtil.login(id) 登录时也不会再往前端注入Cookie
+  isReadCookie: false
+  # 	注销范围 (TOKEN=只注销当前 token 的会话，ACCOUNT=注销当前 token 指向的 loginId 其所有客户端会话) (此参数只在调用 StpUtil.logout() 时有效)
+  logoutRange: ACCOUNT
+  # 默认数据持久组件实现类中，每次清理过期数据间隔的时间 （单位: 秒） ，默认值30秒，设置为-1代表不启动定时清理
+  dataRefreshPeriod: 60
+  # token前缀，例如填写 Bearer 实际传参 satoken: Bearer
+  tokenPrefix: ""
   # 是否输出操作日志
   is-log: true
+
+
+customizer:
+  infra:
+    global-properties:
+      # worker Id can't be greater than 31 or less than 0
+      snowflakeWorkerId: 1
+      # dataCenterId Id can't be greater than 31 or less than 0
+      snowflakeDataCenterId: 1
+      aesSecret: 1111111111111111
+      rsaPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhbgjOIG2yMb7ubo6G6d1AumHsdW3K3TnRGbE/DaSx0lmBI71wjoahiMDTEJrI8+82zvB6eYVI1bwg2RQn5nMxuYkX//4KqGLvcQ88gjyXEgn8XsUOhwwKOHf5YlTqEob9/weooRPPQKoXoexGm0GVl7AOrqBrJTutbL2BNm9F4jd+PXp8xr72rtETOsDwGyKi7uIN1TRmJUTsUaRZJrfy0VfAfUSyGE5fX0woefd6Pd7Bmf4o117ektZdxkNu48mVjx+yFEDXrCLgxEOFcw47uriJ+TSAS99EAXIBlwd77lcZzHOMYzZDOjjoQhGHiSIkHAUmIfJzS9bQr0mIgh9gQIDAQAB
+      rsaPrivateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCFuCM4gbbIxvu5ujobp3UC6Yex1bcrdOdEZsT8NpLHSWYEjvXCOhqGIwNMQmsjz7zbO8Hp5hUjVvCDZFCfmczG5iRf//gqoYu9xDzyCPJcSCfxexQ6HDAo4d/liVOoShv3/B6ihE89Aqheh7EabQZWXsA6uoGslO61svYE2b0XiN349enzGvvau0RM6wPAbIqLu4g3VNGYlROxRpFkmt/LRV8B9RLIYTl9fTCh593o93sGZ/ijXXt6S1l3GQ27jyZWPH7IUQNesIuDEQ4VzDju6uIn5NIBL30QBcgGXB3vuVxnMc4xjNkM6OOhCEYeJIiQcBSYh8nNL1tCvSYiCH2BAgMBAAECggEAcbzuOGIc1yppctC0HFGTdaathNYDtzL4g3Xml6DTuC72V2pCH7LMXMvrQjI8b3mDafaqOgk6cZTBfwEUkqx/Qa7/wag3rgs6kW8ZZ8W0YEn/r6bAzaysShnWF6d3QO3IXGZWqGViAMMB82X3fkK94Tk2yL1bDzCe2m4eVIHgFONWBaKsT6Y8e6/bmXlIXo7R+QgYOqUDNmuI/nJ8gmrxXz2ZkpMOde6FCcZ/A/BJXN8AtNe5ULtEYKL870UGZu9B4cvuAZEs+MOYrKMM3xPVhIR0cUR+1+9HaNePF2jzSZU2eIurvrRhzjhieO5sfgRLGte5pTfCYqbioQgQl78AAQKBgQDdpDtV04ybf7qz8hu9/U1BUaGcrRnkbf1QePbB3V3ocqQhMikrfxWiRIJqYZQ3TA2L2zzqlEBWD2tHlmmnkMIyebKIJ4MmLhvjJtVdOc3O8fSThd1ahgL+MB4S+Xby+fWUpT0r96Zy/HIm472kmF3B+L1bHMs82+FQoAnuuSNPgQKBgQCacr3gT2EOyQRHIITBr1LKzrPaL7eOZlY44xjfKB9WO+eFKKXWMq18zjxG8Col0VbXRTbkuaMTEQznLRgUjQQFawY3hXlL8zkrhNAl0+hsOkVnEzgJIefelIVIYUkMv6U2gBvaBbq//YhxRUvtvIO4orT7VZg3lgBseQ/dnpwuAQKBgDNPhf0EkJSfKVXnQszlCzGH+GYRHOFpJS+wEVAoM0lQ4PZeanGLZjK+sYJ3PJzgmnI6OwwDbjF+OFPGWodUV+Dfk5k5rH72RbZ8kwCWFTNHiFturiP6yk6WTSAPaJ4vh871wgefuYT9NGAUcR7dtzbkotGpBNP+A1dq9WGysp4BAoGANloAtepZVpGo/rrT3TEsqpA5PKQkLWmYGCba/tUoyfkEzZhzW8CzysLs9W3Y9zwHGnSSD8XAPJp4dvYojjrd2mZCZtGC0RaD3Ou9MEK1fTi4acCarKQQ7ARKLyGFSoY6xsYohv4TLTM0i9/+C2iW1if0FqqViaIw/ftQeQYzIgECgYAoK37R25AXs87Ghws+pBUvGQwFLUqTf1fLFFiPWW0RtOS3tnz+M6bYqjp5Y4ZLtH8nVSj6DPPu5l80OtkCJZP6LTG4hFDrjNeJfz4UxXqQBSfiReRpl+LqBUUs+AYM2vrO6Snn3IUaFcRvhyodzY5opKp3nX2z4DaPZm+bPiGzfg==
+      # 是否开启全局的日志打印详情（默认关闭， 先精准控制日志行为，线上排查问题时，可临时开启）
+      globalLogPrintDetails: false
+      # 要忽略的打印异常日志的异常完全类型
+      ignoreLogExceptionClassName:
+        - com.ddf.boot.common.api.exception.BusinessException
+        - com.ddf.boot.common.api.exception.BadRequestException
+        - com.ddf.boot.common.api.exception.AccessDeniedException
+        - com.ddf.boot.common.api.exception.UnauthorizedException
+        - org.springframework.http.converter.HttpMessageNotReadableException
+        - org.springframework.security.access.AccessDeniedException
+        - org.springframework.web.bind.MethodArgumentNotValidException
+        - org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+        - org.springframework.web.bind.MissingServletRequestParameterException
+        - org.apache.catalina.connector.ClientAbortException

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.infra.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.capableadmin.model.entity.SysLog">
+    <!--@mbg.generated-->
+    <!--@Table sys_log-->
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="log_type" jdbcType="VARCHAR" property="logType" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="params" jdbcType="LONGVARCHAR" property="params" />
+    <result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+    <result column="time" jdbcType="BIGINT" property="time" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="browser" jdbcType="VARCHAR" property="browser" />
+    <result column="exception_detail" jdbcType="LONGVARCHAR" property="exceptionDetail" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    log_id, description, log_type, `method`, params, request_ip, `time`, username, phone, 
+    address, browser, exception_detail, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_log
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="com.ddf.boot.capableadmin.model.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log (description, log_type, `method`, 
+      params, request_ip, `time`, 
+      username, phone, address, 
+      browser, exception_detail, create_time
+      )
+    values (#{description,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{params,jdbcType=LONGVARCHAR}, #{requestIp,jdbcType=VARCHAR}, #{time,jdbcType=BIGINT}, 
+      #{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{browser,jdbcType=VARCHAR}, #{exceptionDetail,jdbcType=LONGVARCHAR}, #{createTime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="com.ddf.boot.capableadmin.model.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="description != null">
+        description,
+      </if>
+      <if test="logType != null">
+        log_type,
+      </if>
+      <if test="method != null">
+        `method`,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="requestIp != null">
+        request_ip,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="browser != null">
+        browser,
+      </if>
+      <if test="exceptionDetail != null">
+        exception_detail,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestIp != null">
+        #{requestIp,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null">
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionDetail != null">
+        #{exceptionDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.capableadmin.model.entity.SysLog">
+    <!--@mbg.generated-->
+    update sys_log
+    <set>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="logType != null">
+        log_type = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        `method` = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestIp != null">
+        request_ip = #{requestIp,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null">
+        browser = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionDetail != null">
+        exception_detail = #{exceptionDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.SysLog">
+    <!--@mbg.generated-->
+    update sys_log
+    set description = #{description,jdbcType=VARCHAR},
+      log_type = #{logType,jdbcType=VARCHAR},
+      `method` = #{method,jdbcType=VARCHAR},
+      params = #{params,jdbcType=LONGVARCHAR},
+      request_ip = #{requestIp,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=BIGINT},
+      username = #{username,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      browser = #{browser,jdbcType=VARCHAR},
+      exception_detail = #{exceptionDetail,jdbcType=LONGVARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+</mapper>

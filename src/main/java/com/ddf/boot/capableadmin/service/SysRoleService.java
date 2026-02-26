@@ -1,23 +1,22 @@
 package com.ddf.boot.capableadmin.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ddf.boot.common.api.exception.BusinessException;
-import com.ddf.boot.common.core.util.BeanCopierUtils;
-import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.capableadmin.mapper.SysRoleMapper;
-import com.ddf.boot.capableadmin.mapper.SysRoleMenuMapper;
-import com.ddf.boot.capableadmin.mapper.SysUserRoleMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysRoleMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysRoleMenuMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysUserRoleMapper;
 import com.ddf.boot.capableadmin.model.entity.SysRole;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleMenuUpdateRequest;
 import com.ddf.boot.capableadmin.model.response.sys.SysRoleRes;
+import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.core.util.BeanCopierUtils;
+import com.ddf.boot.common.core.util.PreconditionUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  * @date 2025/01/07 17:36
  */
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class SysRoleService {

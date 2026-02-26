@@ -1,11 +1,11 @@
 package com.ddf.boot.capableadmin.controller.auth;
 
-import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.capableadmin.application.AuthApplicationService;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
-import com.ddf.boot.capableadmin.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
  * 认证控制器
- * </p>
  *
  * @author Snowball
  * @version 1.0

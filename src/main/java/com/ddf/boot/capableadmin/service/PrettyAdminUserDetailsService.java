@@ -1,17 +1,15 @@
 package com.ddf.boot.capableadmin.service;
 
-import com.ddf.boot.capableadmin.mapper.SysMenuMapper;
-import com.ddf.boot.capableadmin.mapper.SysRoleMapper;
-import com.ddf.boot.capableadmin.mapper.SysUserMapper;
+import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
+import com.ddf.boot.capableadmin.infra.mapper.SysMenuMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysRoleMapper;
+import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysUser;
+import com.ddf.boot.common.api.exception.BusinessException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,24 +24,13 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor_ = { @Autowired })
-public class PrettyAdminUserDetailsService implements UserDetailsService {
+@RequiredArgsConstructor
+public class PrettyAdminUserDetailsService {
 
     private final SysUserMapper sysUserMapper;
     private final SysRoleMapper sysRoleMapper;
     private final SysMenuMapper sysMenuMapper;
 
-    /**
-     * 根据用户名加载用户(Spring Security标准接口)
-     */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserMapper.selectByUsername(username);
-        if (sysUser == null) {
-            throw new UsernameNotFoundException("用户不存在: " + username);
-        }
-        return loadUserDetail(sysUser);
-    }
 
     /**
      * 根据用户ID加载用户详情
@@ -54,7 +41,7 @@ public class PrettyAdminUserDetailsService implements UserDetailsService {
     public PrettyAdminUserDetails loadUserById(Long userId) {
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         if (sysUser == null) {
-            throw new UsernameNotFoundException("用户不存在: ID=" + userId);
+            throw new BusinessException(PrettyAdminExceptionCode.USER_NOT_NOT_EXISTS, userId);
         }
         return loadUserDetail(sysUser);
     }

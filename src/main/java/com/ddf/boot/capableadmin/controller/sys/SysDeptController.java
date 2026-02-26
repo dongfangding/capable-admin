@@ -15,8 +15,6 @@
  */
 package com.ddf.boot.capableadmin.controller.sys;
 
-import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
-import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.capableadmin.application.SysUserApplicationService;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
@@ -24,6 +22,8 @@ import com.ddf.boot.capableadmin.model.request.sys.SysDeptSuperiorQuery;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
 import com.ddf.boot.capableadmin.service.SysDeptService;
+import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

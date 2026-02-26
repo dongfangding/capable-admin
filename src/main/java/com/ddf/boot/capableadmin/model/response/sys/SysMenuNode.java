@@ -1,10 +1,10 @@
 package com.ddf.boot.capableadmin.model.response.sys;
 
 import com.ddf.boot.common.api.constraint.collect.ITreeTagCollection;
+import jakarta.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import lombok.Data;
 
 /**

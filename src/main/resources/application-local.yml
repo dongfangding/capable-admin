@@ -1,29 +1,20 @@
+mysql_host: 10.88.1.42
 spring:
-  cloud:
-    nacos:
-      discovery:
-        namespace: local
-        group: KVITA_GROUP
-      config:
-        namespace: local
-        group: JAVA_GROUP
-  config:
-    import:
-      - optional:nacos:common-redis.yaml
-      - optional:nacos:common-datasource.yaml
-      - optional:nacos:common-server.yaml
-      - optional:nacos:comm-rocketmq.yaml
-      - optional:nacos:mybatis.yaml
-      - optional:nacos:openfeign.yaml
-      - optional:nacos:pretty-admin-service.yaml
-      - optional:nacos:resource-properties.yaml?refreshEnabled=true
-logging:
-  level:
-    root: info
-    com:
-      kewta:
-        biz:
-          admin:
-            mapper: debug
-  charset:
-    console: utf-8
+  data:
+    redis:
+      host: 10.88.1.42
+      port: 6379
+      database: 1
+      password: Aa&123456
+
+customizer:
+  infra:
+    s3:
+      enable: true
+      endpoint: http://10.88.1.42:9000
+      access-key: rYxKvE6Oko9Xq95wRe0x
+      secret-key: cBVpU9I2QwtnMml3r98Z2N42jFWkvUDBvQBLmdQQ
+      bucket-name: group-purchase
+      region: cn-bj1
+      secure: false
+      path-style-access: true
