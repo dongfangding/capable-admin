@@ -296,13 +296,13 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 
 -- 初始化角色
-INSERT INTO `capable-admin`.`sys_role` (`role_id`, `name`, `level`, `description`, `ip_limit`, `create_by`, `update_by`,
+INSERT INTO `capable_admin`.`sys_role` (`role_id`, `name`, `level`, `description`, `ip_limit`, `create_by`, `update_by`,
                                        `create_time`, `update_time`)
 VALUES (1, '超级管理员', 1, '-', '全部', 'snowball', 'snowball', 1683010740, 1683010740);
 
 
 -- 初始化岗位
-INSERT INTO `capable-admin`.`sys_job`
+INSERT INTO `capable_admin`.`sys_job`
 values (`job_id`, `name`, `enabled`, `sort`, `create_by`, `update_by`, `create_time`,
         `update_time`),
        (2, '产品经理', b'1', 2, 'admin', 'admin', 1683010740, 1683010740),
@@ -312,7 +312,7 @@ values (`job_id`, `name`, `enabled`, `sort`, `create_by`, `update_by`, `create_t
        (6, '运营', b'1', 6, 'admin', 'admin', 1683010740, 1683010740);
 
 -- 初始化部门
-INSERT INTO `capable-admin`.`sys_dept` (`dept_id`, `pid`, `name`, `sort`, `enabled`, `create_by`, `update_by`,
+INSERT INTO `capable_admin`.`sys_dept` (`dept_id`, `pid`, `name`, `sort`, `enabled`, `create_by`, `update_by`,
                                        `create_time`, `update_time`, `sub_count`)
 VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1),
        (2, 0, '地狱部', 2, b'1', 'admin', 'admin', 1683010740, 1683010740, 1),
@@ -321,7 +321,7 @@ VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1)
 
 
 -- 初始化菜单
-INSERT INTO `capable-admin`.`sys_menu` (`menu_id`, `pid`, `type`, `title`, `component_name`, `component`, `sort`, `icon`,
+INSERT INTO `capable_admin`.`sys_menu` (`menu_id`, `pid`, `type`, `title`, `component_name`, `component`, `sort`, `icon`,
                                        `path`, `is_frame`, `cache`, `hidden`, `permission`, `create_by`, `update_by`,
                                        `create_time`, `update_time`, `sub_count`)
 VALUES (1, 0, 0, '系统管理', NULL, '', 1, 'system', 'system', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740,

@@ -37,7 +37,7 @@ spring:
     druid:
       username: root
       password: Aa&123456
-      url: jdbc:mysql://${mysql_host}:3306/capable-admin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://${mysql_host}:3306/capable_admin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       initial-size: 1
       asyncInit: false
       max-active: 200

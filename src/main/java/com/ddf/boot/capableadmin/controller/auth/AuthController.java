@@ -1,15 +1,12 @@
 package com.ddf.boot.capableadmin.controller.auth;
 
 import com.ddf.boot.capableadmin.application.AuthApplicationService;
-import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
-import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2026/02/09 16:15
  */
 @RestController
-@RequestMapping("admin/auth")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -52,15 +49,5 @@ public class AuthController {
     public ResponseData<Boolean> logout(HttpServletRequest request) {
         authApplicationService.logout();
         return ResponseData.success(Boolean.TRUE);
-    }
-
-    /**
-     * 获取当前登录用户信息
-     *
-     * @return
-     */
-    @GetMapping("info")
-    public ResponseData<PrettyAdminUserDetails> info() {
-        return ResponseData.success(PrettyAdminSecurityUtils.getCurrentUser());
     }
 }

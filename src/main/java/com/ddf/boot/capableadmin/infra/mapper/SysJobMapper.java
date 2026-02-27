@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 17:48
+ * @date 2026/02/27 17:52
  */
 public interface SysJobMapper {
     int deleteByPrimaryKey(Long jobId);

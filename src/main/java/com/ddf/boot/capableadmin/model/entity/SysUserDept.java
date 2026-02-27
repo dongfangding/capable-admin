@@ -7,20 +7,19 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/07 20:54
+* @date 2026/02/27 17:52
 */
+
+
 /**
  * 用户部门关联
  */
 @Data
 public class SysUserDept {
     /**
-    * 用户id
-    */
+     * 用户id
+     */
     private Long userId;
 
-    /**
-    * 部门id
-    */
     private Long deptId;
 }

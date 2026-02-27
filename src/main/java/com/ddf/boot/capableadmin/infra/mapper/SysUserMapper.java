@@ -5,13 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
- * description
- * </p >
+ * <p>description</p >
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/08 19:41
+ * @date 2026/02/27 18:31
  */
 public interface SysUserMapper {
     int deleteByPrimaryKey(Long userId);

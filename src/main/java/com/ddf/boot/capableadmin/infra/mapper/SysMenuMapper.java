@@ -7,13 +7,11 @@ import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
- * description
- * </p >
+ * <p>description</p >
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 17:50
+ * @date 2026/02/27 17:52
  */
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Long menuId);
@@ -59,19 +57,36 @@ public interface SysMenuMapper {
     int deleteByMenuIds(@Param("menuIds") Set<Long> menuIds);
 
     /**
-     * 查询所有按钮以外的所有的菜单， 给超管用
+     * 查询所有按钮以外的所有的菜单， 排除按钮是为了这个只是为了构建菜单树时使用的， 给超管用
      *
      * @return
      */
     List<SysMenu> getAdminUserAllMenuExcludeBtn();
 
     /**
-     * 查询用户排除按钮以外的所有的菜单
+     * 查询用户排除按钮以外的所有的菜单，排除按钮是为了这个只是为了构建菜单树时使用的
      *
      * @param userId
      * @return
      */
     List<SysMenu> getUserAllMenuExcludeBtn(@Param("userId") Long userId);
+
+
+	/**
+	 * 查询所有按钮以外的所有的菜单， 排除按钮是为了这个只是为了构建菜单树时使用的， 给超管用
+	 *
+	 * @return
+	 */
+	List<SysMenu> getAdminUserAllMenu();
+
+	/**
+	 * 查询用户排除按钮以外的所有的菜单，排除按钮是为了这个只是为了构建菜单树时使用的
+	 *
+	 * @param userId
+	 * @return
+	 */
+	List<SysMenu> getUserAllMenu(@Param("userId") Long userId);
+
 
     int batchInsert(List<SysMenu> record);
 
@@ -82,6 +97,14 @@ public interface SysMenuMapper {
      * @return 权限标识集合
      */
     Set<String> findPermissionsByUserId(@Param("userId") Long userId);
+
+
+	/**
+	 * 查询所有权限标识, 给超管用
+	 *
+	 * @return 权限标识集合
+	 */
+	Set<String> findAllPermissions();
 
     /**
      * 查询角色列表的所有权限标识

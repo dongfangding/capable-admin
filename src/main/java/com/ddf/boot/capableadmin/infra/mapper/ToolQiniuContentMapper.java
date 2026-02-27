@@ -7,7 +7,7 @@ import com.ddf.boot.capableadmin.model.entity.ToolQiniuContent;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 16:50
+ * @date 2026/02/27 17:52
  */
 public interface ToolQiniuContentMapper {
     int deleteByPrimaryKey(Long contentId);

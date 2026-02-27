@@ -5,12 +5,12 @@ import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* <p>description</p >
-*
-* @author Snowball
-* @version 1.0
-* @date 2025/01/08 20:18
-*/
+ * <p>description</p >
+ *
+ * @author Snowball
+ * @version 1.0
+ * @date 2026/02/27 17:52
+ */
 public interface SysUserJobMapper {
     int deleteByPrimaryKey(@Param("userId") Long userId, @Param("jobId") Long jobId);
 

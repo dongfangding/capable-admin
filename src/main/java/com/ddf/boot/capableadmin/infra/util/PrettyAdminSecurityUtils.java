@@ -37,6 +37,7 @@ public class PrettyAdminSecurityUtils {
 	 * @return 用户详情
 	 */
 	public static PrettyAdminUserDetails getCurrentUser() {
+		StpUtil.checkLogin();
 		final long userId = StpUtil.getLoginIdAsLong();
 		final String detailJson = StpUtil
 				.getSession(true)

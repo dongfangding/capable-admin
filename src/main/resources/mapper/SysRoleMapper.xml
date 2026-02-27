@@ -14,11 +14,12 @@
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_admin" jdbcType="BIT" property="isAdmin" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     role_id, `name`, `level`, description, ip_limit, create_by, update_by, create_time, 
-    update_time, sort
+    update_time, sort, is_admin
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -36,12 +37,12 @@
     <!--@mbg.generated-->
     insert into sys_role (`name`, `level`, description, 
       ip_limit, create_by, update_by, 
-      create_time, update_time, sort
-      )
+      create_time, update_time, sort, 
+      is_admin)
     values (#{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
       #{ipLimit,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, 
+      #{isAdmin,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.ddf.boot.capableadmin.model.entity.SysRole" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -74,6 +75,9 @@
       <if test="sort != null">
         sort,
       </if>
+      <if test="isAdmin != null">
+        is_admin,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -102,6 +106,9 @@
       </if>
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isAdmin != null">
+        #{isAdmin,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -136,6 +143,9 @@
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
+      <if test="isAdmin != null">
+        is_admin = #{isAdmin,jdbcType=BIT},
+      </if>
     </set>
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
@@ -150,7 +160,8 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT},
-      sort = #{sort,jdbcType=INTEGER}
+      sort = #{sort,jdbcType=INTEGER},
+      is_admin = #{isAdmin,jdbcType=BIT}
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
 </mapper>

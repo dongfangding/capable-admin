@@ -3,13 +3,13 @@ package com.ddf.boot.capableadmin.infra.config;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.strategy.SaStrategy;
-import cn.hutool.core.date.DateUnit;
 import com.ddf.boot.common.api.model.authentication.UserClaim;
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.core.authentication.TokenUtil;
 import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,8 +30,21 @@ public class PrettyAdminWebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验。
 		registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
-				.addPathPatterns("/**")
-				.excludePathPatterns("/admin/auth/login", "/admin/auth/login");
+				.addPathPatterns("/capable-admin/**")
+				.excludePathPatterns("/capable-admin/admin/auth/login", "/error");
+	}
+
+	/**
+	 * 配置 CORS 跨域
+	 */
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/capable-admin/**")
+				.allowedOriginPatterns("*")
+				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+				.allowedHeaders("*")
+				.allowCredentials(true)
+				.maxAge(3600);
 	}
 
 	/**

@@ -23,6 +23,8 @@ public class PrettyAdminUserDetails {
 
     private String username;
 
+	private String nickname;
+
     @JsonIgnore
     private String password;
 
@@ -34,6 +36,7 @@ public class PrettyAdminUserDetails {
 
     public PrettyAdminUserDetails(SysUser user, Set<String> roles, Set<String> permissions) {
         this.userId = user.getUserId();
+		this.nickname = user.getNickname();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.enabled = user.getEnabled() != null ? user.getEnabled() : true;

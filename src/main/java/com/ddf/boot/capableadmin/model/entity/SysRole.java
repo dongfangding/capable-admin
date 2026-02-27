@@ -7,7 +7,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/07 17:55
+* @date 2026/02/27 17:52
 */
 
 
@@ -65,4 +65,9 @@ public class SysRole {
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增
+     */
+    private Boolean isAdmin;
 }

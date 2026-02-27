@@ -5,15 +5,13 @@
     <!--@mbg.generated-->
     <!--@Table sys_user-->
     <id column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="dept_id" jdbcType="BIGINT" property="deptId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="is_admin" jdbcType="BIT" property="isAdmin" />
     <result column="enabled" jdbcType="BIT" property="enabled" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -23,8 +21,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    user_id, dept_id, username, nick_name, sex, mobile, email, avatar, `password`, is_admin, 
-    enabled, create_by, update_by, pwd_reset_time, create_time, update_time
+    user_id, username, nickname, sex, mobile, email, avatar, `password`, enabled, create_by, 
+    update_by, pwd_reset_time, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -40,31 +38,26 @@
   </delete>
   <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.ddf.boot.capableadmin.model.entity.SysUser" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into sys_user (dept_id, username, nick_name, 
-      sex, mobile, email, 
-      avatar, `password`, is_admin, 
-      enabled, create_by, update_by, 
-      pwd_reset_time, create_time, update_time
-      )
-    values (#{deptId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, 
-      #{enabled,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{pwdResetTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+    insert into sys_user (username, nickname, sex, 
+      mobile, email, avatar, 
+      `password`, enabled, create_by, 
+      update_by, pwd_reset_time, create_time, 
+      update_time)
+    values (#{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{pwdResetTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.ddf.boot.capableadmin.model.entity.SysUser" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="deptId != null">
-        dept_id,
-      </if>
       <if test="username != null">
         username,
       </if>
-      <if test="nickName != null">
-        nick_name,
+      <if test="nickname != null">
+        nickname,
       </if>
       <if test="sex != null">
         sex,
@@ -80,9 +73,6 @@
       </if>
       <if test="password != null">
         `password`,
-      </if>
-      <if test="isAdmin != null">
-        is_admin,
       </if>
       <if test="enabled != null">
         enabled,
@@ -104,14 +94,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="deptId != null">
-        #{deptId,jdbcType=BIGINT},
-      </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
-        #{nickName,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=INTEGER},
@@ -127,9 +114,6 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="isAdmin != null">
-        #{isAdmin,jdbcType=BIT},
       </if>
       <if test="enabled != null">
         #{enabled,jdbcType=BIT},
@@ -155,14 +139,11 @@
     <!--@mbg.generated-->
     update sys_user
     <set>
-      <if test="deptId != null">
-        dept_id = #{deptId,jdbcType=BIGINT},
-      </if>
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
-        nick_name = #{nickName,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=INTEGER},
@@ -178,9 +159,6 @@
       </if>
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="isAdmin != null">
-        is_admin = #{isAdmin,jdbcType=BIT},
       </if>
       <if test="enabled != null">
         enabled = #{enabled,jdbcType=BIT},
@@ -206,15 +184,13 @@
   <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.SysUser">
     <!--@mbg.generated-->
     update sys_user
-    set dept_id = #{deptId,jdbcType=BIGINT},
-      username = #{username,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=INTEGER},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      is_admin = #{isAdmin,jdbcType=BIT},
       enabled = #{enabled,jdbcType=BIT},
       create_by = #{createBy,jdbcType=VARCHAR},
       update_by = #{updateBy,jdbcType=VARCHAR},

@@ -20,9 +20,13 @@ public class AdminLoginRequest implements Serializable {
     @NotBlank(message = "密码不能为空")
     private String password;
 
-    @NotBlank(message = "验证码不能为空")
+    /**
+     * 验证码(临时关闭校验)
+     */
     private String code;
 
-    @NotBlank(message = "uuid不能为空")
+    /**
+     * uuid(临时关闭校验)
+     */
     private String uuid;
 }

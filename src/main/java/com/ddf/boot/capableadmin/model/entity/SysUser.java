@@ -8,7 +8,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/08 19:41
+* @date 2026/02/27 18:31
 */
 
 
@@ -23,11 +23,6 @@ public class SysUser {
     private Long userId;
 
     /**
-     * 部门名称
-     */
-    private Long deptId;
-
-    /**
      * 用户名
      */
     private String username;
@@ -35,7 +30,7 @@ public class SysUser {
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 性别0 女 1 男
@@ -61,11 +56,6 @@ public class SysUser {
      * 密码
      */
     private String password;
-
-    /**
-     * 是否为admin账号
-     */
-    private Boolean isAdmin;
 
     /**
      * 状态：1启用、0禁用

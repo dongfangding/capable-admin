@@ -1,5 +1,6 @@
 package com.ddf.boot.capableadmin.infra.mapper;
 
+import com.ddf.boot.capableadmin.model.cqrs.SysRoleAdminResult;
 import com.ddf.boot.capableadmin.model.dto.UserRoleMenuDTO;
 import com.ddf.boot.capableadmin.model.entity.SysRole;
 import java.util.List;
@@ -7,13 +8,11 @@ import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
- * description
- * </p >
+ * <p>description</p >
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 17:55
+ * @date 2026/02/27 17:52
  */
 public interface SysRoleMapper {
     int deleteByPrimaryKey(Long roleId);
@@ -75,5 +74,5 @@ public interface SysRoleMapper {
      * @param userId 用户ID
      * @return 角色名称集合
      */
-    Set<String> findRoleNamesByUserId(@Param("userId") Long userId);
+    Set<SysRoleAdminResult> findRoleNamesByUserId(@Param("userId") Long userId);
 }

@@ -12,15 +12,11 @@ import lombok.Data;
  */
 @Data
 public class LoginUserRes implements Serializable {
+
     /**
      * ID
      */
     private Long userId;
-
-    /**
-     * 部门名称
-     */
-    private Long deptId;
 
     /**
      * 用户名
@@ -30,41 +26,16 @@ public class LoginUserRes implements Serializable {
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
-    /**
-     * 性别
-     */
-    private String gender;
+	/**
+	 * 邮箱
+	 */
+	private String email;
 
-    /**
-     * 手机号码
-     */
-    private String phone;
-
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 头像地址
-     */
-    private String avatarName;
-
-    /**
-     * 头像真实路径
-     */
-    private String avatarPath;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 是否为admin账号
-     */
-    private Boolean isAdmin;
+	/**
+	 * 头像地址
+	 */
+	private String avatar;
 
 }
