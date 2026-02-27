@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 内网dev
+ Source Server         : 虚拟机
  Source Server Type    : MySQL
- Source Server Version : 80040
- Source Host           : 10.88.1.130:3306
- Source Schema         : pretty-admin
+ Source Server Version : 80032
+ Source Host           : 10.88.1.88:3306
+ Source Schema         : capable_admin
 
  Target Server Type    : MySQL
- Target Server Version : 80040
+ Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 26/02/2026 18:27:01
+ Date: 27/02/2026 18:43:40
 */
 
 SET NAMES utf8mb4;
@@ -46,7 +46,11 @@ CREATE TABLE `country`  (
                             `area_name_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '印尼语',
                             PRIMARY KEY (`id`) USING BTREE,
                             INDEX `idx_currency_code`(`currency_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of country
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -66,7 +70,15 @@ CREATE TABLE `sys_dept`  (
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dept
+-- ----------------------------
+INSERT INTO `sys_dept` VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1);
+INSERT INTO `sys_dept` VALUES (2, 0, '地狱部', 2, b'1', 'admin', 'admin', 1683010740, 1683010740, 1);
+INSERT INTO `sys_dept` VALUES (3, 1, '人上人部', 3, b'1', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_dept` VALUES (4, 2, '牛马部', 4, b'1', 'admin', 'admin', 1683010740, 1683010740, 0);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -81,7 +93,11 @@ CREATE TABLE `sys_dict`  (
                              `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_dict_detail
@@ -99,7 +115,11 @@ CREATE TABLE `sys_dict_detail`  (
                                     `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                     PRIMARY KEY (`detail_id`) USING BTREE,
                                     INDEX `FK5tpkputc6d9nboxojdbgnpmyb`(`dict_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 179 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 179 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_dict_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -116,7 +136,18 @@ CREATE TABLE `sys_job`  (
                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`job_id`) USING BTREE,
                             UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_job
+-- ----------------------------
+INSERT INTO `sys_job` VALUES (1, '监管', b'1', 1, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (2, '研发', b'1', 2, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (3, '测试', b'1', 3, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (4, '财务', b'1', 4, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (5, '运营', b'1', 5, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (6, 'UI', b'1', 6, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (7, '产品经理', b'1', 7, 'admin', 'admin', 1683010740, 1683010740);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -139,7 +170,11 @@ CREATE TABLE `sys_log`  (
                             PRIMARY KEY (`log_id`) USING BTREE,
                             INDEX `log_create_time_index`(`create_time` ASC) USING BTREE,
                             INDEX `inx_log_type`(`log_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32736 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32736 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -168,7 +203,58 @@ CREATE TABLE `sys_menu`  (
                              UNIQUE INDEX `UK_title`(`title` ASC) USING BTREE,
                              UNIQUE INDEX `UK_name`(`component_name` ASC) USING BTREE,
                              INDEX `INX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 451 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 451 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_menu
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES (1, 0, 0, '系统管理', NULL, '', 1, 'system', 'system', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 9);
+INSERT INTO `sys_menu` VALUES (2, 1, 1, '系统用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', b'0', b'0', b'0', 'user:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (3, 1, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', b'0', b'0', b'0', 'roles:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (5, 1, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', b'0', b'0', b'0', 'menu:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (6, 0, 0, '系统监控', NULL, '', 6, 'monitor', 'monitor', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (7, 1, 1, '操作日志', 'Log', 'monitor/log/index', 7, 'log', 'logs', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (9, 6, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 9, 'sqlMonitor', 'druid', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (10, 0, 0, '组件管理', NULL, '', 10, 'zujian', 'components', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 5);
+INSERT INTO `sys_menu` VALUES (11, 10, 1, '图标库', 'Icons', 'components/icons/index', 11, 'icon', 'icon', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (14, 36, 1, '邮件工具', 'Email', 'tools/email/index', 14, 'email', 'email', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (15, 10, 1, '富文本', 'Editor', 'components/Editor', 15, 'fwb', 'tinymce', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (18, 36, 1, '存储管理', 'Storage', 'tools/storage/index', 18, 'qiniu', 'storage', b'0', b'0', b'0', 'storage:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (19, 36, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 19, 'alipay', 'aliPay', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (21, 0, 0, '多级菜单', NULL, '', 21, 'menu', 'nested', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 2);
+INSERT INTO `sys_menu` VALUES (22, 21, 0, '二级菜单1', NULL, '', 22, 'menu', 'menu1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 2);
+INSERT INTO `sys_menu` VALUES (23, 21, 1, '二级菜单2', NULL, 'nested/menu2/index', 23, 'menu', 'menu2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (24, 22, 1, '三级菜单1', 'Test', 'nested/menu1/menu1-1', 24, 'menu', 'menu1-1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (27, 22, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 27, 'menu', 'menu1-2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (28, 1, 1, '任务调度', 'Timing', 'system/timing/index', 28, 'timing', 'timing', b'0', b'0', b'1', 'timing:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (30, 36, 1, '代码生成', 'GeneratorIndex', 'generator/index', 30, 'dev', 'generator', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (32, 6, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 32, 'error', 'errorLog', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (33, 10, 1, 'Markdown', 'Markdown', 'components/MarkDown', 33, 'markdown', 'markdown', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (34, 10, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 34, 'dev', 'yaml', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (35, 1, 1, '部门管理', 'Dept', 'system/dept/index', 35, 'dept', 'dept', b'0', b'0', b'0', 'dept:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (36, 0, 0, '系统工具', NULL, '', 36, 'sys-tools', 'sys-tools', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 7);
+INSERT INTO `sys_menu` VALUES (37, 1, 1, '岗位管理', 'Job', 'system/job/index', 37, 'Steve-Jobs', 'job', b'0', b'0', b'0', 'job:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (38, 36, 1, '接口文档', 'Swagger', 'tools/swagger/index', 38, 'swagger', 'swagger2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (39, 1, 1, '字典管理', 'Dict', 'system/dict/index', 39, 'dictionary', 'dict', b'0', b'0', b'0', 'dict:list', 'admin', 'admin', 1683010740, 1683010740, 3);
+INSERT INTO `sys_menu` VALUES (41, 1, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 41, 'Steve-Jobs', 'online', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (44, 2, 2, '用户新增', NULL, '', 44, '', '', b'0', b'0', b'0', 'user:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (45, 2, 2, '用户编辑', NULL, '', 45, '', '', b'0', b'0', b'0', 'user:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (46, 2, 2, '用户删除', NULL, '', 46, '', '', b'0', b'0', b'0', 'user:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (48, 3, 2, '角色创建', NULL, '', 48, '', '', b'0', b'0', b'0', 'roles:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (49, 3, 2, '角色修改', NULL, '', 49, '', '', b'0', b'0', b'0', 'roles:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (50, 3, 2, '角色删除', NULL, '', 50, '', '', b'0', b'0', b'0', 'roles:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (52, 5, 2, '菜单新增', NULL, '', 52, '', '', b'0', b'0', b'0', 'menu:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (53, 5, 2, '菜单编辑', NULL, '', 53, '', '', b'0', b'0', b'0', 'menu:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (54, 5, 2, '菜单删除', NULL, '', 54, '', '', b'0', b'0', b'0', 'menu:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (56, 35, 2, '部门新增', NULL, '', 56, '', '', b'0', b'0', b'0', 'dept:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (57, 35, 2, '部门编辑', NULL, '', 57, '', '', b'0', b'0', b'0', 'dept:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (58, 35, 2, '部门删除', NULL, '', 58, '', '', b'0', b'0', b'0', 'dept:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (60, 37, 2, '岗位新增', NULL, '', 60, '', '', b'0', b'0', b'0', 'job:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (61, 37, 2, '岗位编辑', NULL, '', 61, '', '', b'0', b'0', b'0', 'job:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (62, 37, 2, '岗位删除', NULL, '', 62, '', '', b'0', b'0', b'0', 'job:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (64, 39, 2, '字典新增', NULL, '', 64, '', '', b'0', b'0', b'0', 'dict:add', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (65, 39, 2, '字典编辑', NULL, '', 65, '', '', b'0', b'0', b'0', 'dict:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_menu` VALUES (66, 39, 2, '字典删除', NULL, '', 66, '', '', b'0', b'0', b'0', 'dict:del', 'admin', 'admin', 1683010740, 1683010740, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -185,9 +271,15 @@ CREATE TABLE `sys_role`  (
                              `create_time` bigint NULL DEFAULT NULL COMMENT '创建日期',
                              `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                              `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
+                             `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -199,7 +291,11 @@ CREATE TABLE `sys_role_menu`  (
                                   PRIMARY KEY (`menu_id`, `role_id`) USING BTREE,
                                   INDEX `IDX_role_id`(`role_id` ASC) USING BTREE,
                                   INDEX `IDX_menu_id`(`menu_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色菜单关联' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色菜单关联' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -207,15 +303,13 @@ CREATE TABLE `sys_role_menu`  (
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
                              `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                             `dept_id` bigint NULL DEFAULT NULL COMMENT '部门名称',
                              `username` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
-                             `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '昵称',
+                             `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '昵称',
                              `sex` int NOT NULL DEFAULT -1 COMMENT '性别0 女 1 男',
                              `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '手机号码',
                              `email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '邮箱',
                              `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像地址',
                              `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
-                             `is_admin` bit(1) NULL DEFAULT b'0' COMMENT '是否为admin账号',
                              `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '状态：1启用、0禁用',
                              `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
                              `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
@@ -224,7 +318,12 @@ CREATE TABLE `sys_user`  (
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `UK_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 159 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 159 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES (1, 'snowball', 'snowball', 1, '10000000000', 'snowball@gmail.com', '', '$2a$10$TmU7VviHhXGW4ibcarlOY.loEOHioXKGgU6kIwECzY10cLc9avg.m', b'1', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -232,9 +331,14 @@ CREATE TABLE `sys_user`  (
 DROP TABLE IF EXISTS `sys_user_dept`;
 CREATE TABLE `sys_user_dept`  (
                                   `user_id` bigint NOT NULL COMMENT '用户id',
-                                  `dept_id` bigint NOT NULL COMMENT '部门id',
-                                  PRIMARY KEY (`user_id`, `dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户部门关联' ROW_FORMAT = Dynamic;
+                                  `dept_id` bigint NOT NULL,
+                                  PRIMARY KEY (`user_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户部门关联' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_dept
+-- ----------------------------
+INSERT INTO `sys_user_dept` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_job
@@ -244,7 +348,12 @@ CREATE TABLE `sys_user_job`  (
                                  `user_id` bigint NOT NULL COMMENT '用户ID',
                                  `job_id` bigint NOT NULL COMMENT '岗位ID',
                                  PRIMARY KEY (`user_id`, `job_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_job
+-- ----------------------------
+INSERT INTO `sys_user_job` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -255,7 +364,12 @@ CREATE TABLE `sys_user_role`  (
                                   `role_id` bigint NOT NULL COMMENT '角色ID',
                                   PRIMARY KEY (`user_id`, `role_id`) USING BTREE,
                                   INDEX `FKq4eq273l04bpu4efj0jd0jb98`(`role_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户角色关联' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户角色关联' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for tool_qiniu_config
@@ -270,7 +384,11 @@ CREATE TABLE `tool_qiniu_config`  (
                                       `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '空间类型',
                                       `zone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '机房',
                                       PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云配置' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云配置' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tool_qiniu_config
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tool_qiniu_content
@@ -287,89 +405,10 @@ CREATE TABLE `tool_qiniu_content`  (
                                        `update_time` datetime NULL DEFAULT NULL COMMENT '上传或同步的时间',
                                        PRIMARY KEY (`content_id`) USING BTREE,
                                        UNIQUE INDEX `uniq_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云文件存储' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云文件存储' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tool_qiniu_content
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
-
-
-
-
-
--- 初始化角色
-INSERT INTO `capable_admin`.`sys_role` (`role_id`, `name`, `level`, `description`, `ip_limit`, `create_by`, `update_by`,
-                                       `create_time`, `update_time`)
-VALUES (1, '超级管理员', 1, '-', '全部', 'snowball', 'snowball', 1683010740, 1683010740);
-
-
--- 初始化岗位
-INSERT INTO `capable_admin`.`sys_job`
-values (`job_id`, `name`, `enabled`, `sort`, `create_by`, `update_by`, `create_time`,
-        `update_time`),
-       (2, '产品经理', b'1', 2, 'admin', 'admin', 1683010740, 1683010740),
-       (3, '研发', b'1', 3, 'admin', 'admin', 1683010740, 1683010740),
-       (4, '测试', b'1', 4, 'admin', 'admin', 1683010740, 1683010740),
-       (5, '财务', b'1', 5, 'admin', 'admin', 1683010740, 1683010740),
-       (6, '运营', b'1', 6, 'admin', 'admin', 1683010740, 1683010740);
-
--- 初始化部门
-INSERT INTO `capable_admin`.`sys_dept` (`dept_id`, `pid`, `name`, `sort`, `enabled`, `create_by`, `update_by`,
-                                       `create_time`, `update_time`, `sub_count`)
-VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1),
-       (2, 0, '地狱部', 2, b'1', 'admin', 'admin', 1683010740, 1683010740, 1),
-       (3, 1, '人上人部', 3, b'1', 'admin', 'admin', 1683010740, 1683010740, 0),
-       (4, 2, '牛马部', 4, b'1', 'admin', 'admin', 1683010740, 1683010740, 0);
-
-
--- 初始化菜单
-INSERT INTO `capable_admin`.`sys_menu` (`menu_id`, `pid`, `type`, `title`, `component_name`, `component`, `sort`, `icon`,
-                                       `path`, `is_frame`, `cache`, `hidden`, `permission`, `create_by`, `update_by`,
-                                       `create_time`, `update_time`, `sub_count`)
-VALUES (1, 0, 0, '系统管理', NULL, '', 1, 'system', 'system', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740,
-        1683010740, 9),
-(2, 1, 1, '系统用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', b'0', b'0', b'0', 'user:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(3, 1, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', b'0', b'0', b'0', 'roles:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(5, 1, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', b'0', b'0', b'0', 'menu:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(6, 0, 0, '系统监控', NULL, '', 6, 'monitor', 'monitor', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 3),
-(7, 1, 1, '操作日志', 'Log', 'monitor/log/index', 7, 'log', 'logs', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(9, 6, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 9, 'sqlMonitor', 'druid', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(10, 0, 0, '组件管理', NULL, '', 10, 'zujian', 'components', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 5),
-(11, 10, 1, '图标库', 'Icons', 'components/icons/index', 11, 'icon', 'icon', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(14, 36, 1, '邮件工具', 'Email', 'tools/email/index', 14, 'email', 'email', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(15, 10, 1, '富文本', 'Editor', 'components/Editor', 15, 'fwb', 'tinymce', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(18, 36, 1, '存储管理', 'Storage', 'tools/storage/index', 18, 'qiniu', 'storage', b'0', b'0', b'0', 'storage:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(19, 36, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 19, 'alipay', 'aliPay', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(21, 0, 0, '多级菜单', NULL, '', 21, 'menu', 'nested', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 2),
-(22, 21, 0, '二级菜单1', NULL, '', 22, 'menu', 'menu1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 2),
-(23, 21, 1, '二级菜单2', NULL, 'nested/menu2/index', 23, 'menu', 'menu2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(24, 22, 1, '三级菜单1', 'Test', 'nested/menu1/menu1-1', 24, 'menu', 'menu1-1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(27, 22, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 27, 'menu', 'menu1-2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(28, 1, 1, '任务调度', 'Timing', 'system/timing/index', 28, 'timing', 'timing', b'0', b'0', b'1', 'timing:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(30, 36, 1, '代码生成', 'GeneratorIndex', 'generator/index', 30, 'dev', 'generator', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(32, 6, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 32, 'error', 'errorLog', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(33, 10, 1, 'Markdown', 'Markdown', 'components/MarkDown', 33, 'markdown', 'markdown', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(34, 10, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 34, 'dev', 'yaml', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(35, 1, 1, '部门管理', 'Dept', 'system/dept/index', 35, 'dept', 'dept', b'0', b'0', b'0', 'dept:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(36, 0, 0, '系统工具', NULL, '', 36, 'sys-tools', 'sys-tools', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 7),
-(37, 1, 1, '岗位管理', 'Job', 'system/job/index', 37, 'Steve-Jobs', 'job', b'0', b'0', b'0', 'job:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(38, 36, 1, '接口文档', 'Swagger', 'tools/swagger/index', 38, 'swagger', 'swagger2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(39, 1, 1, '字典管理', 'Dict', 'system/dict/index', 39, 'dictionary', 'dict', b'0', b'0', b'0', 'dict:list', 'admin', 'admin', 1683010740, 1683010740, 3),
-(41, 1, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 41, 'Steve-Jobs', 'online', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0),
-(44, 2, 2, '用户新增', NULL, '', 44, '', '', b'0', b'0', b'0', 'user:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(45, 2, 2, '用户编辑', NULL, '', 45, '', '', b'0', b'0', b'0', 'user:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(46, 2, 2, '用户删除', NULL, '', 46, '', '', b'0', b'0', b'0', 'user:del', 'admin', 'admin', 1683010740, 1683010740, 0),
-(48, 3, 2, '角色创建', NULL, '', 48, '', '', b'0', b'0', b'0', 'roles:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(49, 3, 2, '角色修改', NULL, '', 49, '', '', b'0', b'0', b'0', 'roles:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(50, 3, 2, '角色删除', NULL, '', 50, '', '', b'0', b'0', b'0', 'roles:del', 'admin', 'admin', 1683010740, 1683010740, 0),
-(52, 5, 2, '菜单新增', NULL, '', 52, '', '', b'0', b'0', b'0', 'menu:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(53, 5, 2, '菜单编辑', NULL, '', 53, '', '', b'0', b'0', b'0', 'menu:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(54, 5, 2, '菜单删除', NULL, '', 54, '', '', b'0', b'0', b'0', 'menu:del', 'admin', 'admin', 1683010740, 1683010740, 0),
-(56, 35, 2, '部门新增', NULL, '', 56, '', '', b'0', b'0', b'0', 'dept:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(57, 35, 2, '部门编辑', NULL, '', 57, '', '', b'0', b'0', b'0', 'dept:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(58, 35, 2, '部门删除', NULL, '', 58, '', '', b'0', b'0', b'0', 'dept:del', 'admin', 'admin', 1683010740, 1683010740, 0),
-(60, 37, 2, '岗位新增', NULL, '', 60, '', '', b'0', b'0', b'0', 'job:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(61, 37, 2, '岗位编辑', NULL, '', 61, '', '', b'0', b'0', b'0', 'job:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(62, 37, 2, '岗位删除', NULL, '', 62, '', '', b'0', b'0', b'0', 'job:del', 'admin', 'admin', 1683010740, 1683010740, 0),
-(64, 39, 2, '字典新增', NULL, '', 64, '', '', b'0', b'0', b'0', 'dict:add', 'admin', 'admin', 1683010740, 1683010740, 0),
-(65, 39, 2, '字典编辑', NULL, '', 65, '', '', b'0', b'0', b'0', 'dict:edit', 'admin', 'admin', 1683010740, 1683010740, 0),
-(66, 39, 2, '字典删除', NULL, '', 66, '', '', b'0', b'0', b'0', 'dict:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-
