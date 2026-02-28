@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 14:25
+ * @since 2026/02/09 14:25
  */
 @Slf4j
 @Component

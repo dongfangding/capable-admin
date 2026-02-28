@@ -11,7 +11,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/07 20:33
+* @since 2025/01/07 20:33
 */
 @Data
 public class SysUserCreateRequest {

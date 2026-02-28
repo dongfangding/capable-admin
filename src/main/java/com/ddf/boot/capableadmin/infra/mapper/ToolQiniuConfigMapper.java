@@ -7,7 +7,7 @@ import com.ddf.boot.capableadmin.model.entity.ToolQiniuConfig;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/27 17:52
+ * @since 2026/02/27 17:52
  */
 public interface ToolQiniuConfigMapper {
     int deleteByPrimaryKey(Long configId);

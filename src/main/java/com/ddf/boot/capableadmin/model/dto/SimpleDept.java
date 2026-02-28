@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/06 20:45
+ * @since 2025/01/06 20:45
  */
 @Data
 public class SimpleDept implements Serializable {

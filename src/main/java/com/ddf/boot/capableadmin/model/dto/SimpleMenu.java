@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/06 20:46
+ * @since 2025/01/06 20:46
  */
 @Data
 public class SimpleMenu implements Serializable {

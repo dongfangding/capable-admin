@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 17:05
+ * @since 2025/01/03 17:05
  */
 @Data
 public class SysJobQuery implements PageRequest {

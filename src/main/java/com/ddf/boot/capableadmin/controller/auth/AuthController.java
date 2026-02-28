@@ -6,7 +6,9 @@ import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 16:15
+ * @since 2026/02/09 16:15
  */
 @RestController
 @RequestMapping("auth")
@@ -50,4 +52,15 @@ public class AuthController {
         authApplicationService.logout();
         return ResponseData.success(Boolean.TRUE);
     }
+
+
+	/**
+	 * fixme 前端现在需要这个， 还没搞清楚是做按钮权限还是啥的，先把接口定义出来防止报错
+	 *
+	 * @return
+	 */
+	@GetMapping("codes")
+	public ResponseData<List<String>> codes() {
+		return ResponseData.success(List.of("AC_100010", "AC_100020", "AC_100030"));
+	}
 }

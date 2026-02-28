@@ -9,7 +9,7 @@ import lombok.Setter;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/06 11:32
+ * @since 2025/01/06 11:32
  */
 public enum MenuTypeEnum implements IEnum<Integer> {
     FOLDER(0, "目录"),

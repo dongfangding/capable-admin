@@ -13,7 +13,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/04 16:08
+ * @since 2025/01/04 16:08
  */
 @Data
 public class SysDeptNode implements Serializable, ITreeTagCollection<Long, SysDeptNode> {

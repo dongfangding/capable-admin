@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 15:18
+ * @since 2025/01/07 15:18
  */
 @RestController
 @RequiredArgsConstructor

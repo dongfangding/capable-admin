@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/06 20:40
+ * @since 2025/01/06 20:40
  */
 @Data
 public class UserRoleMenuDTO implements Serializable {

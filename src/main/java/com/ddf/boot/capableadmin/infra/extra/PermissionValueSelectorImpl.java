@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/26 17:33
+ * @since 2026/02/26 17:33
  */
 @Component
 public class PermissionValueSelectorImpl implements PermissionValueSelector {

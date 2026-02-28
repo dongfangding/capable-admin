@@ -3,6 +3,7 @@ package com.ddf.boot.capableadmin.infra.mapper;
 import com.ddf.boot.capableadmin.model.cqrs.SysRoleAdminResult;
 import com.ddf.boot.capableadmin.model.dto.UserRoleMenuDTO;
 import com.ddf.boot.capableadmin.model.entity.SysRole;
+import com.ddf.boot.capableadmin.model.request.sys.SysRoleListRequest;
 import java.util.List;
 import java.util.Set;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/27 17:52
+ * @since 2026/02/28 14:27
  */
 public interface SysRoleMapper {
     int deleteByPrimaryKey(Long roleId);
@@ -34,7 +35,7 @@ public interface SysRoleMapper {
      *
      * @return
      */
-    List<SysRole> listAll();
+    List<SysRole> listAll(SysRoleListRequest request);
 
     /**
      * 查询用户的所有角色和菜单信息
@@ -75,4 +76,13 @@ public interface SysRoleMapper {
      * @return 角色名称集合
      */
     Set<SysRoleAdminResult> findRoleNamesByUserId(@Param("userId") Long userId);
+
+	/**
+	 * 更新启用状态
+	 *
+	 * @param roleId
+	 * @param enable
+	 * @return
+	 */
+	int updateEnable(@Param("roleId") Long roleId, @Param("enable") Boolean enable);
 }

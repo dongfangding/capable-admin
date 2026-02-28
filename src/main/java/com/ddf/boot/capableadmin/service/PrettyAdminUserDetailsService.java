@@ -25,7 +25,7 @@ import org.springframework.util.CollectionUtils;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 14:55
+ * @since 2026/02/09 14:55
  */
 @Slf4j
 @Service
@@ -56,17 +56,18 @@ public class PrettyAdminUserDetailsService {
 
 		// 1. 加载角色名称列表
 		Set<SysRoleAdminResult> roleList = sysRoleMapper.findRoleNamesByUserId(userId);
-		Set<String> roleNames = new HashSet<>();
-		boolean isAdmin = false;
-		if (!CollectionUtils.isEmpty(roleList)) {
-			roleNames = roleList
-					.stream()
-					.map(SysRoleAdminResult::getName)
-					.collect(Collectors.toSet());
-			isAdmin = roleList
-					.stream()
-					.anyMatch(SysRoleAdminResult::getIsAdmin);
+		if (CollectionUtils.isEmpty(roleList)) {
+			throw new BusinessException(PrettyAdminExceptionCode.DO_NOT_HAVE_ANY_ROLE);
 		}
+		Set<String> roleNames = roleList
+				.stream()
+				.map(SysRoleAdminResult::getName)
+				.collect(Collectors.toSet());
+		boolean isAdmin = roleList
+				.stream()
+				.anyMatch(SysRoleAdminResult::getIsAdmin);
+
+		Integer maxAuthorityRoleLevel = roleList.stream().mapToInt(SysRoleAdminResult::getLevel).min().getAsInt();
 
 		Set<String> permissions = new HashSet<>();
 		// 2. 加载权限标识列表
@@ -78,6 +79,6 @@ public class PrettyAdminUserDetailsService {
 				permissions = Set.of();
 			}
 		}
-		return new PrettyAdminUserDetails(sysUser, roleNames, permissions);
+		return new PrettyAdminUserDetails(sysUser, roleNames, permissions, maxAuthorityRoleLevel);
 	}
 }

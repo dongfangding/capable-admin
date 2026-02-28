@@ -9,7 +9,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/03 16:50
+* @since 2025/01/03 16:50
 */
 @Data
 public class SysJobCreateRequest {

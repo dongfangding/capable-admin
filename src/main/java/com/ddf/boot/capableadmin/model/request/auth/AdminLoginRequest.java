@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 17:51
+ * @since 2025/01/03 17:51
  */
 @Data
 public class AdminLoginRequest implements Serializable {

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/27 18:31
+ * @since 2026/02/27 18:31
  */
 public interface SysUserMapper {
     int deleteByPrimaryKey(Long userId);

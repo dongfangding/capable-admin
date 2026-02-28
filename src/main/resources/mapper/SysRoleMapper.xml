@@ -15,11 +15,12 @@
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="is_admin" jdbcType="BIT" property="isAdmin" />
+    <result column="enable" jdbcType="BIT" property="enable" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     role_id, `name`, `level`, description, ip_limit, create_by, update_by, create_time, 
-    update_time, sort, is_admin
+    update_time, sort, is_admin, `enable`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -38,11 +39,11 @@
     insert into sys_role (`name`, `level`, description, 
       ip_limit, create_by, update_by, 
       create_time, update_time, sort, 
-      is_admin)
+      is_admin, `enable`)
     values (#{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
       #{ipLimit,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, 
-      #{isAdmin,jdbcType=BIT})
+      #{isAdmin,jdbcType=BIT}, #{enable,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.ddf.boot.capableadmin.model.entity.SysRole" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -78,6 +79,9 @@
       <if test="isAdmin != null">
         is_admin,
       </if>
+      <if test="enable != null">
+        `enable`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -109,6 +113,9 @@
       </if>
       <if test="isAdmin != null">
         #{isAdmin,jdbcType=BIT},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="isAdmin != null">
         is_admin = #{isAdmin,jdbcType=BIT},
       </if>
+      <if test="enable != null">
+        `enable` = #{enable,jdbcType=BIT},
+      </if>
     </set>
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
@@ -161,7 +171,8 @@
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT},
       sort = #{sort,jdbcType=INTEGER},
-      is_admin = #{isAdmin,jdbcType=BIT}
+      is_admin = #{isAdmin,jdbcType=BIT},
+      `enable` = #{enable,jdbcType=BIT}
     where role_id = #{roleId,jdbcType=BIGINT}
   </update>
 </mapper>

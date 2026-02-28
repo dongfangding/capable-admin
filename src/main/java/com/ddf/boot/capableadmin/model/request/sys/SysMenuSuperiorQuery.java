@@ -7,7 +7,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/04 16:00
+ * @since 2025/01/04 16:00
  */
 @Data
 public class SysMenuSuperiorQuery {

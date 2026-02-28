@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 岗位
  *
  * @author snowball
- * @date 2025/1/3 下午5:15
+ * @since 2025/1/3 下午5:15
  **/
 @RestController
 @RequiredArgsConstructor

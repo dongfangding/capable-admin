@@ -7,7 +7,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/27 18:23
+ * @since 2026/02/27 18:23
  */
 @Data
 public class SysRoleAdminResult {
@@ -17,4 +17,6 @@ public class SysRoleAdminResult {
 	private String name;
 
 	private Boolean isAdmin;
+
+	private Integer level;
 }

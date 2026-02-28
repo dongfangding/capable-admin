@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 16:24
+ * @since 2025/01/03 16:24
  */
 @SpringBootApplication
 @EnableLogAspect

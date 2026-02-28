@@ -10,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  *
  * @author Snowball
  * @version 1.0
- * @date 2024/12/30 20:29
+ * @since 2024/12/30 20:29
  */
 @Configuration
 public class PrettyAdminThreadConfig {

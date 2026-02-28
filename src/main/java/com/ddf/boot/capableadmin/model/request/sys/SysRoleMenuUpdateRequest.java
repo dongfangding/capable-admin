@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 18:07
+ * @since 2025/01/07 18:07
  */
 @Data
 public class SysRoleMenuUpdateRequest {

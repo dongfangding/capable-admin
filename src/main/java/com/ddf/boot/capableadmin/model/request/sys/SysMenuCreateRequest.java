@@ -10,7 +10,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/04 20:27
+* @since 2025/01/04 20:27
 */
 @Data
 public class SysMenuCreateRequest {

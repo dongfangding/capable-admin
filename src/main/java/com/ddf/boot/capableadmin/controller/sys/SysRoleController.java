@@ -1,11 +1,15 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.ddf.boot.capableadmin.model.request.sys.EnableRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleCreateRequest;
+import com.ddf.boot.capableadmin.model.request.sys.SysRoleListRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysRoleMenuUpdateRequest;
 import com.ddf.boot.capableadmin.model.response.sys.SysRoleRes;
 import com.ddf.boot.capableadmin.service.SysRoleService;
 import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
+import com.ddf.boot.common.api.model.common.request.IdRequest;
+import com.ddf.boot.common.api.model.common.response.PageResult;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/07 19:27
+ * @since 2025/01/07 19:27
  */
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +35,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
+
+
+	/**
+	 * 查询所有角色
+	 *
+	 * @return
+	 */
+	@GetMapping("list")
+	@SaCheckPermission("roles:list")
+	public ResponseData<PageResult<SysRoleRes>> list(SysRoleListRequest request) {
+		return ResponseData.success(sysRoleService.list(request));
+	}
+
 
     /**
      * 查询所有角色
@@ -68,14 +85,25 @@ public class SysRoleController {
     }
 
     /**
-     * 删除角色
+     * 更新启用状态
      *
      * @param request
      */
-    @PostMapping("delete")
-    @SaCheckPermission("roles:del")
-    public ResponseData<Boolean> delete(@RequestBody BatchIdRequest request) {
-        sysRoleService.delete(request.getIds());
-        return ResponseData.success(Boolean.TRUE);
+    @PostMapping("enable")
+    @SaCheckPermission("roles:persist")
+    public ResponseData<Boolean> enable(@RequestBody @Valid EnableRequest request) {
+        return ResponseData.success(sysRoleService.updateEnable(request));
     }
+
+	/**
+	 * 删除角色
+	 *
+	 * @param request
+	 */
+	@PostMapping("delete")
+	@SaCheckPermission("roles:del")
+	public ResponseData<Boolean> delete(@RequestBody IdRequest request) {
+		sysRoleService.delete(request.getId());
+		return ResponseData.success(Boolean.TRUE);
+	}
 }

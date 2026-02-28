@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 20:35
+ * @since 2025/01/03 20:35
  */
 @Data
 public class LoginUserRes implements Serializable {

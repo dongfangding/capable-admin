@@ -14,7 +14,7 @@ import com.ddf.boot.common.api.util.JsonUtil;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 14:45
+ * @since 2026/02/09 14:45
  */
 public class PrettyAdminSecurityUtils {
 

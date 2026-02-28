@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * 菜单元数据
  *
  * @author snowball
- * @date 2025/1/6 下午8:31
+ * @since 2025/1/6 下午8:31
  **/
 @Data
 @NoArgsConstructor

@@ -14,7 +14,7 @@ import java.time.Duration;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 14:23
+ * @since 2026/02/09 14:23
  */
 public enum PrettyAdminRedisKeyEnum implements RedisKeyConstraint {
 

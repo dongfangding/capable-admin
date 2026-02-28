@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/27 17:52
+ * @since 2026/02/27 17:52
  */
 public interface SysRoleMenuMapper {
     int deleteByPrimaryKey(@Param("menuId") Long menuId, @Param("roleId") Long roleId);

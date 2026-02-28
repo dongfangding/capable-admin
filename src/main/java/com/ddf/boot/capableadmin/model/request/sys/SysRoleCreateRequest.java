@@ -8,7 +8,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/07 17:55
+* @since 2025/01/07 17:55
 */
 @Data
 public class SysRoleCreateRequest {
@@ -42,4 +42,9 @@ public class SysRoleCreateRequest {
      * 排序
      */
     private Integer sort = 0;
+
+	/**
+	 * 是否启用， 0否1是
+	 */
+	private Boolean enable;
 }

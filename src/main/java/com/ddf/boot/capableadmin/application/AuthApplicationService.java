@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
 import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
@@ -31,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 17:50
+ * @since 2025/01/03 17:50
  */
 @RequiredArgsConstructor
 @Slf4j
@@ -65,7 +66,7 @@ public class AuthApplicationService {
 		// 返回登录信息
         final PrettyAdminLoginResponse response = new PrettyAdminLoginResponse();
         response.setAccessToken(StpUtil.getTokenValue());
-		response.setUser(BeanCopierUtils.copy(sysUser, LoginUserRes.class));
+		response.setDetails(PrettyAdminSecurityUtils.getCurrentUser());
         log.info("用户登录成功, userId: {}, username: {}", userId, sysUser.getUsername());
         return response;
     }

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 15:25
+ * @since 2026/02/09 15:25
  */
 @Configuration
 public class PrettyAdminWebConfig implements WebMvcConfigurer {

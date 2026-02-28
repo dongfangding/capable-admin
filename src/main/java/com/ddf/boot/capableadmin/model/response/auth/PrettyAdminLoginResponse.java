@@ -1,5 +1,6 @@
 package com.ddf.boot.capableadmin.model.response.auth;
 
+import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 20:33
+ * @since 2025/01/03 20:33
  */
 @Data
 public class PrettyAdminLoginResponse implements Serializable {
@@ -18,8 +19,8 @@ public class PrettyAdminLoginResponse implements Serializable {
      */
     private String accessToken;
 
-    /**
-     * 用户基本信息
-     */
-    private LoginUserRes user;
+	/**
+	 * 用户详情
+	 */
+	private PrettyAdminUserDetails details;
 }

@@ -45,6 +45,20 @@
 		select
 		<include refid="Base_Column_List"/>
 		from sys_role
+		<where>
+			<if test="name != null and name != ''">
+				and name like concat(#{name}, '%')
+			</if>
+			<if test="enable != null">
+				and enable = #{enable}
+			</if>
+			<if test="startTime != null">
+				and create_time >= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and create_time <![CDATA[<=]]> #{endTime}
+			</if>
+		</where>
 		order by sort, role_id desc
 	</select>
 
@@ -75,10 +89,17 @@
 	<select id="findRoleNamesByUserId" resultType="com.ddf.boot.capableadmin.model.cqrs.SysRoleAdminResult">
 		SELECT sr.role_id,
 			   sr.name,
-			   sr.is_admin as isAdmin
+			   sr.is_admin as isAdmin,
+			   sr.level
 		FROM sys_role sr
 				 INNER JOIN sys_user_role ur ON sr.role_id = ur.role_id
 		WHERE ur.user_id = #{userId,jdbcType=BIGINT}
 		order by sr.sort
 	</select>
+
+	<update id="updateEnable">
+		update sys_role
+		set enable = #{enable}
+		where role_id = #{roleId}
+	</update>
 </mapper>

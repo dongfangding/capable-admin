@@ -8,59 +8,70 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2025/01/03 16:50
+* @since 2025/01/03 16:50
 */
 @Data
 public class SysRoleRes {
-    /**
-     * ID
-     */
-    private Long roleId;
 
-    /**
-     * 名称
-     */
-    private String name;
+	/**
+	 * ID
+	 */
+	private Long roleId;
 
-    /**
-     * 角色级别
-     */
-    private Integer level;
+	/**
+	 * 名称
+	 */
+	private String name;
 
-    /**
-     * 描述
-     */
-    private String description;
+	/**
+	 * 角色级别
+	 */
+	private Integer level;
 
-    /**
-     * ip白名单（指定IP登入）
-     */
-    private String ipLimit;
+	/**
+	 * 描述
+	 */
+	private String description;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
+	/**
+	 * ip白名单（指定IP登入）
+	 */
+	private String ipLimit;
 
-    /**
-     * 更新者
-     */
-    private String updateBy;
+	/**
+	 * 创建者
+	 */
+	private String createBy;
 
-    /**
-     * 创建日期
-     */
-    private Long createTime;
+	/**
+	 * 更新者
+	 */
+	private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private Long updateTime;
+	/**
+	 * 创建日期
+	 */
+	private Long createTime;
 
-    /**
-     * 排序
-     */
-    private Integer sort;
+	/**
+	 * 更新时间
+	 */
+	private Long updateTime;
+
+	/**
+	 * 排序
+	 */
+	private Integer sort;
+
+	/**
+	 * 是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增
+	 */
+	private Boolean isAdmin;
+
+	/**
+	 * 是否启用， 0否1是
+	 */
+	private Boolean enable;
 
     public String getFormatCreateTime() {
         return DateUtils.standardFormatSeconds(createTime);

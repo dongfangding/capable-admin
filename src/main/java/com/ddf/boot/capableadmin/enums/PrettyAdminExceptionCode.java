@@ -8,7 +8,7 @@ import lombok.Getter;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/03 17:56
+ * @since 2025/01/03 17:56
  */
 @Getter
 public enum PrettyAdminExceptionCode implements BaseCallbackCode {
@@ -23,6 +23,9 @@ public enum PrettyAdminExceptionCode implements BaseCallbackCode {
     USER_NAME_EXISTS("USER_NAME_EXISTS", "用户名称已存在"),
     EMAIL_EXISTS("EMAIL_EXISTS", "邮箱已存在"),
     MOBILE_EXISTS("MOBILE_EXISTS", "手机号已存在"),
+    LESS_TARGET_PERMISSION_LEVEL("LESS_TARGET_PERMISSION_LEVEL", "操作的对象权限等级高于你，无法操作"),
+	DO_NOT_HAVE_ANY_ROLE("DO_NOT_HAVE_ANY_ROLE", "未绑定任何角色，无法登录"),
+	ROLE_HAS_RELATED_USER("ROLE_HAS_RELATED_USER", "角色已关联用户，无法删除")
 
 
 

@@ -24,7 +24,7 @@ import lombok.Data;
  * 构建菜单路由节点（左侧菜单栏）
  *
  * @author snowball
- * @date 2025/1/6 下午8:28
+ * @since 2025/1/6 下午8:28
  **/
 @Data
 public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long, BuildMenuRouteNode> {

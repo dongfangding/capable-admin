@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author Snowball
  * @version 1.0
- * @date 2025/01/04 16:43
+ * @since 2025/01/04 16:43
  */
 @Data
 public class SysDeptCreateRequest implements Serializable {

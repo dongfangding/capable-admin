@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/02/09 14:50
+ * @since 2026/02/09 14:50
  */
 @Data
 @NoArgsConstructor
@@ -34,7 +34,12 @@ public class PrettyAdminUserDetails {
 
     private Set<String> permissions;
 
-    public PrettyAdminUserDetails(SysUser user, Set<String> roles, Set<String> permissions) {
+	/**
+	 * 最高级别的角色等级
+	 */
+	private Integer maxAuthorityRoleLevel;
+
+    public PrettyAdminUserDetails(SysUser user, Set<String> roles, Set<String> permissions, Integer maxAuthorityRoleLevel) {
         this.userId = user.getUserId();
 		this.nickname = user.getNickname();
         this.username = user.getUsername();
@@ -42,5 +47,6 @@ public class PrettyAdminUserDetails {
         this.enabled = user.getEnabled() != null ? user.getEnabled() : true;
         this.roles = roles;
         this.permissions = permissions;
+		this.maxAuthorityRoleLevel = maxAuthorityRoleLevel;
     }
 }
