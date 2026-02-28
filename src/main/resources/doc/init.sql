@@ -4,14 +4,14 @@
  Source Server         : 虚拟机
  Source Server Type    : MySQL
  Source Server Version : 80032
- Source Host           : 10.88.1.88:3306
+ Source Host           : 10.88.1.145:3306
  Source Schema         : capable_admin
 
  Target Server Type    : MySQL
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 27/02/2026 18:43:40
+ Date: 28/02/2026 22:27:48
 */
 
 SET NAMES utf8mb4;
@@ -46,7 +46,7 @@ CREATE TABLE `country`  (
                             `area_name_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '印尼语',
                             PRIMARY KEY (`id`) USING BTREE,
                             INDEX `idx_currency_code`(`currency_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of country
@@ -70,7 +70,7 @@ CREATE TABLE `sys_dept`  (
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -93,7 +93,7 @@ CREATE TABLE `sys_dict`  (
                              `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -115,7 +115,7 @@ CREATE TABLE `sys_dict_detail`  (
                                     `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                     PRIMARY KEY (`detail_id`) USING BTREE,
                                     INDEX `FK5tpkputc6d9nboxojdbgnpmyb`(`dict_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 179 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_detail
@@ -136,7 +136,7 @@ CREATE TABLE `sys_job`  (
                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`job_id`) USING BTREE,
                             UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -170,7 +170,7 @@ CREATE TABLE `sys_log`  (
                             PRIMARY KEY (`log_id`) USING BTREE,
                             INDEX `log_create_time_index`(`create_time` ASC) USING BTREE,
                             INDEX `inx_log_type`(`log_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32736 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
@@ -272,6 +272,7 @@ CREATE TABLE `sys_role`  (
                              `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                              `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
                              `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增',
+                             `enable` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用， 0否1是',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
@@ -279,7 +280,7 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -405,7 +406,7 @@ CREATE TABLE `tool_qiniu_content`  (
                                        `update_time` datetime NULL DEFAULT NULL COMMENT '上传或同步的时间',
                                        PRIMARY KEY (`content_id`) USING BTREE,
                                        UNIQUE INDEX `uniq_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云文件存储' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '七牛云文件存储' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tool_qiniu_content
