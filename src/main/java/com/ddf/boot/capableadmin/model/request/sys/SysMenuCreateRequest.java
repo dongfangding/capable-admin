@@ -1,6 +1,7 @@
 package com.ddf.boot.capableadmin.model.request.sys;
 
 import com.ddf.boot.capableadmin.enums.MenuTypeEnum;
+import com.ddf.boot.common.api.validator.constraint.EnumStringValue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,59 +27,57 @@ public class SysMenuCreateRequest {
     private Long pid = 0L;
 
     /**
-     * 菜单类型
+     * 菜单类型，catalog：目录；menu：菜单；embedded： 内嵌；link：外链 ；button： 按钮；
      */
     @NotNull(message = "菜单类型不能为空")
-    private MenuTypeEnum type;
+	@EnumStringValue(enumClass = MenuTypeEnum.class, message = "菜单类型不正确")
+    private String type;
 
-    /**
-     * 菜单标题
+	/**
+	 * 菜单名称，一般是前端使用给程序用的，  如Vue Router 路由标识 ，前端用 name 做路由跳转 ，router.push({ name: 'SystemUser' })
+	 */
+	@NotBlank(message = "菜单名称不能为空")
+	private String name;
+
+	/**
+     * 菜单标题，给人看的，即界面上显示的菜单标题
      */
     @NotBlank(message = "菜单标题不能为空")
     private String title;
 
-    /**
-     * 组件名称
-     */
-    private String componentName;
 
-    /**
-     * 组件
-     */
-    private String component;
-    /**
-     * 排序
-     */
-    @NotNull(message = "菜单排序不能为空")
-    private Integer sort;
+	/**
+	 * 菜单图标
+	 */
+	private String icon;
 
-    /**
-     * 图标
-     */
-    private String icon;
+	/**
+	 * 即显示在浏览器地址栏上的路径，实际这个路径对应的显示内容则要看component组件
+	 */
+	private String path;
 
-    /**
-     * 链接地址
-     */
-    private String path;
+	/**
+	 * 前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import('#/views/system/user/list.vue'),常用后端返回"component": "/system/user/list"
+	 */
+	private String component;
 
-    /**
-     * 是否外链
-     */
-    private Boolean isFrame;
+	/**
+	 * 排序
+	 */
+	private Integer sort = 0;
 
-    /**
-     * 缓存
-     */
-    private Boolean cache;
+	/**
+	 * 是否隐藏
+	 */
+	private Boolean hidden = Boolean.FALSE;
 
-    /**
-     * 隐藏
-     */
-    private Boolean hidden;
+	/**
+	 * 菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里
+	 */
+	private Integer meta;
 
-    /**
-     * 权限
-     */
-    private String permission;
+	/**
+	 * 权限
+	 */
+	private String permission;
 }

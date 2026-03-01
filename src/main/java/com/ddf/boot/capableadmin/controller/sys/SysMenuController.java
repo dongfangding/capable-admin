@@ -63,6 +63,20 @@ public class SysMenuController {
         return ResponseData.success(sysMenuService.list(query));
     }
 
+
+	/**
+	 * 菜单列表查询，默认查询一级菜单，然后展开父节点的时候，再次调用该接口传入pid返回明细
+	 * 1. 菜单列表时, 传入pid=0，只展示一级菜单列表
+	 * 2. 展开菜单列表时， 传入pid=选择的菜单id的pid, 返回子节点，懒加载方式
+	 *
+	 * @return
+	 */
+	@GetMapping("tree-all")
+	@SaCheckPermission("menu:list")
+	public ResponseData<List<BuildMenuRouteNode>> allMenuTree() {
+		return ResponseData.success(sysMenuService.allTree());
+	}
+
     /**
      * 删除菜单以及遍历子节点
      *

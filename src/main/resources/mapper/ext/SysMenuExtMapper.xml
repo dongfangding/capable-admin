@@ -40,7 +40,7 @@
 	<select id="findByName" resultMap="BaseResultMap">
 		SELECT menu_id
 		FROM sys_menu
-		WHERE component_name = #{name}
+		WHERE name = #{name}
 	</select>
 
 	<select id="countByPid" resultType="int">
@@ -63,7 +63,7 @@
 		<where>
 			<if test="keyword != null and keyword != ''">
 				(title like concat('%', #{keyword}, '%')
-						or component_name like concat('%', #{keyword}, '%')
+						or name like concat('%', #{keyword}, '%')
 						or permission like concat('%', #{keyword}, '%'))
 			</if>
 			<if test="pid != null">
@@ -128,18 +128,19 @@
 	</select>
 
 	<insert id="batchInsert" keyColumn="menu_id" keyProperty="menuId" parameterType="map" useGeneratedKeys="true">
-		<!--@mbg.generated-->
 		insert into sys_menu
-		(pid, `type`, title, component_name, component, sort, icon, `path`, is_frame, `cache`,
-		 hidden, permission, create_by, update_by, create_time, update_time, sub_count)
+		(pid, `type`, `name`,
+		 title, icon, `path`,
+		 component, sort, hidden,
+		 meta, permission, create_by,
+		 update_by, create_time, update_time,
+		 sub_count)
 		values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.pid,jdbcType=BIGINT}, #{item.type,jdbcType=INTEGER}, #{item.title,jdbcType=VARCHAR},
-			 #{item.componentName,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER},
-			 #{item.icon,jdbcType=VARCHAR}, #{item.path,jdbcType=VARCHAR}, #{item.isFrame,jdbcType=BIT},
-			 #{item.cache,jdbcType=BIT}, #{item.hidden,jdbcType=BIT}, #{item.permission,jdbcType=VARCHAR},
-			 #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT},
-			 #{item.updateTime,jdbcType=BIGINT}, #{item.subCount,jdbcType=INTEGER})
+			(#{item.pid}, #{item.type}, #{item.name},
+			 #{item.title}, #{item.icon}, #{item.path},
+			 #{item.component}, #{item.sort}, #{item.hidden}, #{item.meta}, #{item.permission}, #{item.createBy},
+			 #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.subCount})
 		</foreach>
 	</insert>
 

@@ -2,7 +2,6 @@ package com.ddf.boot.capableadmin.enums;
 
 import com.ddf.boot.common.api.enums.IEnum;
 import java.util.Objects;
-import lombok.Setter;
 
 /**
  * <p>菜单类型枚举</p >
@@ -11,29 +10,31 @@ import lombok.Setter;
  * @version 1.0
  * @since 2025/01/06 11:32
  */
-public enum MenuTypeEnum implements IEnum<Integer> {
-    FOLDER(0, "目录"),
-    MENU(1, "菜单"),
-    BUTTON(2, "按钮");
+public enum MenuTypeEnum implements IEnum<String> {
+    CATALOG("catalog", "目录"),
+    MENU("menu", "菜单"),
+    BUTTON("button", "按钮"),
+	EMBEDDED("embedded", "内嵌"),
+	LINK("link", "外链"),
 
-    @Setter
-    private final Integer value;
+		;
 
-    @Setter
+    private final String value;
+
     private final String desc;
 
-    MenuTypeEnum(Integer value, String desc) {
+    MenuTypeEnum(String value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
     @Override
-    public boolean matches(Integer value) {
+    public boolean matches(String value) {
         return Objects.equals(value, this.value);
     }
 
     @Override
-    public boolean matches(IEnum<Integer> iEnum) {
+    public boolean matches(IEnum<String> iEnum) {
         return Objects.equals(this, iEnum);
     }
 
@@ -43,7 +44,7 @@ public enum MenuTypeEnum implements IEnum<Integer> {
     }
 
     @Override
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 }

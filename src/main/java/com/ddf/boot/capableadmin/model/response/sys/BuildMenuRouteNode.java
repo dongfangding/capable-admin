@@ -15,9 +15,11 @@
  */
 package com.ddf.boot.capableadmin.model.response.sys;
 
+import com.ddf.boot.capableadmin.enums.MenuTypeEnum;
 import com.ddf.boot.common.api.constraint.collect.ITreeTagCollection;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -32,6 +34,8 @@ public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long
      * ID
      */
     private Long menuId;
+
+	private Integer status = 1;
 
     /**
      * 上级菜单ID，默认0为一级节点
@@ -56,7 +60,28 @@ public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long
     /**
      * 菜单元数据
      */
-    private MenuMetaVo meta;
+    private Map<String, Object> meta;
+
+	/**
+	 * 菜单类型
+	 * @see MenuTypeEnum
+	 */
+	private String type;
+
+	/**
+	 * 图标
+	 */
+	private String icon;
+
+	/**
+	 * 权限
+	 */
+	private String permission;
+
+	/**
+	 * 是否启用
+	 */
+	private Boolean enable;
 
     /**
      * 子节点

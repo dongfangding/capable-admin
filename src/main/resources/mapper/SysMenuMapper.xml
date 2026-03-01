@@ -6,16 +6,15 @@
     <!--@Table sys_menu-->
     <id column="menu_id" jdbcType="BIGINT" property="menuId" />
     <result column="pid" jdbcType="BIGINT" property="pid" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="component_name" jdbcType="VARCHAR" property="componentName" />
-    <result column="component" jdbcType="VARCHAR" property="component" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="path" jdbcType="VARCHAR" property="path" />
-    <result column="is_frame" jdbcType="BIT" property="isFrame" />
-    <result column="cache" jdbcType="BIT" property="cache" />
-    <result column="hidden" jdbcType="BIT" property="hidden" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="meta" jdbcType="VARCHAR" property="meta" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -25,8 +24,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    menu_id, pid, `type`, title, component_name, component, sort, icon, `path`, is_frame, 
-    `cache`, hidden, permission, create_by, update_by, create_time, update_time, sub_count
+    menu_id, pid, `type`, `name`, title, icon, `path`, component, sort, `enable`, meta, 
+    permission, create_by, update_by, create_time, update_time, sub_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -42,16 +41,16 @@
   </delete>
   <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into sys_menu (pid, `type`, title, 
-      component_name, component, sort, 
-      icon, `path`, is_frame, `cache`, 
-      hidden, permission, create_by, 
+    insert into sys_menu (pid, `type`, `name`, 
+      title, icon, `path`, 
+      component, sort, `enable`, 
+      meta, permission, create_by, 
       update_by, create_time, update_time, 
       sub_count)
-    values (#{pid,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{componentName,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
-      #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{isFrame,jdbcType=BIT}, #{cache,jdbcType=BIT}, 
-      #{hidden,jdbcType=BIT}, #{permission,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+    values (#{pid,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, 
+      #{meta,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
       #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
       #{subCount,jdbcType=INTEGER})
   </insert>
@@ -65,17 +64,11 @@
       <if test="type != null">
         `type`,
       </if>
+      <if test="name != null">
+        `name`,
+      </if>
       <if test="title != null">
         title,
-      </if>
-      <if test="componentName != null">
-        component_name,
-      </if>
-      <if test="component != null">
-        component,
-      </if>
-      <if test="sort != null">
-        sort,
       </if>
       <if test="icon != null">
         icon,
@@ -83,14 +76,17 @@
       <if test="path != null">
         `path`,
       </if>
-      <if test="isFrame != null">
-        is_frame,
+      <if test="component != null">
+        component,
       </if>
-      <if test="cache != null">
-        `cache`,
+      <if test="sort != null">
+        sort,
       </if>
-      <if test="hidden != null">
-        hidden,
+      <if test="enable != null">
+        `enable`,
+      </if>
+      <if test="meta != null">
+        meta,
       </if>
       <if test="permission != null">
         permission,
@@ -116,19 +112,13 @@
         #{pid,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        #{type,jdbcType=INTEGER},
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="componentName != null">
-        #{componentName,jdbcType=VARCHAR},
-      </if>
-      <if test="component != null">
-        #{component,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null">
-        #{sort,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -136,14 +126,17 @@
       <if test="path != null">
         #{path,jdbcType=VARCHAR},
       </if>
-      <if test="isFrame != null">
-        #{isFrame,jdbcType=BIT},
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
       </if>
-      <if test="cache != null">
-        #{cache,jdbcType=BIT},
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
       </if>
-      <if test="hidden != null">
-        #{hidden,jdbcType=BIT},
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="meta != null">
+        #{meta,jdbcType=VARCHAR},
       </if>
       <if test="permission != null">
         #{permission,jdbcType=VARCHAR},
@@ -173,19 +166,13 @@
         pid = #{pid,jdbcType=BIGINT},
       </if>
       <if test="type != null">
-        `type` = #{type,jdbcType=INTEGER},
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="componentName != null">
-        component_name = #{componentName,jdbcType=VARCHAR},
-      </if>
-      <if test="component != null">
-        component = #{component,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null">
-        sort = #{sort,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -193,14 +180,17 @@
       <if test="path != null">
         `path` = #{path,jdbcType=VARCHAR},
       </if>
-      <if test="isFrame != null">
-        is_frame = #{isFrame,jdbcType=BIT},
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
       </if>
-      <if test="cache != null">
-        `cache` = #{cache,jdbcType=BIT},
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="hidden != null">
-        hidden = #{hidden,jdbcType=BIT},
+      <if test="enable != null">
+        `enable` = #{enable,jdbcType=BIT},
+      </if>
+      <if test="meta != null">
+        meta = #{meta,jdbcType=VARCHAR},
       </if>
       <if test="permission != null">
         permission = #{permission,jdbcType=VARCHAR},
@@ -227,16 +217,15 @@
     <!--@mbg.generated-->
     update sys_menu
     set pid = #{pid,jdbcType=BIGINT},
-      `type` = #{type,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      component_name = #{componentName,jdbcType=VARCHAR},
-      component = #{component,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
       `path` = #{path,jdbcType=VARCHAR},
-      is_frame = #{isFrame,jdbcType=BIT},
-      `cache` = #{cache,jdbcType=BIT},
-      hidden = #{hidden,jdbcType=BIT},
+      component = #{component,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      `enable` = #{enable,jdbcType=BIT},
+      meta = #{meta,jdbcType=VARCHAR},
       permission = #{permission,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       update_by = #{updateBy,jdbcType=VARCHAR},

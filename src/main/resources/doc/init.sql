@@ -180,81 +180,55 @@ CREATE TABLE `sys_log`  (
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
-CREATE TABLE `sys_menu`  (
-                             `menu_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                             `pid` bigint NOT NULL DEFAULT 0 COMMENT '上级菜单ID，默认0为一级节点',
-                             `type` int NOT NULL COMMENT '菜单类型0：目录 1：菜单 2：按钮',
-                             `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单标题',
-                             `component_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '组件名称',
-                             `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '组件',
-                             `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
-                             `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '图标',
-                             `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '链接地址',
-                             `is_frame` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否外链',
-                             `cache` bit(1) NOT NULL DEFAULT b'0' COMMENT '缓存',
-                             `hidden` bit(1) NOT NULL DEFAULT b'0' COMMENT '隐藏',
-                             `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '权限',
-                             `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-                             `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
-                             `create_time` bigint NULL DEFAULT NULL COMMENT '创建日期',
-                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
-                             `sub_count` int NOT NULL DEFAULT 0 COMMENT '子节点数量',
-                             PRIMARY KEY (`menu_id`) USING BTREE,
-                             UNIQUE INDEX `UK_title`(`title` ASC) USING BTREE,
-                             UNIQUE INDEX `UK_name`(`component_name` ASC) USING BTREE,
-                             INDEX `INX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 451 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
+create table sys_menu
+(
+    menu_id     bigint auto_increment comment 'ID'
+        primary key,
+    pid         bigint       default 0    not null comment '上级菜单ID，默认0为一级节点',
+    type        varchar(10)               not null comment '菜单类型，catalog：目录；menu：菜单；embedded： 内嵌；link：外链 ；button： 按钮；',
+    name        varchar(64)               not null comment '菜单名称，一般是前端使用给程序用的，  如Vue Router 路由标识 ，前端用 name 做路由跳转 ，router.push({ name: ''SystemUser'' })',
+    title       varchar(100)              not null comment '菜单标题，给人看的，即界面上显示的菜单标题',
+    icon        varchar(32)               null comment '菜单图标',
+    path        varchar(255) default ''   not null comment '，即显示在浏览器地址栏上的路径，实际这个路径对应的显示内容则要看component组件',
+    component   varchar(255) default ''   null comment '前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import(''#/views/system/user/list.vue''),常用后端返回"component": "/system/user/list"',
+    sort        int          default 0    not null comment '排序',
+    enable      bit          default b'1' not null comment '是否启用',
+    meta        varchar(2000)             null comment '菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里',
+    permission  varchar(255) default ''   null comment '权限',
+    create_by   varchar(255)              null comment '创建者',
+    update_by   varchar(255)              null comment '更新者',
+    create_time bigint                    null comment '创建日期',
+    update_time bigint                    null comment '更新时间',
+    sub_count   int          default 0    not null comment '子节点数量'
+)
+    comment '系统菜单' collate = utf8mb4_general_ci
+                       row_format = DYNAMIC;
+
+create index INX_pid
+    on sys_menu (pid);
+
+create index UK_name
+    on sys_menu (name);
+
+
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, 0, '系统管理', NULL, '', 1, 'system', 'system', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 9);
-INSERT INTO `sys_menu` VALUES (2, 1, 1, '系统用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', b'0', b'0', b'0', 'user:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (3, 1, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', b'0', b'0', b'0', 'roles:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (5, 1, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', b'0', b'0', b'0', 'menu:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (6, 0, 0, '系统监控', NULL, '', 6, 'monitor', 'monitor', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (7, 1, 1, '操作日志', 'Log', 'monitor/log/index', 7, 'log', 'logs', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (9, 6, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 9, 'sqlMonitor', 'druid', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (10, 0, 0, '组件管理', NULL, '', 10, 'zujian', 'components', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 5);
-INSERT INTO `sys_menu` VALUES (11, 10, 1, '图标库', 'Icons', 'components/icons/index', 11, 'icon', 'icon', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (14, 36, 1, '邮件工具', 'Email', 'tools/email/index', 14, 'email', 'email', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (15, 10, 1, '富文本', 'Editor', 'components/Editor', 15, 'fwb', 'tinymce', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (18, 36, 1, '存储管理', 'Storage', 'tools/storage/index', 18, 'qiniu', 'storage', b'0', b'0', b'0', 'storage:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (19, 36, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 19, 'alipay', 'aliPay', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (21, 0, 0, '多级菜单', NULL, '', 21, 'menu', 'nested', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 2);
-INSERT INTO `sys_menu` VALUES (22, 21, 0, '二级菜单1', NULL, '', 22, 'menu', 'menu1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 2);
-INSERT INTO `sys_menu` VALUES (23, 21, 1, '二级菜单2', NULL, 'nested/menu2/index', 23, 'menu', 'menu2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (24, 22, 1, '三级菜单1', 'Test', 'nested/menu1/menu1-1', 24, 'menu', 'menu1-1', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (27, 22, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 27, 'menu', 'menu1-2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (28, 1, 1, '任务调度', 'Timing', 'system/timing/index', 28, 'timing', 'timing', b'0', b'0', b'1', 'timing:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (30, 36, 1, '代码生成', 'GeneratorIndex', 'generator/index', 30, 'dev', 'generator', b'0', b'1', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (32, 6, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 32, 'error', 'errorLog', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (33, 10, 1, 'Markdown', 'Markdown', 'components/MarkDown', 33, 'markdown', 'markdown', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (34, 10, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 34, 'dev', 'yaml', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (35, 1, 1, '部门管理', 'Dept', 'system/dept/index', 35, 'dept', 'dept', b'0', b'0', b'0', 'dept:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (36, 0, 0, '系统工具', NULL, '', 36, 'sys-tools', 'sys-tools', b'0', b'0', b'1', NULL, 'admin', 'admin', 1683010740, 1683010740, 7);
-INSERT INTO `sys_menu` VALUES (37, 1, 1, '岗位管理', 'Job', 'system/job/index', 37, 'Steve-Jobs', 'job', b'0', b'0', b'0', 'job:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (38, 36, 1, '接口文档', 'Swagger', 'tools/swagger/index', 38, 'swagger', 'swagger2', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (39, 1, 1, '字典管理', 'Dict', 'system/dict/index', 39, 'dictionary', 'dict', b'0', b'0', b'0', 'dict:list', 'admin', 'admin', 1683010740, 1683010740, 3);
-INSERT INTO `sys_menu` VALUES (41, 1, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 41, 'Steve-Jobs', 'online', b'0', b'0', b'0', NULL, 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (44, 2, 2, '用户新增', NULL, '', 44, '', '', b'0', b'0', b'0', 'user:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (45, 2, 2, '用户编辑', NULL, '', 45, '', '', b'0', b'0', b'0', 'user:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (46, 2, 2, '用户删除', NULL, '', 46, '', '', b'0', b'0', b'0', 'user:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (48, 3, 2, '角色创建', NULL, '', 48, '', '', b'0', b'0', b'0', 'roles:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (49, 3, 2, '角色修改', NULL, '', 49, '', '', b'0', b'0', b'0', 'roles:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (50, 3, 2, '角色删除', NULL, '', 50, '', '', b'0', b'0', b'0', 'roles:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (52, 5, 2, '菜单新增', NULL, '', 52, '', '', b'0', b'0', b'0', 'menu:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (53, 5, 2, '菜单编辑', NULL, '', 53, '', '', b'0', b'0', b'0', 'menu:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (54, 5, 2, '菜单删除', NULL, '', 54, '', '', b'0', b'0', b'0', 'menu:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (56, 35, 2, '部门新增', NULL, '', 56, '', '', b'0', b'0', b'0', 'dept:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (57, 35, 2, '部门编辑', NULL, '', 57, '', '', b'0', b'0', b'0', 'dept:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (58, 35, 2, '部门删除', NULL, '', 58, '', '', b'0', b'0', b'0', 'dept:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (60, 37, 2, '岗位新增', NULL, '', 60, '', '', b'0', b'0', b'0', 'job:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (61, 37, 2, '岗位编辑', NULL, '', 61, '', '', b'0', b'0', b'0', 'job:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (62, 37, 2, '岗位删除', NULL, '', 62, '', '', b'0', b'0', b'0', 'job:del', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (64, 39, 2, '字典新增', NULL, '', 64, '', '', b'0', b'0', b'0', 'dict:add', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (65, 39, 2, '字典编辑', NULL, '', 65, '', '', b'0', b'0', b'0', 'dict:edit', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_menu` VALUES (66, 39, 2, '字典删除', NULL, '', 66, '', '', b'0', b'0', b'0', 'dict:del', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (2, 0, 'catalog', 'System', 'System', 'carbon:settings', '/system', null, 0, true, '{"icon": "carbon:menu", "title": "system.menu.title"}', '', null, null, 1772377377, 1772377377, 2);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (9, 0, 'catalog', 'Project', 'Project', 'carbon:data-center', '/vben-admin', null, 0, true, '{"badgeType": "dot", "order": 9998, "title": "demos.vben.title", "icon": "carbon:data-center"}', '', null, null, 1772377377, 1772377377, 3);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (10, 0, 'menu', 'About', '关于', 'lucide:copyright', '/about', '_core/about/index', 0, true, '{"icon": "lucide:copyright", "order": 9999, "title": "demos.vben.about"}', '', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (102, 0, 'menu', 'Workspace', 'Workspace', '', '/workspace', '/dashboard/workspace/index', 0, true, '{"icon": "carbon:workspace", "title": "page.dashboard.workspace", "affixTab": true, "order": 0}', '', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (201, 2, 'menu', 'SystemMenu', '菜单管理', 'carbon:menu', '/system/menu', '/system/menu/list', 0, true, '{"icon": "carbon:menu", "title": "system.menu.title"}', 'System:Menu:List', null, null, 1772377377, 1772377377, 3);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (202, 2, 'menu', 'SystemDept', '部门管理', 'carbon:container-services', '/system/dept', '/system/dept/list', 0, true, '{"icon": "carbon:container-services", "title": "system.dept.title"}', 'System:Dept:List', null, null, 1772377377, 1772377377, 3);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (901, 9, 'embedded', 'VbenDocument', '文档', 'carbon:book', '/vben-admin/document', 'IFrameView', 0, true, '{"icon": "carbon:book", "iframeSrc": "https://doc.vben.pro", "title": "demos.vben.document"}', '', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (902, 9, 'link', 'VbenGithub', 'Github', 'carbon:logo-github', '/vben-admin/github', 'IFrameView', 0, true, '{"icon": "carbon:logo-github", "link": "https://github.com/vbenjs/vue-vben-admin", "title": "Github"}', '', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20101, 201, 'button', 'SystemMenuCreate', '新增', '', '', null, 0, true, '{"title": "common.create"}', 'System:Menu:Create', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20102, 201, 'button', 'SystemMenuEdit', '编辑', '', '', null, 0, true, '{"title": "common.edit"}', 'System:Menu:Edit', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20103, 201, 'button', 'SystemMenuDelete', '删除', '', '', null, 0, true, '{"title": "common.delete"}', 'System:Menu:Delete', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20201, 202, 'button', 'SystemDeptCreate', '新增', '', '', null, 0, true, '{"title": "common.create"}', 'System:Dept:Create', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20202, 202, 'button', 'SystemDeptEdit', '编辑', '', '', null, 0, true, '{"title": "common.edit"}"', 'System:Dept:Edit', null, null, 1772377377, 1772377377, 0);
+INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20203, 202, 'button', 'SystemDeptDelete', '删除', '', '', null, 0, true, '{"title": "common.delete"}', 'System:Dept:Delete', null, null, 1772377377, 1772377377, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
