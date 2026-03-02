@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 28/02/2026 22:27:48
+ Date: 02/03/2026 17:59:05
 */
 
 SET NAMES utf8mb4;
@@ -70,7 +70,7 @@ CREATE TABLE `sys_dept`  (
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -180,55 +180,47 @@ CREATE TABLE `sys_log`  (
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
-create table sys_menu
-(
-    menu_id     bigint auto_increment comment 'ID'
-        primary key,
-    pid         bigint       default 0    not null comment '上级菜单ID，默认0为一级节点',
-    type        varchar(10)               not null comment '菜单类型，catalog：目录；menu：菜单；embedded： 内嵌；link：外链 ；button： 按钮；',
-    name        varchar(64)               not null comment '菜单名称，一般是前端使用给程序用的，  如Vue Router 路由标识 ，前端用 name 做路由跳转 ，router.push({ name: ''SystemUser'' })',
-    title       varchar(100)              not null comment '菜单标题，给人看的，即界面上显示的菜单标题',
-    icon        varchar(32)               null comment '菜单图标',
-    path        varchar(255) default ''   not null comment '，即显示在浏览器地址栏上的路径，实际这个路径对应的显示内容则要看component组件',
-    component   varchar(255) default ''   null comment '前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import(''#/views/system/user/list.vue''),常用后端返回"component": "/system/user/list"',
-    sort        int          default 0    not null comment '排序',
-    enable      bit          default b'1' not null comment '是否启用',
-    meta        varchar(2000)             null comment '菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里',
-    permission  varchar(255) default ''   null comment '权限',
-    create_by   varchar(255)              null comment '创建者',
-    update_by   varchar(255)              null comment '更新者',
-    create_time bigint                    null comment '创建日期',
-    update_time bigint                    null comment '更新时间',
-    sub_count   int          default 0    not null comment '子节点数量'
-)
-    comment '系统菜单' collate = utf8mb4_general_ci
-                       row_format = DYNAMIC;
-
-create index INX_pid
-    on sys_menu (pid);
-
-create index UK_name
-    on sys_menu (name);
-
-
+CREATE TABLE `sys_menu`  (
+                             `menu_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                             `pid` bigint NOT NULL DEFAULT 0 COMMENT '上级菜单ID，默认0为一级节点',
+                             `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单类型，catalog：目录；menu：菜单；embedded： 内嵌；link：外链 ；button： 按钮；',
+                             `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称，一般是前端使用给程序用的，  如Vue Router 路由标识 ，前端用 name 做路由跳转 ，router.push({ name: \'SystemUser\' })',
+                             `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单标题，给人看的，即界面上显示的菜单标题',
+                             `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
+                             `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '，即显示在浏览器地址栏上的路径，实际这个路径对应的显示内容则要看component组件',
+                             `active_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '一般都是path, 当详情页不在左侧菜单中显示，但需要高亮父菜单时使用。左侧菜单，用户管理 (path: /system/user, activePath: /system/user/***)，访问 /system/user/100 时：\r\n- path 是 /system/user/100，匹配不到菜单\r\n- 但 activePath 是 /system/user/***，能匹配上\r\n- 所以\"用户管理\"菜单保持高亮',
+                             `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import(\'#/views/system/user/list.vue\'),常用后端返回\"component\": \"/system/user/list\"',
+                             `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
+                             `enable` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
+                             `meta` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里',
+                             `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '权限',
+                             `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
+                             `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
+                             `create_time` bigint NULL DEFAULT NULL COMMENT '创建日期',
+                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
+                             `sub_count` int NOT NULL DEFAULT 0 COMMENT '子节点数量',
+                             PRIMARY KEY (`menu_id`) USING BTREE,
+                             INDEX `INX_pid`(`pid` ASC) USING BTREE,
+                             INDEX `UK_name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 20204 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (2, 0, 'catalog', 'System', 'System', 'carbon:settings', '/system', null, 0, true, '{"icon": "carbon:menu", "title": "system.menu.title"}', '', null, null, 1772377377, 1772377377, 2);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (9, 0, 'catalog', 'Project', 'Project', 'carbon:data-center', '/vben-admin', null, 0, true, '{"badgeType": "dot", "order": 9998, "title": "demos.vben.title", "icon": "carbon:data-center"}', '', null, null, 1772377377, 1772377377, 3);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (10, 0, 'menu', 'About', '关于', 'lucide:copyright', '/about', '_core/about/index', 0, true, '{"icon": "lucide:copyright", "order": 9999, "title": "demos.vben.about"}', '', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (102, 0, 'menu', 'Workspace', 'Workspace', '', '/workspace', '/dashboard/workspace/index', 0, true, '{"icon": "carbon:workspace", "title": "page.dashboard.workspace", "affixTab": true, "order": 0}', '', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (201, 2, 'menu', 'SystemMenu', '菜单管理', 'carbon:menu', '/system/menu', '/system/menu/list', 0, true, '{"icon": "carbon:menu", "title": "system.menu.title"}', 'System:Menu:List', null, null, 1772377377, 1772377377, 3);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (202, 2, 'menu', 'SystemDept', '部门管理', 'carbon:container-services', '/system/dept', '/system/dept/list', 0, true, '{"icon": "carbon:container-services", "title": "system.dept.title"}', 'System:Dept:List', null, null, 1772377377, 1772377377, 3);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (901, 9, 'embedded', 'VbenDocument', '文档', 'carbon:book', '/vben-admin/document', 'IFrameView', 0, true, '{"icon": "carbon:book", "iframeSrc": "https://doc.vben.pro", "title": "demos.vben.document"}', '', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (902, 9, 'link', 'VbenGithub', 'Github', 'carbon:logo-github', '/vben-admin/github', 'IFrameView', 0, true, '{"icon": "carbon:logo-github", "link": "https://github.com/vbenjs/vue-vben-admin", "title": "Github"}', '', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20101, 201, 'button', 'SystemMenuCreate', '新增', '', '', null, 0, true, '{"title": "common.create"}', 'System:Menu:Create', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20102, 201, 'button', 'SystemMenuEdit', '编辑', '', '', null, 0, true, '{"title": "common.edit"}', 'System:Menu:Edit', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20103, 201, 'button', 'SystemMenuDelete', '删除', '', '', null, 0, true, '{"title": "common.delete"}', 'System:Menu:Delete', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20201, 202, 'button', 'SystemDeptCreate', '新增', '', '', null, 0, true, '{"title": "common.create"}', 'System:Dept:Create', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20202, 202, 'button', 'SystemDeptEdit', '编辑', '', '', null, 0, true, '{"title": "common.edit"}"', 'System:Dept:Edit', null, null, 1772377377, 1772377377, 0);
-INSERT INTO capable_admin.sys_menu (menu_id, pid, type, name, title, icon, path, component, sort, enable, meta, permission, create_by, update_by, create_time, update_time, sub_count) VALUES (20203, 202, 'button', 'SystemDeptDelete', '删除', '', '', null, 0, true, '{"title": "common.delete"}', 'System:Dept:Delete', null, null, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (2, 0, 'catalog', 'System', 'System', 'carbon:settings', '/system', NULL, NULL, 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', '', NULL, NULL, 1772377377, 1772377377, 2);
+INSERT INTO `sys_menu` VALUES (9, 0, 'catalog', 'Project', 'Project', 'carbon:data-center', '/vben-admin', NULL, NULL, 0, b'1', '{\"badgeType\": \"dot\", \"order\": 9998, \"title\": \"demos.vben.title\", \"icon\": \"carbon:data-center\"}', '', NULL, NULL, 1772377377, 1772377377, 3);
+INSERT INTO `sys_menu` VALUES (10, 0, 'menu', 'About', '关于', 'lucide:copyright', '/about', NULL, '_core/about/index', 0, b'1', '{\"icon\": \"lucide:copyright\", \"order\": 9999, \"title\": \"demos.vben.about\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (102, 0, 'menu', 'Workspace', 'Workspace', 'mdi:dashboard', '/workspace', NULL, '/dashboard/workspace/index', 0, b'1', '{\"icon\": \"carbon:workspace\", \"title\": \"page.dashboard.workspace\", \"affixTab\": true, \"order\": 0}', '', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (201, 2, 'menu', 'SystemMenu', '菜单管理', 'carbon:menu', '/system/menu', NULL, '/system/menu/list', 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', 'System:Menu:List', NULL, NULL, 1772377377, 1772377377, 3);
+INSERT INTO `sys_menu` VALUES (202, 2, 'menu', 'SystemDept', '部门管理', 'carbon:container-services', '/system/dept', NULL, '/system/dept/list', 0, b'1', '{\"icon\": \"carbon:container-services\", \"title\": \"system.dept.title\"}', 'System:Dept:List', NULL, NULL, 1772377377, 1772377377, 3);
+INSERT INTO `sys_menu` VALUES (901, 9, 'embedded', 'VbenDocument', '文档', 'carbon:book', '/vben-admin/document', NULL, 'IFrameView', 0, b'1', '{\"icon\": \"carbon:book\", \"iframeSrc\": \"https://doc.vben.pro\", \"title\": \"demos.vben.document\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (902, 9, 'link', 'VbenGithub', 'Github', 'carbon:logo-github', '/vben-admin/github', NULL, 'IFrameView', 0, b'1', '{\"icon\": \"carbon:logo-github\", \"link\": \"https://github.com/vbenjs/vue-vben-admin\", \"title\": \"Github\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20101, 201, 'button', 'SystemMenuCreate', '新增', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.create\"}', 'System:Menu:Create', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20102, 201, 'button', 'SystemMenuEdit', '编辑', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.edit\"}', 'System:Menu:Edit', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20103, 201, 'button', 'SystemMenuDelete', '删除', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.delete\"}', 'System:Menu:Delete', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20201, 202, 'button', 'SystemDeptCreate', '新增', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.create\"}', 'System:Dept:Create', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20202, 202, 'button', 'SystemDeptEdit', '编辑', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.edit\"}\"', 'System:Dept:Edit', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (20203, 202, 'button', 'SystemDeptDelete', '删除', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.delete\"}', 'System:Dept:Delete', NULL, NULL, 1772377377, 1772377377, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -247,6 +239,7 @@ CREATE TABLE `sys_role`  (
                              `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
                              `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增',
                              `enable` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用， 0否1是',
+                             `menu_ids` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拥有的菜单id集合，逗号分隔，程序自行处理，不需要外部传参',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
@@ -254,7 +247,7 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1', NULL);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
