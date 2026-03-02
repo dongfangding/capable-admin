@@ -1,6 +1,7 @@
 package com.ddf.boot.capableadmin.model.request.sys;
 
 import jakarta.validation.constraints.NotBlank;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -47,4 +48,9 @@ public class SysRoleCreateRequest {
 	 * 是否启用， 0否1是
 	 */
 	private Boolean enable;
+
+	/**
+	 * 拥有的菜单集合
+	 */
+	private Set<Long> menuIds;
 }

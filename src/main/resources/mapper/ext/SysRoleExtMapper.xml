@@ -38,7 +38,7 @@
 				 left join sys_user_role ur on role.role_id = ur.role_id
 		WHERE role.role_id = ur.role_id
 		  AND ur.user_id = #{userId}
-		  and menu.hidden = 0
+		  and menu.enable = 1
 	</select>
 
 	<select id="listAll" resultMap="BaseResultMap">
@@ -100,6 +100,12 @@
 	<update id="updateEnable">
 		update sys_role
 		set enable = #{enable}
+		where role_id = #{roleId}
+	</update>
+
+	<update id="updateRoleMenuIds">
+		update sys_role
+		set menu_ids = #{menuIds}
 		where role_id = #{roleId}
 	</update>
 </mapper>

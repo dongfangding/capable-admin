@@ -74,10 +74,24 @@ public class SysMenuCreateRequest {
 	/**
 	 * 菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里
 	 */
-	private Integer meta;
+	private Object meta;
 
 	/**
 	 * 权限
 	 */
 	private String permission;
+
+	/**
+	 * 是否启用禁用
+	 */
+	private Boolean enable;
+
+
+	/**
+	 * 一般都是path, 当详情页不在左侧菜单中显示，但需要高亮父菜单时使用。左侧菜单，用户管理 (path: /system/user, activePath: /system/user/***)，访问 /system/user/100 时：
+	 * - path 是 /system/user/100，匹配不到菜单
+	 * - 但 activePath 是 /system/user/***，能匹配上
+	 * - 所以"用户管理"菜单保持高亮
+	 */
+	private String activePath;
 }

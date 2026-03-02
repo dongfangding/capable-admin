@@ -7,7 +7,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @since 2026/02/28 14:27
+* @since 2026/03/02 14:38
 */
 
 
@@ -75,4 +75,9 @@ public class SysRole {
      * 是否启用， 0否1是
      */
     private Boolean enable;
+
+    /**
+     * 拥有的菜单id集合，逗号分隔，程序自行处理，不需要外部传参
+     */
+    private String menuIds;
 }

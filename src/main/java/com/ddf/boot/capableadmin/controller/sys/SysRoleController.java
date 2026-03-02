@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("sys-role")
 public class SysRoleController {
 
-    private final SysRoleService sysRoleService;
+	private final SysRoleService sysRoleService;
 
 
 	/**
@@ -49,51 +49,51 @@ public class SysRoleController {
 	}
 
 
-    /**
-     * 查询所有角色
-     *
-     * @return
-     */
-    @GetMapping("list-all")
-    @SaCheckPermission("roles:list")
-    public ResponseData<List<SysRoleRes>> listAll() {
-        return ResponseData.success(sysRoleService.listAll());
-    }
+	/**
+	 * 查询所有角色
+	 *
+	 * @return
+	 */
+	@GetMapping("list-all")
+	@SaCheckPermission("roles:list")
+	public ResponseData<List<SysRoleRes>> listAll() {
+		return ResponseData.success(sysRoleService.listAll());
+	}
 
-    /**
-     * 保存角色
-     *
-     * @param request
-     */
-    @PostMapping("persist")
-    @SaCheckPermission(value = { "roles:add", "roles:edit" })
-    public ResponseData<Boolean> persist(@RequestBody @Valid SysRoleCreateRequest request) {
-        sysRoleService.persist(request);
-        return ResponseData.success(Boolean.TRUE);
-    }
+	/**
+	 * 保存角色
+	 *
+	 * @param request
+	 */
+	@PostMapping("persist")
+	@SaCheckPermission(value = {"roles:add", "roles:edit"})
+	public ResponseData<Boolean> persist(@RequestBody @Valid SysRoleCreateRequest request) {
+		sysRoleService.persist(request);
+		return ResponseData.success(Boolean.TRUE);
+	}
 
-    /**
-     * 更新角色菜单
-     *
-     * @param request
-     */
-    @PostMapping("update-role-menu")
-    @SaCheckPermission("roles:edit")
-    public ResponseData<Boolean> updateRoleMenu(@RequestBody @Valid SysRoleMenuUpdateRequest request) {
-        sysRoleService.updateRoleMenu(request);
-        return ResponseData.success(Boolean.TRUE);
-    }
+	/**
+	 * 更新角色菜单
+	 *
+	 * @param request
+	 */
+	@PostMapping("update-role-menu")
+	@SaCheckPermission("roles:edit")
+	public ResponseData<Boolean> updateRoleMenu(@RequestBody @Valid SysRoleMenuUpdateRequest request) {
+		sysRoleService.updateRoleMenu(request);
+		return ResponseData.success(Boolean.TRUE);
+	}
 
-    /**
-     * 更新启用状态
-     *
-     * @param request
-     */
-    @PostMapping("enable")
-    @SaCheckPermission("roles:persist")
-    public ResponseData<Boolean> enable(@RequestBody @Valid EnableRequest request) {
-        return ResponseData.success(sysRoleService.updateEnable(request));
-    }
+	/**
+	 * 更新启用状态
+	 *
+	 * @param request
+	 */
+	@PostMapping("enable")
+	@SaCheckPermission("roles:persist")
+	public ResponseData<Boolean> enable(@RequestBody @Valid EnableRequest request) {
+		return ResponseData.success(sysRoleService.updateEnable(request));
+	}
 
 	/**
 	 * 删除角色

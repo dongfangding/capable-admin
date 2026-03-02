@@ -11,6 +11,7 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="active_path" jdbcType="VARCHAR" property="activePath" />
     <result column="component" jdbcType="VARCHAR" property="component" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="enable" jdbcType="BIT" property="enable" />
@@ -24,8 +25,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    menu_id, pid, `type`, `name`, title, icon, `path`, component, sort, `enable`, meta, 
-    permission, create_by, update_by, create_time, update_time, sub_count
+    menu_id, pid, `type`, `name`, title, icon, `path`, active_path, component, sort, 
+    `enable`, meta, permission, create_by, update_by, create_time, update_time, sub_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -43,16 +44,16 @@
     <!--@mbg.generated-->
     insert into sys_menu (pid, `type`, `name`, 
       title, icon, `path`, 
-      component, sort, `enable`, 
-      meta, permission, create_by, 
-      update_by, create_time, update_time, 
-      sub_count)
+      active_path, component, sort, 
+      `enable`, meta, permission, 
+      create_by, update_by, create_time, 
+      update_time, sub_count)
     values (#{pid,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, 
-      #{meta,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
-      #{subCount,jdbcType=INTEGER})
+      #{activePath,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{enable,jdbcType=BIT}, #{meta,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{subCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="com.ddf.boot.capableadmin.model.entity.SysMenu" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -75,6 +76,9 @@
       </if>
       <if test="path != null">
         `path`,
+      </if>
+      <if test="activePath != null">
+        active_path,
       </if>
       <if test="component != null">
         component,
@@ -125,6 +129,9 @@
       </if>
       <if test="path != null">
         #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="activePath != null">
+        #{activePath,jdbcType=VARCHAR},
       </if>
       <if test="component != null">
         #{component,jdbcType=VARCHAR},
@@ -180,6 +187,9 @@
       <if test="path != null">
         `path` = #{path,jdbcType=VARCHAR},
       </if>
+      <if test="activePath != null">
+        active_path = #{activePath,jdbcType=VARCHAR},
+      </if>
       <if test="component != null">
         component = #{component,jdbcType=VARCHAR},
       </if>
@@ -222,6 +232,7 @@
       title = #{title,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       `path` = #{path,jdbcType=VARCHAR},
+      active_path = #{activePath,jdbcType=VARCHAR},
       component = #{component,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
       `enable` = #{enable,jdbcType=BIT},

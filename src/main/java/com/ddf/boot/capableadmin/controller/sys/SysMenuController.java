@@ -10,11 +10,13 @@ import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
 import com.ddf.boot.capableadmin.service.SysMenuService;
 import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
+import com.ddf.boot.common.api.model.common.request.IdRequest;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.mvc.permissionscan.PermissionMenuScanner;
 import com.ddf.boot.common.mvc.permissionscan.ScanPermissionPayload;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,8 +86,8 @@ public class SysMenuController {
      */
     @PostMapping("delete")
     @SaCheckPermission("menu:del")
-    public ResponseData<Boolean> delete(@RequestBody BatchIdRequest request) {
-        sysMenuService.delete(request.getIds());
+    public ResponseData<Boolean> delete(@RequestBody IdRequest request) {
+        sysMenuService.delete(Set.of(request.getId()));
         return ResponseData.success(Boolean.TRUE);
     }
 

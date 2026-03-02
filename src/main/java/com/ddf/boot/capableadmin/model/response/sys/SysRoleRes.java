@@ -1,6 +1,7 @@
 package com.ddf.boot.capableadmin.model.response.sys;
 
 import com.ddf.boot.common.api.util.DateUtils;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -72,6 +73,12 @@ public class SysRoleRes {
 	 * 是否启用， 0否1是
 	 */
 	private Boolean enable;
+
+	/**
+	 * 拥有的菜单id
+	 */
+	private Set<Long> menuIds;
+
 
     public String getFormatCreateTime() {
         return DateUtils.standardFormatSeconds(createTime);

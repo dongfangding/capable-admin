@@ -70,14 +70,14 @@ public class SysMenuService {
 			}
 		}
 		final SysMenu byTitle = sysMenuMapper.findByTitle(request.getTitle());
-		if (Objects.nonNull(byTitle) && (!Objects.equals(byTitle.getMenuId(), request.getMenuId())) || (isUpdate
-				&& !Objects.equals(byTitle.getMenuId(), request.getMenuId()))) {
+		if (Objects.nonNull(byTitle) && (!Objects.equals(byTitle.getMenuId(), request.getMenuId()) || (isUpdate
+				&& !Objects.equals(request.getMenuId(), byTitle.getMenuId())))) {
 			throw new BusinessException(PrettyAdminExceptionCode.MENU_TITLE_EXISTS);
 		}
 		if (StringUtils.isNotBlank(request.getName())) {
 			final SysMenu byName = sysMenuMapper.findByName(request.getName());
-			if (Objects.nonNull(byName) && (!Objects.equals(byName.getMenuId(), request.getMenuId())) || (isUpdate
-					&& !Objects.equals(byName.getMenuId(), request.getMenuId()))) {
+			if (Objects.nonNull(byName) && (!Objects.equals(byName.getMenuId(), request.getMenuId()) || (isUpdate
+					&& !Objects.equals(byName.getMenuId(), request.getMenuId())))) {
 				throw new BusinessException(PrettyAdminExceptionCode.MENU_NAME_EXISTS);
 			}
 		}
@@ -92,6 +92,7 @@ public class SysMenuService {
 		if (!isUpdate) {
 			final SysMenu sysMenu = BeanCopierUtils.copy(request, SysMenu.class);
 			sysMenu.setType(request.getType());
+			sysMenu.setMeta(JsonUtil.toJson(request.getMeta()));
 			sysMenuMapper.insertSelective(sysMenu);
 			// 更新父节点菜单数目
 			updateSubCount(newPid, true);
@@ -99,6 +100,7 @@ public class SysMenuService {
 			affectedMenuId = request.getMenuId();
 			final Long oldPid = oldMenu.getPid();
 			BeanCopierUtils.copy(request, oldMenu);
+			oldMenu.setMeta(JsonUtil.toJson(request.getMeta()));
 			sysMenuMapper.updateByPrimaryKeySelective(oldMenu);
 			if (Objects.nonNull(oldPid)) {
 				if (!oldPid.equals(newPid)) {
@@ -242,10 +244,12 @@ public class SysMenuService {
 			node.setName(StringUtils.defaultIfBlank(menu.getName(), menu.getTitle()));
 			// 一级目录需要加斜杠，不然会报警告
 			node.setPath(menu.getPath());
+			node.setActivePath(menu.getActivePath());
 			node.setComponent(menu.getComponent());
 			node.setMeta(JsonUtil.toBean(menu.getMeta(), Map.class));
 			node.setChildren(new ArrayList<>());
 			node.setType(menu.getType());
+			node.setTitle(menu.getTitle());
 			node.setIcon(menu.getIcon());
 			node.setPermission(menu.getPermission());
 			node.setEnable(menu.getEnable());
@@ -281,9 +285,9 @@ public class SysMenuService {
 				.stream()
 				.map(SysMenu::getMenuId)
 				.collect(Collectors.toSet());
+		menuSet.addAll(menuList);
 		final List<SysMenu> list = sysMenuMapper.findByPidList(menuIdList);
 		if (CollUtil.isNotEmpty(list)) {
-			menuSet.addAll(list);
 			getChildMenus(list, menuSet);
 		}
 		return menuSet;

@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @since 2026/02/28 14:27
+ * @since 2026/03/02 14:38
  */
 public interface SysRoleMapper {
     int deleteByPrimaryKey(Long roleId);
@@ -29,6 +29,15 @@ public interface SysRoleMapper {
     int updateByPrimaryKey(SysRole record);
 
     SysRole findByRoleName(@Param("name") String name);
+
+	/**
+	 * 冗余更新角色下的菜单权限
+	 *
+	 * @param roleId
+	 * @param menuIds
+	 * @return
+	 */
+	int updateRoleMenuIds(@Param("roleId") Long roleId, @Param("menuIds") String menuIds);
 
     /**
      * 返回所有角色
@@ -77,12 +86,12 @@ public interface SysRoleMapper {
      */
     Set<SysRoleAdminResult> findRoleNamesByUserId(@Param("userId") Long userId);
 
-	/**
-	 * 更新启用状态
-	 *
-	 * @param roleId
-	 * @param enable
-	 * @return
-	 */
-	int updateEnable(@Param("roleId") Long roleId, @Param("enable") Boolean enable);
+    /**
+     * 更新启用状态
+     *
+     * @param roleId
+     * @param enable
+     * @return
+     */
+    int updateEnable(@Param("roleId") Long roleId, @Param("enable") Boolean enable);
 }

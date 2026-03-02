@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @date 2026/03/01 22:38
+ * @since 2026/03/02 17:33
  */
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Long menuId);
@@ -102,6 +102,13 @@ public interface SysMenuMapper {
      * @return 权限标识集合
      */
     Set<String> findAllPermissions();
+
+    /**
+     * 查询所有菜单id, 给超管用
+     *
+     * @return 权限标识集合
+     */
+    Set<Long> findAllMenuIds();
 
     /**
      * 查询角色列表的所有权限标识

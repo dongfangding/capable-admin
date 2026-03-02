@@ -52,6 +52,14 @@ public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long
      */
     private String path;
 
+	/**
+	 * 一般都是path, 当详情页不在左侧菜单中显示，但需要高亮父菜单时使用。左侧菜单，用户管理 (path: /system/user, activePath: /system/user/***)，访问 /system/user/100 时：
+	 * - path 是 /system/user/100，匹配不到菜单
+	 * - 但 activePath 是 /system/user/***，能匹配上
+	 * - 所以"用户管理"菜单保持高亮
+	 */
+	private String activePath;
+
     /**
      * 组件
      */
@@ -69,6 +77,11 @@ public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long
 	private String type;
 
 	/**
+	 * 标题
+	 */
+	private String title;
+
+	/**
 	 * 图标
 	 */
 	private String icon;
@@ -82,6 +95,10 @@ public class BuildMenuRouteNode implements Serializable, ITreeTagCollection<Long
 	 * 是否启用
 	 */
 	private Boolean enable;
+
+	public Long getKey() {
+		return menuId;
+	}
 
     /**
      * 子节点

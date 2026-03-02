@@ -7,7 +7,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @date 2026/03/01 22:38
+* @since 2026/03/02 17:33
 */
 
 
@@ -50,6 +50,14 @@ public class SysMenu {
      * ，即显示在浏览器地址栏上的路径，实际这个路径对应的显示内容则要看component组件
      */
     private String path;
+
+    /**
+     * 一般都是path, 当详情页不在左侧菜单中显示，但需要高亮父菜单时使用。左侧菜单，用户管理 (path: /system/user, activePath: /system/user/***)，访问 /system/user/100 时：
+     * - path 是 /system/user/100，匹配不到菜单
+     * - 但 activePath 是 /system/user/***，能匹配上
+     * - 所以"用户管理"菜单保持高亮
+     */
+    private String activePath;
 
     /**
      * 前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import('#/views/system/user/list.vue'),常用后端返回"component": "/system/user/list"

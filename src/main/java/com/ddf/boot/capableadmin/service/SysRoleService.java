@@ -5,6 +5,7 @@ import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.infra.mapper.SysRoleMapper;
 import com.ddf.boot.capableadmin.infra.mapper.SysRoleMenuMapper;
 import com.ddf.boot.capableadmin.infra.mapper.SysUserRoleMapper;
+import com.ddf.boot.capableadmin.infra.repository.SysMenuRepository;
 import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysRole;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,6 +49,7 @@ public class SysRoleService {
 	private final SysRoleMenuMapper sysRoleMenuMapper;
 	private final SysUserRoleMapper sysUserRoleMapper;
 	private final PrettyAdminCacheManager cacheManager;
+	private final SysMenuRepository sysMenuRepository;
 
 	/**
 	 * 查询所有角色
@@ -63,13 +68,14 @@ public class SysRoleService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public void persist(SysRoleCreateRequest request) {
+		SysRole role;
 		if (Objects.isNull(request.getRoleId())) {
 			PreconditionUtil.checkArgument(
 					Objects.isNull(sysRoleMapper.findByRoleName(request.getName())), "角色名称已存在");
-			final SysRole role = BeanCopierUtils.copy(request, SysRole.class);
+			role = BeanCopierUtils.copy(request, SysRole.class);
 			sysRoleMapper.insertSelective(role);
 		} else {
-			final SysRole role = sysRoleMapper.selectByPrimaryKey(request.getRoleId());
+			role = sysRoleMapper.selectByPrimaryKey(request.getRoleId());
 			PreconditionUtil.checkArgument(Objects.nonNull(role), "记录不存在");
 			SysRole tmpRole;
 			if (!role
@@ -82,10 +88,11 @@ public class SysRoleService {
 			}
 			BeanCopierUtils.copy(request, role);
 			sysRoleMapper.updateByPrimaryKeySelective(role);
-
-			// 清理缓存
-			cacheManager.cleanRoleCache(request.getRoleId());
 		}
+		final SysRoleMenuUpdateRequest roleMenuUpdateRequest = new SysRoleMenuUpdateRequest();
+		roleMenuUpdateRequest.setRoleId(role.getRoleId());
+		roleMenuUpdateRequest.setMenuIds(request.getMenuIds());
+		updateRoleMenu(roleMenuUpdateRequest);
 	}
 
 	/**
@@ -97,6 +104,13 @@ public class SysRoleService {
 	public void updateRoleMenu(SysRoleMenuUpdateRequest request) {
 		sysRoleMenuMapper.deleteByRoleId(request.getRoleId());
 		sysRoleMenuMapper.insertRoleMenu(request.getRoleId(), request.getMenuIds());
+
+		final String menuIds = request
+				.getMenuIds()
+				.stream()
+				.map(String::valueOf)
+				.collect(Collectors.joining(","));
+		sysRoleMapper.updateRoleMenuIds(request.getRoleId(), menuIds);
 
 		// 清理缓存（这是权限变更的关键）
 		cacheManager.cleanRoleCache(request.getRoleId());
@@ -145,7 +159,20 @@ public class SysRoleService {
 	 * @return
 	 */
 	public PageResult<SysRoleRes> list(SysRoleListRequest request) {
-		return PageUtil.startPage(request, () -> sysRoleMapper.listAll(request));
+		final PageResult<SysRoleRes> result = PageUtil.startPage(request, () -> sysRoleMapper.listAll(request), (list) -> BeanCopierUtils.copy(list, SysRoleRes.class));
+		final List<SysRoleRes> content = result.getContent();
+		final boolean hasAdmin = content
+				.stream()
+				.anyMatch(SysRoleRes::getIsAdmin);
+		if (hasAdmin) {
+			final Set<Long> allMenuIds = sysMenuRepository.getAllMenuIds();
+			for (SysRoleRes res : content) {
+				if (Objects.equals(Boolean.TRUE, res.getIsAdmin())) {
+					res.setMenuIds(allMenuIds);
+				}
+			}
+		}
+		return result;
 	}
 
 
