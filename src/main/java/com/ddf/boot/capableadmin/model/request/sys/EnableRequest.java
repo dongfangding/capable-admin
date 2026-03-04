@@ -23,5 +23,5 @@ public class EnableRequest {
 	 * 是否开启
 	 */
 	@NotNull(message = "enable not null")
-	private Boolean enable;
+	private Boolean enabled;
 }

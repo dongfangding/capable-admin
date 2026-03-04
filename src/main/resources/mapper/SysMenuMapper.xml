@@ -14,7 +14,7 @@
     <result column="active_path" jdbcType="VARCHAR" property="activePath" />
     <result column="component" jdbcType="VARCHAR" property="component" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
     <result column="meta" jdbcType="VARCHAR" property="meta" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
@@ -26,7 +26,7 @@
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     menu_id, pid, `type`, `name`, title, icon, `path`, active_path, component, sort, 
-    `enable`, meta, permission, create_by, update_by, create_time, update_time, sub_count
+    enabled, meta, permission, create_by, update_by, create_time, update_time, sub_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -45,13 +45,13 @@
     insert into sys_menu (pid, `type`, `name`, 
       title, icon, `path`, 
       active_path, component, sort, 
-      `enable`, meta, permission, 
+      enabled, meta, permission, 
       create_by, update_by, create_time, 
       update_time, sub_count)
     values (#{pid,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{activePath,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
-      #{enable,jdbcType=BIT}, #{meta,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, 
+      #{enabled,jdbcType=BIT}, #{meta,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=BIGINT}, #{subCount,jdbcType=INTEGER})
   </insert>
@@ -86,8 +86,8 @@
       <if test="sort != null">
         sort,
       </if>
-      <if test="enable != null">
-        `enable`,
+      <if test="enabled != null">
+        enabled,
       </if>
       <if test="meta != null">
         meta,
@@ -139,8 +139,8 @@
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
-      <if test="enable != null">
-        #{enable,jdbcType=BIT},
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
       </if>
       <if test="meta != null">
         #{meta,jdbcType=VARCHAR},
@@ -196,8 +196,8 @@
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="enable != null">
-        `enable` = #{enable,jdbcType=BIT},
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BIT},
       </if>
       <if test="meta != null">
         meta = #{meta,jdbcType=VARCHAR},
@@ -235,7 +235,7 @@
       active_path = #{activePath,jdbcType=VARCHAR},
       component = #{component,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
-      `enable` = #{enable,jdbcType=BIT},
+      enabled = #{enabled,jdbcType=BIT},
       meta = #{meta,jdbcType=VARCHAR},
       permission = #{permission,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},

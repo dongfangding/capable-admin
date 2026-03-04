@@ -90,7 +90,7 @@
 				 inner join sys_user_role ur on role.role_id = ur.role_id
 		WHERE role.role_id = ur.role_id
 		  AND ur.user_id = #{userId}
-		  and menu.enable = 1
+		  and menu.enabled = 1
 		  and type != ${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}
 		order by sort, menu_id desc
 	</select>
@@ -100,7 +100,7 @@
 		<include refid="Base_Column_List">
 		</include>
 		from sys_menu
-		where enable = 1
+		where enabled = 1
 		  and type != ${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}
 		order by sort, menu_id desc
 	</select>
@@ -114,7 +114,7 @@
 				 inner join sys_user_role ur on role.role_id = ur.role_id
 		WHERE role.role_id = ur.role_id
 		  AND ur.user_id = #{userId}
-		  and menu.enable = 1
+		  and menu.enabled = 1
 		order by sort, menu_id desc
 	</select>
 
@@ -123,7 +123,7 @@
 		<include refid="Base_Column_List">
 		</include>
 		from sys_menu
-		where enable = 1
+		where enabled = 1
 		order by sort, menu_id desc
 	</select>
 
@@ -131,7 +131,7 @@
 		insert into sys_menu
 		(pid, `type`, `name`,
 		 title, icon, `path`,
-		 component, sort, `enable`,
+		 component, sort, `enabled`,
 		 meta, permission, create_by,
 		 update_by, create_time, update_time,
 		 sub_count)
@@ -139,7 +139,7 @@
 		<foreach collection="list" item="item" separator=",">
 			(#{item.pid,jdbcType=BIGINT}, #{item.type,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
 			 #{item.title,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, #{item.path,jdbcType=VARCHAR},
-			 #{item.component,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER}, #{item.enable,jdbcType=BIT},
+			 #{item.component,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER}, #{item.enabled,jdbcType=BIT},
 			 #{item.meta,jdbcType=VARCHAR}, #{item.permission,jdbcType=VARCHAR}, #{item.createBy,jdbcType=VARCHAR},
 			 #{item.updateBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=BIGINT}, #{item.updateTime,jdbcType=BIGINT},
 			 #{item.subCount,jdbcType=INTEGER})
@@ -153,7 +153,7 @@
 				 INNER JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
 				 INNER JOIN sys_user_role ur ON rm.role_id = ur.role_id
 		WHERE ur.user_id = #{userId}
-		  AND m.enable = 1
+		  AND m.enabled = 1
 		  and m.permission IS NOT NULL
 		  AND m.permission != ''
 	</select>
@@ -162,7 +162,7 @@
 	<select id="findAllPermissions" resultType="java.lang.String">
 		SELECT DISTINCT m.permission
 		FROM sys_menu m
-		WHERE m.enable = 1
+		WHERE m.enabled = 1
 		  and m.permission IS NOT NULL
 		  AND m.permission != ''
 	</select>
@@ -176,7 +176,7 @@
 		<foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
 			#{roleId}
 		</foreach>
-		AND m.enable = 1
+		AND m.enabled = 1
 		and m.permission IS NOT NULL
 		AND m.permission != ''
 	</select>
@@ -184,6 +184,6 @@
 	<select id="findAllMenuIds" resultType="java.lang.Long">
 		SELECT menu_id
 		FROM sys_menu m
-		WHERE enable = 1
+		WHERE enabled = 1
 	</select>
 </mapper>

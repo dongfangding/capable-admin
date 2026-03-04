@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @since 2026/03/02 17:33
+ * @since 2026/03/04 18:40
  */
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Long menuId);

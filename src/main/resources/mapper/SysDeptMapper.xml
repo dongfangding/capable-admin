@@ -14,11 +14,12 @@
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
     <result column="sub_count" jdbcType="INTEGER" property="subCount" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     dept_id, pid, `name`, sort, enabled, create_by, update_by, create_time, update_time, 
-    sub_count
+    sub_count, description
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -36,12 +37,12 @@
     <!--@mbg.generated-->
     insert into sys_dept (pid, `name`, sort, 
       enabled, create_by, update_by, 
-      create_time, update_time, sub_count
-      )
+      create_time, update_time, sub_count, 
+      description)
     values (#{pid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
       #{enabled,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{subCount,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{subCount,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="dept_id" keyProperty="deptId" parameterType="com.ddf.boot.capableadmin.model.entity.SysDept" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -74,6 +75,9 @@
       <if test="subCount != null">
         sub_count,
       </if>
+      <if test="description != null">
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pid != null">
@@ -102,6 +106,9 @@
       </if>
       <if test="subCount != null">
         #{subCount,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -136,6 +143,9 @@
       <if test="subCount != null">
         sub_count = #{subCount,jdbcType=INTEGER},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where dept_id = #{deptId,jdbcType=BIGINT}
   </update>
@@ -150,7 +160,8 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT},
-      sub_count = #{subCount,jdbcType=INTEGER}
+      sub_count = #{subCount,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
     where dept_id = #{deptId,jdbcType=BIGINT}
   </update>
 </mapper>

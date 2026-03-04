@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author Snowball
  * @version 1.0
- * @since 2026/02/27 17:52
+ * @since 2026/03/04 19:25
  */
 public interface SysDeptMapper {
     int deleteByPrimaryKey(Long deptId);

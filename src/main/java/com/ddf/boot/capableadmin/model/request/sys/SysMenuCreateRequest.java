@@ -84,7 +84,7 @@ public class SysMenuCreateRequest {
 	/**
 	 * 是否启用禁用
 	 */
-	private Boolean enable;
+	private Boolean enabled;
 
 
 	/**

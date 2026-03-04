@@ -183,6 +183,6 @@ public class SysRoleService {
 	 * @return
 	 */
 	public Boolean updateEnable(EnableRequest enableRequest) {
-		return sysRoleMapper.updateEnable(enableRequest.getId(), enableRequest.getEnable()) > 0;
+		return sysRoleMapper.updateEnable(enableRequest.getId(), enableRequest.getEnabled()) > 0;
 	}
 }

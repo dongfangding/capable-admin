@@ -7,7 +7,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @since 2026/02/27 17:52
+* @since 2026/03/04 19:25
 */
 
 
@@ -65,4 +65,9 @@ public class SysDept {
      * 子节点数量，用来判定是否需要展开
      */
     private Integer subCount;
+
+    /**
+     * 描述
+     */
+    private String description;
 }

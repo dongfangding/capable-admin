@@ -9,7 +9,7 @@ import com.ddf.boot.capableadmin.model.entity.SysMenu;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuSuperiorQuery;
-import com.ddf.boot.capableadmin.model.response.sys.BuildMenuRouteNode;
+import com.ddf.boot.capableadmin.model.response.sys.MenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
 import com.ddf.boot.common.api.exception.BusinessException;
@@ -136,7 +136,7 @@ public class SysMenuService {
 	 *
 	 * @return
 	 */
-	public List<BuildMenuRouteNode> allTree() {
+	public List<MenuRouteNode> allTree() {
 		final List<SysMenu> sysMenus = sysMenuMapper.list(new SysMenuListQuery());
 		return buildMenuTree(sysMenus);
 	}
@@ -216,7 +216,7 @@ public class SysMenuService {
 	 *
 	 * @return
 	 */
-	public List<BuildMenuRouteNode> buildUserMenuTree(Long userId) {
+	public List<MenuRouteNode> buildUserMenuTree(Long userId) {
 		boolean isAdmin = Objects.equals(1L, userId);
 		List<SysMenu> userMenuList;
 		if (isAdmin) {
@@ -232,13 +232,13 @@ public class SysMenuService {
 	 *
 	 * @return
 	 */
-	public List<BuildMenuRouteNode> buildMenuTree(List<SysMenu> userMenuList) {
+	public List<MenuRouteNode> buildMenuTree(List<SysMenu> userMenuList) {
 		if (CollUtil.isEmpty(userMenuList)) {
 			return Lists.newArrayList();
 		}
-		List<BuildMenuRouteNode> nodeList = new ArrayList<>();
+		List<MenuRouteNode> nodeList = new ArrayList<>();
 		for (SysMenu menu : userMenuList) {
-			final BuildMenuRouteNode node = new BuildMenuRouteNode();
+			final MenuRouteNode node = new MenuRouteNode();
 			node.setMenuId(menu.getMenuId());
 			node.setPid(menu.getPid());
 			node.setName(StringUtils.defaultIfBlank(menu.getName(), menu.getTitle()));
@@ -252,7 +252,7 @@ public class SysMenuService {
 			node.setTitle(menu.getTitle());
 			node.setIcon(menu.getIcon());
 			node.setPermission(menu.getPermission());
-			node.setEnable(menu.getEnable());
+			node.setEnabled(menu.getEnabled());
 			nodeList.add(node);
 		}
 		return TreeConvertUtil.convert(nodeList);

@@ -47,7 +47,7 @@ public class SysRoleCreateRequest {
 	/**
 	 * 是否启用， 0否1是
 	 */
-	private Boolean enable;
+	private Boolean enabled;
 
 	/**
 	 * 拥有的菜单集合

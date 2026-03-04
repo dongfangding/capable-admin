@@ -24,7 +24,7 @@ public class SysRoleListRequest implements PageRequest {
 	/**
 	 * 是否启用， 0否1是
 	 */
-	private Boolean enable;
+	private Boolean enabled;
 
 	/**
 	 * 开始时间

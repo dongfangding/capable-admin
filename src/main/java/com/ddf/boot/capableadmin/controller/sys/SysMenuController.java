@@ -4,12 +4,11 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuSuperiorQuery;
-import com.ddf.boot.capableadmin.model.response.sys.BuildMenuRouteNode;
+import com.ddf.boot.capableadmin.model.response.sys.MenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
 import com.ddf.boot.capableadmin.service.SysMenuService;
 import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
-import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
 import com.ddf.boot.common.api.model.common.request.IdRequest;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.mvc.permissionscan.PermissionMenuScanner;
@@ -75,7 +74,7 @@ public class SysMenuController {
 	 */
 	@GetMapping("tree-all")
 	@SaCheckPermission("menu:list")
-	public ResponseData<List<BuildMenuRouteNode>> allMenuTree() {
+	public ResponseData<List<MenuRouteNode>> allMenuTree() {
 		return ResponseData.success(sysMenuService.allTree());
 	}
 
@@ -109,7 +108,7 @@ public class SysMenuController {
      * @return
      */
     @GetMapping("user-menu")
-    public ResponseData<List<BuildMenuRouteNode>> buildUserMenuTree() {
+    public ResponseData<List<MenuRouteNode>> buildUserMenuTree() {
         return ResponseData.success(sysMenuService.buildUserMenuTree(PrettyAdminSecurityUtils.getCurrentUserId()));
     }
 

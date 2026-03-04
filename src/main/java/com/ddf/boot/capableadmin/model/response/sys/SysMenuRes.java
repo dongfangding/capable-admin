@@ -60,7 +60,7 @@ public class SysMenuRes {
 	/**
 	 * 是否启用
 	 */
-	private Boolean enable;
+	private Boolean enabled;
 
 	/**
 	 * 菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里
