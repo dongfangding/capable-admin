@@ -4,14 +4,14 @@
  Source Server         : 虚拟机
  Source Server Type    : MySQL
  Source Server Version : 80032
- Source Host           : 10.88.1.145:3306
+ Source Host           : 10.88.1.127:3306
  Source Schema         : capable_admin
 
  Target Server Type    : MySQL
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 02/03/2026 17:59:05
+ Date: 04/03/2026 20:04:28
 */
 
 SET NAMES utf8mb4;
@@ -67,18 +67,19 @@ CREATE TABLE `sys_dept`  (
                              `create_time` bigint NULL DEFAULT 0 COMMENT '创建日期',
                              `update_time` bigint NULL DEFAULT 0 COMMENT '更新时间',
                              `sub_count` int NOT NULL DEFAULT 0 COMMENT '子节点数量，用来判定是否需要展开',
+                             `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1);
-INSERT INTO `sys_dept` VALUES (2, 0, '地狱部', 2, b'1', 'admin', 'admin', 1683010740, 1683010740, 1);
-INSERT INTO `sys_dept` VALUES (3, 1, '人上人部', 3, b'1', 'admin', 'admin', 1683010740, 1683010740, 0);
-INSERT INTO `sys_dept` VALUES (4, 2, '牛马部', 4, b'1', 'admin', 'admin', 1683010740, 1683010740, 0);
+INSERT INTO `sys_dept` VALUES (1, 0, '天堂部', 1, b'1', 'admin', 'admin', 1683010740, 1683010740, 1, NULL);
+INSERT INTO `sys_dept` VALUES (2, 0, '地狱部', 2, b'1', 'admin', 'admin', 1683010740, 1683010740, 1, NULL);
+INSERT INTO `sys_dept` VALUES (3, 1, '人上人部', 3, b'1', 'admin', 'admin', 1683010740, 1683010740, 0, NULL);
+INSERT INTO `sys_dept` VALUES (4, 2, '牛马部', 4, b'1', 'admin', 'admin', 1683010740, 1683010740, 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -136,7 +137,7 @@ CREATE TABLE `sys_job`  (
                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`job_id`) USING BTREE,
                             UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -191,7 +192,7 @@ CREATE TABLE `sys_menu`  (
                              `active_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '一般都是path, 当详情页不在左侧菜单中显示，但需要高亮父菜单时使用。左侧菜单，用户管理 (path: /system/user, activePath: /system/user/***)，访问 /system/user/100 时：\r\n- path 是 /system/user/100，匹配不到菜单\r\n- 但 activePath 是 /system/user/***，能匹配上\r\n- 所以\"用户管理\"菜单保持高亮',
                              `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '前端组件，为实际前端路由组件。对应view注册的组件地址，如前端静态路由写法component: () => import(\'#/views/system/user/list.vue\'),常用后端返回\"component\": \"/system/user/list\"',
                              `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
-                             `enable` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
+                             `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用',
                              `meta` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单元数据，介于菜单可以配置的东西太多，且每个前端都不一样，用这个大json存储，前端要用啥自己存，后端只负责存储。如菜单的图标，是否隐藏，是否缓存，是否外链，是否固定标签页等等等等，各种自定义的用于控制界面表现的参数全放到这个大json里',
                              `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '权限',
                              `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
@@ -202,7 +203,7 @@ CREATE TABLE `sys_menu`  (
                              PRIMARY KEY (`menu_id`) USING BTREE,
                              INDEX `INX_pid`(`pid` ASC) USING BTREE,
                              INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20204 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20207 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -210,7 +211,7 @@ CREATE TABLE `sys_menu`  (
 INSERT INTO `sys_menu` VALUES (2, 0, 'catalog', 'System', 'System', 'carbon:settings', '/system', NULL, NULL, 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', '', NULL, NULL, 1772377377, 1772377377, 2);
 INSERT INTO `sys_menu` VALUES (9, 0, 'catalog', 'Project', 'Project', 'carbon:data-center', '/vben-admin', NULL, NULL, 0, b'1', '{\"badgeType\": \"dot\", \"order\": 9998, \"title\": \"demos.vben.title\", \"icon\": \"carbon:data-center\"}', '', NULL, NULL, 1772377377, 1772377377, 3);
 INSERT INTO `sys_menu` VALUES (10, 0, 'menu', 'About', '关于', 'lucide:copyright', '/about', NULL, '_core/about/index', 0, b'1', '{\"icon\": \"lucide:copyright\", \"order\": 9999, \"title\": \"demos.vben.about\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (102, 0, 'menu', 'Workspace', 'Workspace', 'mdi:dashboard', '/workspace', NULL, '/dashboard/workspace/index', 0, b'1', '{\"icon\": \"carbon:workspace\", \"title\": \"page.dashboard.workspace\", \"affixTab\": true, \"order\": 0}', '', NULL, NULL, 1772377377, 1772377377, 0);
+INSERT INTO `sys_menu` VALUES (102, 0, 'menu', 'Workspace', 'page.dashboard.workspace', 'mdi:dashboard', '/workspace', NULL, '/dashboard/workspace/index', 0, b'1', '{\"affixTab\":true,\"icon\":\"carbon:workspace\",\"title\":\"page.dashboard.workspace\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
 INSERT INTO `sys_menu` VALUES (201, 2, 'menu', 'SystemMenu', '菜单管理', 'carbon:menu', '/system/menu', NULL, '/system/menu/list', 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', 'System:Menu:List', NULL, NULL, 1772377377, 1772377377, 3);
 INSERT INTO `sys_menu` VALUES (202, 2, 'menu', 'SystemDept', '部门管理', 'carbon:container-services', '/system/dept', NULL, '/system/dept/list', 0, b'1', '{\"icon\": \"carbon:container-services\", \"title\": \"system.dept.title\"}', 'System:Dept:List', NULL, NULL, 1772377377, 1772377377, 3);
 INSERT INTO `sys_menu` VALUES (901, 9, 'embedded', 'VbenDocument', '文档', 'carbon:book', '/vben-admin/document', NULL, 'IFrameView', 0, b'1', '{\"icon\": \"carbon:book\", \"iframeSrc\": \"https://doc.vben.pro\", \"title\": \"demos.vben.document\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
@@ -238,7 +239,7 @@ CREATE TABLE `sys_role`  (
                              `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                              `sort` int NOT NULL DEFAULT 0 COMMENT '排序',
                              `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否超管， 这个超管是虚拟的，如果是的话， 直接拥有全部权限，不需要手动关联子权限，只能初始化，不能接口新增',
-                             `enable` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用， 0否1是',
+                             `enabled` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否启用， 0否1是',
                              `menu_ids` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拥有的菜单id集合，逗号分隔，程序自行处理，不需要外部传参',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
@@ -247,7 +248,7 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '0', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1', NULL);
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1', '2,901,20101,102,902,20102,20103,9,201,20201,10,202,20202,20203');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -264,6 +265,20 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (2, 1);
+INSERT INTO `sys_role_menu` VALUES (9, 1);
+INSERT INTO `sys_role_menu` VALUES (10, 1);
+INSERT INTO `sys_role_menu` VALUES (102, 1);
+INSERT INTO `sys_role_menu` VALUES (201, 1);
+INSERT INTO `sys_role_menu` VALUES (202, 1);
+INSERT INTO `sys_role_menu` VALUES (901, 1);
+INSERT INTO `sys_role_menu` VALUES (902, 1);
+INSERT INTO `sys_role_menu` VALUES (20101, 1);
+INSERT INTO `sys_role_menu` VALUES (20102, 1);
+INSERT INTO `sys_role_menu` VALUES (20103, 1);
+INSERT INTO `sys_role_menu` VALUES (20201, 1);
+INSERT INTO `sys_role_menu` VALUES (20202, 1);
+INSERT INTO `sys_role_menu` VALUES (20203, 1);
 
 -- ----------------------------
 -- Table structure for sys_user
