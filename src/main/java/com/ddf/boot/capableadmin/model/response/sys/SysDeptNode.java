@@ -67,6 +67,11 @@ public class SysDeptNode implements Serializable, ITreeTagCollection<Long, SysDe
      */
     private Integer subCount;
 
+	/**
+	 * 描述
+	 */
+	private String description;
+
     /**
      * 子节点
      */

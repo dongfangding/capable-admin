@@ -20,7 +20,7 @@ public class SysDeptQuery {
     /**
      * 上级部门，默认为0，代表一级节点
      */
-    private Long pid = 0L;
+    private Long pid;
 
     /**
      * 状态, 0 禁用 1 启用

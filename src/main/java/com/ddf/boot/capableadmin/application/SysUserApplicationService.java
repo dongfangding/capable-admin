@@ -12,6 +12,7 @@ import com.ddf.boot.capableadmin.model.entity.SysUserDept;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysUserCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysUserHomePageModifyRequest;
+import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
 import com.ddf.boot.capableadmin.service.SysDeptService;
 import com.ddf.boot.common.api.exception.BusinessException;
@@ -114,7 +115,7 @@ public class SysUserApplicationService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public List<SysDeptRes> deleteDept(Set<Long> deptIds) {
+    public List<SysDeptNode> deleteDept(Set<Long> deptIds) {
         final int i = sysDeptMapper.deleteByDeptIds(deptIds);
         if (i > 0) {
             final Map<Long, SysDept> sysDeptMap = sysDeptMapper.selectByDeptIds(deptIds).stream().collect(

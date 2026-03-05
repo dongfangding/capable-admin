@@ -39,4 +39,9 @@ public class SysDeptCreateRequest implements Serializable {
      * 状态, 0 禁用 1 启用
      */
     private Boolean enabled = Boolean.TRUE;
+
+	/**
+	 * 描述
+	 */
+	private String description;
 }

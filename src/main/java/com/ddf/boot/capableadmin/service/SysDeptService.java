@@ -1,23 +1,30 @@
 package com.ddf.boot.capableadmin.service;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ddf.boot.capableadmin.infra.mapper.SysDeptMapper;
 import com.ddf.boot.capableadmin.model.entity.SysDept;
+import com.ddf.boot.capableadmin.model.entity.SysMenu;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptSuperiorQuery;
+import com.ddf.boot.capableadmin.model.response.sys.MenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
 import com.ddf.boot.common.api.exception.BusinessException;
 import com.ddf.boot.common.api.util.DateUtils;
+import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.common.core.util.BeanCopierUtils;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.TreeConvertUtil;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +49,28 @@ public class SysDeptService {
      * @param query
      * @return
      */
-    public List<SysDeptRes> queryAll(SysDeptQuery query) {
+    public List<SysDeptNode> queryAll(SysDeptQuery query) {
         final List<SysDept> deptList = sysDeptMapper.queryAll(query);
-        return deptList.stream().map(obj -> BeanCopierUtils.copy(obj, SysDeptRes.class)).collect(Collectors.toList());
+		return buildDeptTree(deptList);
     }
+
+
+	/**
+	 * 构建用户菜单树
+	 *
+	 * @return
+	 */
+	public List<SysDeptNode> buildDeptTree(List<SysDept> deptList) {
+		if (CollUtil.isEmpty(deptList)) {
+			return Lists.newArrayList();
+		}
+		List<SysDeptNode> nodeList = new ArrayList<>();
+		for (SysDept menu : deptList) {
+			final SysDeptNode node = BeanCopierUtils.copy(menu,  SysDeptNode.class);
+			nodeList.add(node);
+		}
+		return TreeConvertUtil.convert(nodeList);
+	}
 
     /**
      * 持久化部门
@@ -53,7 +78,7 @@ public class SysDeptService {
      * @param request
      * @return
      */
-    public List<SysDeptRes> persist(SysDeptCreateRequest request) {
+    public List<SysDeptNode> persist(SysDeptCreateRequest request) {
         final Long deptId = request.getDeptId();
         if (Objects.isNull(deptId)) {
             PreconditionUtil.checkArgument(
@@ -64,20 +89,17 @@ public class SysDeptService {
             dept.setUpdateTime(currentTimeSeconds);
             sysDeptMapper.insertSelective(dept);
         } else {
-            final SysDept dept = sysDeptMapper.selectByPrimaryKey(deptId);
-            if (Objects.isNull(dept)) {
-                throw new BusinessException("部门不存在");
-            }
+            final SysDept oldDept = sysDeptMapper.selectByPrimaryKey(deptId);
             SysDept tmpDept;
-            if (!dept.getName().equals(request.getName()) && Objects.nonNull(
+            if (!oldDept.getName().equals(request.getName()) && Objects.nonNull(
                     tmpDept = sysDeptMapper.findByName(request.getName())) && !Objects.equals(request.getDeptId(), tmpDept.getDeptId())) {
                 throw new BusinessException("部门名称已存在");
             }
             final Long newPid = request.getPid();
-            final Long oldPid = dept.getPid();
-            BeanCopierUtils.copy(request, dept);
-            dept.setUpdateTime(DateUtils.currentTimeSeconds());
-            sysDeptMapper.updateByPrimaryKeySelective(dept);
+            final Long oldPid = oldDept.getPid();
+            BeanCopierUtils.copy(request, oldDept);
+			oldDept.setUpdateTime(DateUtils.currentTimeSeconds());
+            sysDeptMapper.updateByPrimaryKeySelective(oldDept);
 
             // 更新自己作为别人的子节点时，其它数据的子节点数量
             if (Objects.nonNull(oldPid)) {

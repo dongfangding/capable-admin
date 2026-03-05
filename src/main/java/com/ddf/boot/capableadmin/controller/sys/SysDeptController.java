@@ -12,6 +12,7 @@ import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +38,8 @@ public class SysDeptController {
      * @param query
      * @return
      */
-    @PostMapping("query-all")
-    public ResponseData<List<SysDeptRes>> queryAll(@RequestBody @Valid SysDeptQuery query) {
+    @GetMapping("list")
+    public ResponseData<List<SysDeptNode>> queryAll(@Valid SysDeptQuery query) {
         return ResponseData.success(deptService.queryAll(query));
     }
 
@@ -49,7 +50,7 @@ public class SysDeptController {
      * @return
      */
     @PostMapping("persist")
-    public ResponseData<List<SysDeptRes>> persist(@RequestBody SysDeptCreateRequest request) {
+    public ResponseData<List<SysDeptNode>> persist(@RequestBody SysDeptCreateRequest request) {
         return ResponseData.success(deptService.persist(request));
     }
 
@@ -71,7 +72,7 @@ public class SysDeptController {
      * @return
      */
     @PostMapping("delete")
-    public ResponseData<List<SysDeptRes>> deleteDept(@RequestBody @Valid BatchIdRequest request) {
+    public ResponseData<List<SysDeptNode>> deleteDept(@RequestBody @Valid BatchIdRequest request) {
         return ResponseData.success(sysUserApplicationService.deleteDept(request.getIds()));
     }
 }
