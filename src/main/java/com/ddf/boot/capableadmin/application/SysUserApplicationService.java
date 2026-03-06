@@ -16,7 +16,9 @@ import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
 import com.ddf.boot.capableadmin.service.SysDeptService;
 import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
 import com.ddf.boot.common.core.util.BeanCopierUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,6 +49,7 @@ public class SysUserApplicationService {
     private final SysUserMapper sysUserMapper;
     private final SysUserJobMapper sysUserJobMapper;
     private final SysUserRoleMapper sysUserRoleMapper;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     /**
@@ -82,6 +85,7 @@ public class SysUserApplicationService {
         Long userId;
         if (!isUpdate) {
             final SysUser sysUser = BeanCopierUtils.copy(request, SysUser.class);
+			sysUser.setPassword(bCryptPasswordEncoder.encode("123456"));
             sysUserMapper.insertSelective(sysUser);
             userId = sysUser.getUserId();
         } else {
@@ -90,10 +94,15 @@ public class SysUserApplicationService {
             userId = oldUser.getUserId();
         }
         // 保存用户部门
-        final SysUserDept sysUserDept = new SysUserDept();
-        sysUserDept.setUserId(userId);
-        sysUserDept.setDeptId(request.getDeptId());
-        sysUserDeptMapper.insertSelective(sysUserDept);
+		final Set<Long> deptIds = request.getDeptIds();
+		List<SysUserDept> userDeptList = new ArrayList<>();
+		for (Long deptId : deptIds) {
+			final SysUserDept sysUserDept = new SysUserDept();
+			sysUserDept.setUserId(userId);
+			sysUserDept.setDeptId(deptId);
+			userDeptList.add(sysUserDept);
+		}
+        sysUserDeptMapper.batchInsert(userDeptList);
 
         if (isUpdate) {
             // 如果是更新的话，先删除掉老的数据

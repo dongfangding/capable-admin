@@ -29,13 +29,12 @@ public class SysUserCreateRequest {
     /**
      * 昵称
      */
-    @NotBlank(message = "昵称不能为空")
-    private String nickName;
+    private String nickname;
 
     /**
      * 性别0 女 1 男
      */
-    @NotBlank(message = "性别不能为空")
+    @NotNull(message = "性别不能为空")
     private Integer sex;
 
     /**
@@ -63,7 +62,7 @@ public class SysUserCreateRequest {
      * 部门名称
      */
     @NotNull(message = "部门不能为空")
-    private Long deptId;
+    private Set<Long> deptIds;
 
     /**
      * 角色id集合
@@ -71,9 +70,5 @@ public class SysUserCreateRequest {
     @NotEmpty(message = "角色不能为空")
     private Set<Long> roleIds;
 
-    /**
-     * 岗位id集合
-     */
-    @NotEmpty(message = "岗位id集合")
-    private Set<Long> jobIds;
+	private Set<Long> jobIds;
 }

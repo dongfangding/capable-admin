@@ -1,6 +1,8 @@
 package com.ddf.boot.capableadmin.infra.mapper;
 
+import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.entity.SysUserDept;
+import java.util.List;
 import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,6 @@ public interface SysUserDeptMapper {
     int deleteByPrimaryKey(@Param("userId") Long userId, @Param("deptId") Long deptId);
 
     int deleteByDeptIds(@Param("deptIds") Set<Long> deptIds);
+
+	int batchInsert(@Param("list") List<SysUserDept> list);
 }

@@ -1,15 +1,11 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
-import com.ddf.boot.capableadmin.application.SysUserApplicationService;
 import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
-import com.ddf.boot.capableadmin.model.request.sys.SysUserCreateRequest;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,23 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("sys-user")
-public class SysUserController {
-
-	private final SysUserApplicationService userApplicationService;
+@RequestMapping("user")
+public class UserController {
 
 	/**
 	 * 获取当前登录用户信息
 	 *
 	 * @return
 	 */
-	@PostMapping("persist")
-	public ResponseData<Boolean> persist(@RequestBody @Valid SysUserCreateRequest request) {
-		userApplicationService.persistUser(request);
-		return ResponseData.success(true);
+	@GetMapping("info")
+	public ResponseData<PrettyAdminUserDetails> info() {
+		return ResponseData.success(PrettyAdminSecurityUtils.getCurrentUser());
 	}
-
-
-
-
 }

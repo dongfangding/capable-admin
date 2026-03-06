@@ -1,6 +1,7 @@
 package com.ddf.boot.capableadmin.model.entity;
 
 import java.util.Date;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -86,4 +87,14 @@ public class SysUser {
      * 更新时间
      */
     private Date updateTime;
+
+	/**
+	 * 角色id集合
+	 */
+	private List<Long> roleIds;
+
+	/**
+	 * 部门id集合角色
+	 */
+	private List<Long> deptIds;
 }
