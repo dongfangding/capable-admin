@@ -64,12 +64,4 @@
     set dept_id = #{deptId,jdbcType=BIGINT}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
-
-    <delete id="deleteByDeptIds">
-        delete
-        from sys_user_dept where dept_id in
-        <foreach close=")" collection="deptIds" item="deptId" open="(" separator=",">
-            #{deptId}
-        </foreach>
-    </delete>
 </mapper>

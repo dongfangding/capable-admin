@@ -1,6 +1,8 @@
 package com.ddf.boot.capableadmin.infra.mapper;
 
 import com.ddf.boot.capableadmin.model.entity.SysUserRole;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,4 +33,8 @@ public interface SysUserRoleMapper {
     int batchInsertUserRole(@Param("userId") Long userId, @Param("roleIds") Set<Long> roleIds);
 
     void deleteByUserId(@Param("userId") Long userId);
+
+    int deleteByUserIds(@Param("userIds") Set<Long> userIds);
+
+    List<Map<String, Object>> selectRoleIdsByUserIds(@Param("userIds") List<Long> userIds);
 }

@@ -1,46 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ddf.boot.capableadmin.infra.mapper.SysUserMapper">
-    <select id="selectByUsername" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List">
-        </include>
-        from sys_user
-        where username = #{username}
-        limit 1
-    </select>
+	<select id="selectByUsername" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List">
+		</include>
+		from sys_user
+		where username = #{username}
+		limit 1
+	</select>
 
-    <select id="selectByEmail" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        where email = #{email}
-        limit 1
-    </select>
+	<select id="selectByEmail" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_user
+		where email = #{email}
+		limit 1
+	</select>
 
-    <select id="selectByMobile" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user
-        where mobile = #{mobile}
-        limit 1
-    </select>
+	<select id="selectByMobile" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_user
+		where mobile = #{mobile}
+		limit 1
+	</select>
 
-    <!-- 根据角色ID列表查询用户ID列表 -->
-    <select id="findUserIdsByRoleIds" resultType="java.lang.Long">
-        SELECT DISTINCT sur.user_id
-        FROM sys_user_role sur
-        WHERE sur.role_id IN
-        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
-            #{roleId}
-        </foreach>
-    </select>
+	<!-- 根据角色ID列表查询用户ID列表 -->
+	<select id="findUserIdsByRoleIds" resultType="java.lang.Long">
+		SELECT DISTINCT sur.user_id
+		FROM sys_user_role sur
+		WHERE sur.role_id IN
+		<foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+			#{roleId}
+		</foreach>
+	</select>
 
-    <!-- 根据角色ID查询用户ID列表 -->
-    <select id="findUserIdsByRoleId" resultType="java.lang.Long">
-        SELECT DISTINCT sur.user_id
-        FROM sys_user_role sur
-        WHERE sur.role_id = #{roleId,jdbcType=BIGINT}
-    </select>
+	<!-- 根据角色ID查询用户ID列表 -->
+	<select id="findUserIdsByRoleId" resultType="java.lang.Long">
+		SELECT DISTINCT sur.user_id
+		FROM sys_user_role sur
+		WHERE sur.role_id = #{roleId,jdbcType=BIGINT}
+	</select>
+
+
+
+	<select id="listAll" resultMap="BaseResultMap">
+		select su.user_id,
+			   su.username,
+			   su.nickname,
+			   su.sex,
+			   su.mobile,
+			   su.email,
+			   su.avatar,
+			   su.enabled,
+			   su.create_by,
+			   su.update_by,
+			   su.pwd_reset_time,
+			   su.create_time,
+			   su.update_time
+		from sys_user su
+				 left join sys_user_dept sud on su.user_id = sud.user_id
+		<where>
+			<if test="username != null and username != ''">
+				and su.username like concat('%', #{username}, '%')
+			</if>
+			<if test="nickname != null and nickname != ''">
+				and su.nickname like concat('%', #{nickname}, '%')
+			</if>
+			<if test="mobile != null and mobile != ''">
+				and su.mobile like concat('%', #{mobile}, '%')
+			</if>
+			<if test="enabled != null">
+				and su.enabled = #{enabled}
+			</if>
+			<if test="deptId != null">
+				and sud.dept_id = #{deptId}
+			</if>
+		</where>
+		order by su.user_id desc
+	</select>
+
+	<update id="updateEnable">
+		update sys_user
+		set enabled = #{enabled}
+		where user_id = #{userId}
+	</update>
+
+	<update id="updatePassword">
+		update sys_user
+		set `password`     = #{password},
+			pwd_reset_time = #{pwdResetTime}
+		where user_id = #{userId}
+	</update>
+
+	<delete id="deleteByUserIds">
+		delete
+		from sys_user
+		where user_id in
+		<foreach close=")" collection="userIds" item="userId" open="(" separator=",">
+			#{userId}
+		</foreach>
+	</delete>
 </mapper>
-<!--reformat-->
+		<!--reformat-->

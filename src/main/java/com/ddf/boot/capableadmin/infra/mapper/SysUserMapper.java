@@ -1,7 +1,10 @@
 package com.ddf.boot.capableadmin.infra.mapper;
 
 import com.ddf.boot.capableadmin.model.entity.SysUser;
+import com.ddf.boot.capableadmin.model.request.sys.SysUserListRequest;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -35,6 +38,15 @@ public interface SysUserMapper {
     SysUser selectByEmail(@Param("email") String email);
 
     SysUser selectByMobile(@Param("mobile") String mobile);
+
+    List<SysUser> listAll(SysUserListRequest request);
+
+    int updateEnable(@Param("userId") Long userId, @Param("enabled") Boolean enabled);
+
+    int updatePassword(@Param("userId") Long userId, @Param("password") String password,
+                       @Param("pwdResetTime") Date pwdResetTime);
+
+    int deleteByUserIds(@Param("userIds") Set<Long> userIds);
 
     /**
      * 根据角色ID列表查询用户ID列表

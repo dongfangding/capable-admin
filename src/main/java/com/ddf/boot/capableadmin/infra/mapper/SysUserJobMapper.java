@@ -21,4 +21,6 @@ public interface SysUserJobMapper {
     int batchInsertUserJob(@Param("userId") Long userId, @Param("jobIds") Set<Long> jobIds);
 
     void deleteByUserId(@Param("userId") Long userId);
+
+    int deleteByUserIds(@Param("userIds") Set<Long> userIds);
 }

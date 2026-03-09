@@ -8,4 +8,38 @@
 			(#{item.userId}, #{item.deptId})
 		</foreach>
 	</insert>
+
+
+	<select id="selectDeptIdsByUserIds" resultType="map">
+		select user_id as userId, dept_id as relationId
+		from sys_user_dept
+		where user_id in
+		<foreach close=")" collection="userIds" item="userId" open="(" separator=",">
+			#{userId}
+		</foreach>
+	</select>
+
+
+
+	<delete id="deleteByDeptIds">
+		delete from sys_user_dept
+		where dept_id in
+		<foreach close=")" collection="deptIds" item="deptId" open="(" separator=",">
+			#{deptId}
+		</foreach>
+	</delete>
+
+
+	<delete id="deleteByUserId">
+		delete from sys_user_dept
+		where user_id = #{userId}
+	</delete>
+
+	<delete id="deleteByUserIds">
+		delete from sys_user_dept
+		where user_id in
+		<foreach close=")" collection="userIds" item="userId" open="(" separator=",">
+			#{userId}
+		</foreach>
+	</delete>
 </mapper>
