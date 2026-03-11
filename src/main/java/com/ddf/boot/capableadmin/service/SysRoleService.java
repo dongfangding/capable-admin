@@ -73,6 +73,7 @@ public class SysRoleService {
 			PreconditionUtil.checkArgument(
 					Objects.isNull(sysRoleMapper.findByRoleName(request.getName())), "角色名称已存在");
 			role = BeanCopierUtils.copy(request, SysRole.class);
+			role.setMenuIds("");
 			sysRoleMapper.insertSelective(role);
 		} else {
 			role = sysRoleMapper.selectByPrimaryKey(request.getRoleId());
@@ -86,13 +87,11 @@ public class SysRoleService {
 					.equals(request.getRoleId())) {
 				throw new BusinessException("角色名称已存在");
 			}
+			final String originalMenuIds = role.getMenuIds();
 			BeanCopierUtils.copy(request, role);
+			role.setMenuIds(originalMenuIds);
 			sysRoleMapper.updateByPrimaryKeySelective(role);
 		}
-		final SysRoleMenuUpdateRequest roleMenuUpdateRequest = new SysRoleMenuUpdateRequest();
-		roleMenuUpdateRequest.setRoleId(role.getRoleId());
-		roleMenuUpdateRequest.setMenuIds(request.getMenuIds());
-		updateRoleMenu(roleMenuUpdateRequest);
 	}
 
 	/**

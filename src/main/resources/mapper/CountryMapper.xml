@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.infra.mapper.CountryMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.capableadmin.model.entity.Country">
+    <!--@mbg.generated-->
+    <!--@Table country-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="currency_name" jdbcType="VARCHAR" property="currencyName" />
+    <result column="currency_code" jdbcType="VARCHAR" property="currencyCode" />
+    <result column="currency_symbol" jdbcType="VARCHAR" property="currencySymbol" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="area_name_local" jdbcType="VARCHAR" property="areaNameLocal" />
+    <result column="phone_code" jdbcType="VARCHAR" property="phoneCode" />
+    <result column="area_name_zh" jdbcType="VARCHAR" property="areaNameZh" />
+    <result column="area_name_zh_trad" jdbcType="VARCHAR" property="areaNameZhTrad" />
+    <result column="area_name_en" jdbcType="VARCHAR" property="areaNameEn" />
+    <result column="area_name_fil" jdbcType="VARCHAR" property="areaNameFil" />
+    <result column="area_name_ar" jdbcType="VARCHAR" property="areaNameAr" />
+    <result column="area_name_hi" jdbcType="VARCHAR" property="areaNameHi" />
+    <result column="area_name_bn" jdbcType="VARCHAR" property="areaNameBn" />
+    <result column="area_name_fr" jdbcType="VARCHAR" property="areaNameFr" />
+    <result column="area_name_vi" jdbcType="VARCHAR" property="areaNameVi" />
+    <result column="area_name_pt" jdbcType="VARCHAR" property="areaNamePt" />
+    <result column="area_name_es" jdbcType="VARCHAR" property="areaNameEs" />
+    <result column="area_name_jap" jdbcType="VARCHAR" property="areaNameJap" />
+    <result column="area_name_ko" jdbcType="VARCHAR" property="areaNameKo" />
+    <result column="area_name_id" jdbcType="VARCHAR" property="areaNameId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, area_name, currency_name, currency_code, currency_symbol, area_code, area_name_local, 
+    phone_code, area_name_zh, area_name_zh_trad, area_name_en, area_name_fil, area_name_ar, 
+    area_name_hi, area_name_bn, area_name_fr, area_name_vi, area_name_pt, area_name_es, 
+    area_name_jap, area_name_ko, area_name_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from country
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from country
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.capableadmin.model.entity.Country" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into country (area_name, currency_name, currency_code, 
+      currency_symbol, area_code, area_name_local, 
+      phone_code, area_name_zh, area_name_zh_trad, 
+      area_name_en, area_name_fil, area_name_ar, 
+      area_name_hi, area_name_bn, area_name_fr, 
+      area_name_vi, area_name_pt, area_name_es, 
+      area_name_jap, area_name_ko, area_name_id
+      )
+    values (#{areaName,jdbcType=VARCHAR}, #{currencyName,jdbcType=VARCHAR}, #{currencyCode,jdbcType=VARCHAR}, 
+      #{currencySymbol,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{areaNameLocal,jdbcType=VARCHAR}, 
+      #{phoneCode,jdbcType=VARCHAR}, #{areaNameZh,jdbcType=VARCHAR}, #{areaNameZhTrad,jdbcType=VARCHAR}, 
+      #{areaNameEn,jdbcType=VARCHAR}, #{areaNameFil,jdbcType=VARCHAR}, #{areaNameAr,jdbcType=VARCHAR}, 
+      #{areaNameHi,jdbcType=VARCHAR}, #{areaNameBn,jdbcType=VARCHAR}, #{areaNameFr,jdbcType=VARCHAR}, 
+      #{areaNameVi,jdbcType=VARCHAR}, #{areaNamePt,jdbcType=VARCHAR}, #{areaNameEs,jdbcType=VARCHAR}, 
+      #{areaNameJap,jdbcType=VARCHAR}, #{areaNameKo,jdbcType=VARCHAR}, #{areaNameId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.capableadmin.model.entity.Country" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into country
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="currencyName != null">
+        currency_name,
+      </if>
+      <if test="currencyCode != null">
+        currency_code,
+      </if>
+      <if test="currencySymbol != null">
+        currency_symbol,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="areaNameLocal != null">
+        area_name_local,
+      </if>
+      <if test="phoneCode != null">
+        phone_code,
+      </if>
+      <if test="areaNameZh != null">
+        area_name_zh,
+      </if>
+      <if test="areaNameZhTrad != null">
+        area_name_zh_trad,
+      </if>
+      <if test="areaNameEn != null">
+        area_name_en,
+      </if>
+      <if test="areaNameFil != null">
+        area_name_fil,
+      </if>
+      <if test="areaNameAr != null">
+        area_name_ar,
+      </if>
+      <if test="areaNameHi != null">
+        area_name_hi,
+      </if>
+      <if test="areaNameBn != null">
+        area_name_bn,
+      </if>
+      <if test="areaNameFr != null">
+        area_name_fr,
+      </if>
+      <if test="areaNameVi != null">
+        area_name_vi,
+      </if>
+      <if test="areaNamePt != null">
+        area_name_pt,
+      </if>
+      <if test="areaNameEs != null">
+        area_name_es,
+      </if>
+      <if test="areaNameJap != null">
+        area_name_jap,
+      </if>
+      <if test="areaNameKo != null">
+        area_name_ko,
+      </if>
+      <if test="areaNameId != null">
+        area_name_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyName != null">
+        #{currencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyCode != null">
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currencySymbol != null">
+        #{currencySymbol,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameLocal != null">
+        #{areaNameLocal,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneCode != null">
+        #{phoneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameZh != null">
+        #{areaNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameZhTrad != null">
+        #{areaNameZhTrad,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameEn != null">
+        #{areaNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameFil != null">
+        #{areaNameFil,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameAr != null">
+        #{areaNameAr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameHi != null">
+        #{areaNameHi,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameBn != null">
+        #{areaNameBn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameFr != null">
+        #{areaNameFr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameVi != null">
+        #{areaNameVi,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNamePt != null">
+        #{areaNamePt,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameEs != null">
+        #{areaNameEs,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameJap != null">
+        #{areaNameJap,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameKo != null">
+        #{areaNameKo,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameId != null">
+        #{areaNameId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.capableadmin.model.entity.Country">
+    <!--@mbg.generated-->
+    update country
+    <set>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyName != null">
+        currency_name = #{currencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyCode != null">
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currencySymbol != null">
+        currency_symbol = #{currencySymbol,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameLocal != null">
+        area_name_local = #{areaNameLocal,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneCode != null">
+        phone_code = #{phoneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameZh != null">
+        area_name_zh = #{areaNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameZhTrad != null">
+        area_name_zh_trad = #{areaNameZhTrad,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameEn != null">
+        area_name_en = #{areaNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameFil != null">
+        area_name_fil = #{areaNameFil,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameAr != null">
+        area_name_ar = #{areaNameAr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameHi != null">
+        area_name_hi = #{areaNameHi,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameBn != null">
+        area_name_bn = #{areaNameBn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameFr != null">
+        area_name_fr = #{areaNameFr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameVi != null">
+        area_name_vi = #{areaNameVi,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNamePt != null">
+        area_name_pt = #{areaNamePt,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameEs != null">
+        area_name_es = #{areaNameEs,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameJap != null">
+        area_name_jap = #{areaNameJap,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameKo != null">
+        area_name_ko = #{areaNameKo,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameId != null">
+        area_name_id = #{areaNameId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.capableadmin.model.entity.Country">
+    <!--@mbg.generated-->
+    update country
+    set area_name = #{areaName,jdbcType=VARCHAR},
+      currency_name = #{currencyName,jdbcType=VARCHAR},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      currency_symbol = #{currencySymbol,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      area_name_local = #{areaNameLocal,jdbcType=VARCHAR},
+      phone_code = #{phoneCode,jdbcType=VARCHAR},
+      area_name_zh = #{areaNameZh,jdbcType=VARCHAR},
+      area_name_zh_trad = #{areaNameZhTrad,jdbcType=VARCHAR},
+      area_name_en = #{areaNameEn,jdbcType=VARCHAR},
+      area_name_fil = #{areaNameFil,jdbcType=VARCHAR},
+      area_name_ar = #{areaNameAr,jdbcType=VARCHAR},
+      area_name_hi = #{areaNameHi,jdbcType=VARCHAR},
+      area_name_bn = #{areaNameBn,jdbcType=VARCHAR},
+      area_name_fr = #{areaNameFr,jdbcType=VARCHAR},
+      area_name_vi = #{areaNameVi,jdbcType=VARCHAR},
+      area_name_pt = #{areaNamePt,jdbcType=VARCHAR},
+      area_name_es = #{areaNameEs,jdbcType=VARCHAR},
+      area_name_jap = #{areaNameJap,jdbcType=VARCHAR},
+      area_name_ko = #{areaNameKo,jdbcType=VARCHAR},
+      area_name_id = #{areaNameId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

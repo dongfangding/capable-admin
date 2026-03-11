@@ -1,11 +1,13 @@
 package com.ddf.boot.capableadmin.controller.auth;
 
 import com.ddf.boot.capableadmin.application.AuthApplicationService;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 认证控制器
- *
- * @author Snowball
- * @version 1.0
- * @since 2026/02/09 16:15
+ * 认证控制器。
  */
 @RestController
 @RequestMapping("auth")
@@ -29,11 +27,11 @@ public class AuthController {
     private final AuthApplicationService authApplicationService;
 
     /**
-     * 登录
+     * 管理后台登录。
      *
-     * @param request
-     * @param httpRequest
-     * @return
+     * @param request 登录请求
+     * @param httpRequest HTTP请求对象
+     * @return 登录结果
      */
     @PostMapping("login")
     public ResponseData<PrettyAdminLoginResponse> login(@RequestBody @Valid AdminLoginRequest request,
@@ -42,10 +40,10 @@ public class AuthController {
     }
 
     /**
-     * 退出登录
+     * 当前用户退出登录。
      *
-     * @param request
-     * @return
+     * @param request HTTP请求对象
+     * @return 是否退出成功
      */
     @PostMapping("logout")
     public ResponseData<Boolean> logout(HttpServletRequest request) {
@@ -53,14 +51,13 @@ public class AuthController {
         return ResponseData.success(Boolean.TRUE);
     }
 
-
-	/**
-	 * fixme 前端现在需要这个， 还没搞清楚是做按钮权限还是啥的，先把接口定义出来防止报错
-	 *
-	 * @return
-	 */
-	@GetMapping("codes")
-	public ResponseData<List<String>> codes() {
-		return ResponseData.success(List.of("AC_100010", "AC_100020", "AC_100030"));
-	}
+    /**
+     * 查询当前用户权限码列表。
+     *
+     * @return 权限码集合
+     */
+    @GetMapping("codes")
+    public ResponseData<List<String>> codes() {
+        return ResponseData.success(new ArrayList<>(PrettyAdminSecurityUtils.getCurrentUser().getPermissions()));
+    }
 }

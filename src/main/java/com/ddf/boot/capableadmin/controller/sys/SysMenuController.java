@@ -1,6 +1,8 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.ddf.boot.capableadmin.infra.audit.AdminAuditLog;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuSuperiorQuery;
@@ -8,7 +10,6 @@ import com.ddf.boot.capableadmin.model.response.sys.MenuRouteNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysMenuRes;
 import com.ddf.boot.capableadmin.service.SysMenuService;
-import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.common.api.model.common.request.IdRequest;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.mvc.permissionscan.PermissionMenuScanner;
@@ -24,11 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 系统菜单管理
- *
- * @author Snowball
- * @version 1.0
- * @since 2025/01/07 15:18
+ * 系统菜单管理控制器。
  */
 @RestController
 @RequiredArgsConstructor
@@ -39,24 +36,24 @@ public class SysMenuController {
     private final PermissionMenuScanner permissionMenuScanner;
 
     /**
-     * 保存菜单
+     * 新增或修改菜单。
      *
-     * @param request
+     * @param request 菜单保存请求
+     * @return 是否保存成功
      */
     @PostMapping("persist")
-    @SaCheckPermission(value = { "menu:add", "menu:edit" })
+    @SaCheckPermission(value = {"menu:add", "menu:edit"})
+    @AdminAuditLog(module = "菜单管理", action = "保存菜单")
     public ResponseData<Boolean> persist(@RequestBody @Valid SysMenuCreateRequest request) {
         sysMenuService.persist(request);
         return ResponseData.success(Boolean.TRUE);
     }
 
     /**
-     * 菜单列表查询，默认查询一级菜单，然后展开父节点的时候，再次调用该接口传入pid返回明细
-     * 1. 菜单列表时, 传入pid=0，只展示一级菜单列表
-     * 2. 展开菜单列表时， 传入pid=选择的菜单id的pid, 返回子节点，懒加载方式
+     * 查询菜单列表。
      *
-     * @param query
-     * @return
+     * @param query 查询条件
+     * @return 菜单列表
      */
     @GetMapping("list")
     @SaCheckPermission("menu:list")
@@ -64,37 +61,36 @@ public class SysMenuController {
         return ResponseData.success(sysMenuService.list(query));
     }
 
-
-	/**
-	 * 菜单列表查询，默认查询一级菜单，然后展开父节点的时候，再次调用该接口传入pid返回明细
-	 * 1. 菜单列表时, 传入pid=0，只展示一级菜单列表
-	 * 2. 展开菜单列表时， 传入pid=选择的菜单id的pid, 返回子节点，懒加载方式
-	 *
-	 * @return
-	 */
-	@GetMapping("tree-all")
-	@SaCheckPermission("menu:list")
-	public ResponseData<List<MenuRouteNode>> allMenuTree() {
-		return ResponseData.success(sysMenuService.allTree());
-	}
+    /**
+     * 查询完整菜单树。
+     *
+     * @return 菜单树
+     */
+    @GetMapping("tree-all")
+    @SaCheckPermission("menu:list")
+    public ResponseData<List<MenuRouteNode>> allMenuTree() {
+        return ResponseData.success(sysMenuService.allTree());
+    }
 
     /**
-     * 删除菜单以及遍历子节点
+     * 删除菜单。
      *
-     * @param request
+     * @param request 菜单ID请求
+     * @return 是否删除成功
      */
     @PostMapping("delete")
     @SaCheckPermission("menu:del")
+    @AdminAuditLog(module = "菜单管理", action = "删除菜单")
     public ResponseData<Boolean> delete(@RequestBody IdRequest request) {
         sysMenuService.delete(Set.of(request.getId()));
         return ResponseData.success(Boolean.TRUE);
     }
 
     /**
-     * 获取部门同级别和上级节点数据
+     * 获取当前菜单的同级和上级节点。
      *
-     * @param query
-     * @return
+     * @param query 查询条件
+     * @return 菜单节点列表
      */
     @GetMapping("superior")
     @SaCheckPermission("menu:list")
@@ -103,24 +99,25 @@ public class SysMenuController {
     }
 
     /**
-     * 构建用户菜单树
+     * 构建当前用户菜单树。
      *
-     * @return
+     * @return 用户菜单树
      */
-    @GetMapping("user-menu")
+    @GetMapping("user-tree")
     public ResponseData<List<MenuRouteNode>> buildUserMenuTree() {
-        return ResponseData.success(sysMenuService.buildUserMenuTree(PrettyAdminSecurityUtils.getCurrentUserId()));
+        return ResponseData.success(sysMenuService.buildUserMenuTree());
     }
 
     /**
-     * 菜单同步
+     * 同步菜单权限定义。
      *
-     * @return
+     * @return 是否同步成功
      */
     @PostMapping("sync")
     @SaCheckPermission("menu:sync")
+    @AdminAuditLog(module = "菜单管理", action = "同步菜单")
     public ResponseData<Boolean> syncMenu() {
-        final ScanPermissionPayload payload = permissionMenuScanner.scanPreAuthorizeMethods();
+        ScanPermissionPayload payload = permissionMenuScanner.scanPreAuthorizeMethods();
         sysMenuService.autoCreateMenu(payload);
         return ResponseData.success(Boolean.TRUE);
     }

@@ -39,7 +39,9 @@ public class PrettyAdminUserDetails {
 	 */
 	private Integer maxAuthorityRoleLevel;
 
-    public PrettyAdminUserDetails(SysUser user, Set<String> roles, Set<String> permissions, Integer maxAuthorityRoleLevel) {
+	private Boolean isAdmin = Boolean.FALSE;
+
+    public PrettyAdminUserDetails(SysUser user, Set<String> roles, Set<String> permissions, Integer maxAuthorityRoleLevel, Boolean isAdmin) {
         this.userId = user.getUserId();
 		this.nickname = user.getNickname();
         this.username = user.getUsername();
@@ -48,5 +50,6 @@ public class PrettyAdminUserDetails {
         this.roles = roles;
         this.permissions = permissions;
 		this.maxAuthorityRoleLevel = maxAuthorityRoleLevel;
+		this.isAdmin = isAdmin;
     }
 }

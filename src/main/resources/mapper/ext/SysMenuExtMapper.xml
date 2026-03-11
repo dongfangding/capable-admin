@@ -91,7 +91,7 @@
 		WHERE role.role_id = ur.role_id
 		  AND ur.user_id = #{userId}
 		  and menu.enabled = 1
-		  and type != ${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}
+		  and type != '${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}'
 		order by sort, menu_id desc
 	</select>
 
@@ -101,7 +101,7 @@
 		</include>
 		from sys_menu
 		where enabled = 1
-		  and type != ${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}
+		  and type != '${@com.ddf.boot.capableadmin.enums.MenuTypeEnum@BUTTON.getValue()}'
 		order by sort, menu_id desc
 	</select>
 

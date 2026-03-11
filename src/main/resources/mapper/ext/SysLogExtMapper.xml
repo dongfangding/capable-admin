@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.capableadmin.infra.mapper.ext.SysLogExtMapper">
+
+  <select id="listByCondition" resultType="com.ddf.boot.capableadmin.model.response.sys.SysLogResponse">
+    select
+      log_id,
+      description,
+      log_type,
+      `method`,
+      params,
+      request_ip,
+      `time`,
+      username,
+      phone,
+      address,
+      browser,
+      exception_detail,
+      create_time
+    from sys_log
+    <where>
+      <if test="username != null and username != ''">
+        and username like concat('%', #{username}, '%')
+      </if>
+      <if test="logType != null and logType != ''">
+        and log_type = #{logType}
+      </if>
+      <if test="method != null and method != ''">
+        and `method` like concat('%', #{method}, '%')
+      </if>
+      <if test="startTime != null">
+        and create_time <![CDATA[>=]]> #{startTime}
+      </if>
+      <if test="endTime != null">
+        and create_time <![CDATA[<=]]> #{endTime}
+      </if>
+    </where>
+    order by create_time desc
+  </select>
+
+  <delete id="deleteByIds">
+    delete from sys_log
+    where log_id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

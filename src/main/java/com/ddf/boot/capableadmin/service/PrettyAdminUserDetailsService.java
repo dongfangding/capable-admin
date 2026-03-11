@@ -79,6 +79,6 @@ public class PrettyAdminUserDetailsService {
 				permissions = Set.of();
 			}
 		}
-		return new PrettyAdminUserDetails(sysUser, roleNames, permissions, maxAuthorityRoleLevel);
+		return new PrettyAdminUserDetails(sysUser, roleNames, permissions, maxAuthorityRoleLevel, isAdmin);
 	}
 }

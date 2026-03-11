@@ -5,6 +5,8 @@ import com.ddf.boot.capableadmin.enums.MenuTypeEnum;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.infra.mapper.SysMenuMapper;
 import com.ddf.boot.capableadmin.infra.mapper.SysRoleMenuMapper;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysMenu;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysMenuListQuery;
@@ -216,13 +218,14 @@ public class SysMenuService {
 	 *
 	 * @return
 	 */
-	public List<MenuRouteNode> buildUserMenuTree(Long userId) {
-		boolean isAdmin = Objects.equals(1L, userId);
+	public List<MenuRouteNode> buildUserMenuTree() {
+		final PrettyAdminUserDetails currentUser = PrettyAdminSecurityUtils.getCurrentUser();
+		boolean isAdmin = currentUser.getIsAdmin();
 		List<SysMenu> userMenuList;
 		if (isAdmin) {
 			userMenuList = sysMenuMapper.getAdminUserAllMenuExcludeBtn();
 		} else {
-			userMenuList = sysMenuMapper.getUserAllMenuExcludeBtn(userId);
+			userMenuList = sysMenuMapper.getUserAllMenuExcludeBtn(currentUser.getUserId());
 		}
 		return buildMenuTree(userMenuList);
 	}

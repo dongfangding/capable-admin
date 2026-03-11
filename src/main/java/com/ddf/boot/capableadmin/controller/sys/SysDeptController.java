@@ -1,11 +1,11 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
 import com.ddf.boot.capableadmin.application.SysUserApplicationService;
+import com.ddf.boot.capableadmin.infra.audit.AdminAuditLog;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptSuperiorQuery;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
-import com.ddf.boot.capableadmin.model.response.sys.SysDeptRes;
 import com.ddf.boot.capableadmin.service.SysDeptService;
 import com.ddf.boot.common.api.model.common.request.BatchIdRequest;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
@@ -19,11 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 部门管理
- *
- * @author snowball
- * @since 2025/1/4 下午2:55
- **/
+ * 部门管理控制器。
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("sys-dept")
@@ -33,10 +30,10 @@ public class SysDeptController {
     private final SysUserApplicationService sysUserApplicationService;
 
     /**
-     * 列表查询
+     * 查询部门列表。
      *
-     * @param query
-     * @return
+     * @param query 查询条件
+     * @return 部门树列表
      */
     @GetMapping("list")
     public ResponseData<List<SysDeptNode>> queryAll(@Valid SysDeptQuery query) {
@@ -44,21 +41,22 @@ public class SysDeptController {
     }
 
     /**
-     * 持久化部门
+     * 新增或修改部门。
      *
-     * @param request
-     * @return
+     * @param request 部门保存请求
+     * @return 最新部门树
      */
     @PostMapping("persist")
+    @AdminAuditLog(module = "部门管理", action = "保存部门")
     public ResponseData<List<SysDeptNode>> persist(@RequestBody SysDeptCreateRequest request) {
         return ResponseData.success(deptService.persist(request));
     }
 
     /**
-     * 获取部门同级别和上级节点数据
+     * 获取部门的同级和上级节点。
      *
-     * @param query
-     * @return
+     * @param query 查询条件
+     * @return 部门节点列表
      */
     @PostMapping("superior")
     public ResponseData<List<SysDeptNode>> fetchSameAndSuperiorData(@RequestBody @Valid SysDeptSuperiorQuery query) {
@@ -66,12 +64,13 @@ public class SysDeptController {
     }
 
     /**
-     * 删除部门，当解散做，不会校验部门下是否有用户，如果有用户的话，删除用户与部门关联
+     * 删除部门，同时解除用户与部门的关联关系。
      *
-     * @param request
-     * @return
+     * @param request 部门ID集合
+     * @return 最新部门树
      */
     @PostMapping("delete")
+    @AdminAuditLog(module = "部门管理", action = "删除部门")
     public ResponseData<List<SysDeptNode>> deleteDept(@RequestBody @Valid BatchIdRequest request) {
         return ResponseData.success(sysUserApplicationService.deleteDept(request.getIds()));
     }

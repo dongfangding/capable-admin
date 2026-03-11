@@ -1,40 +1,38 @@
 package com.ddf.boot.capableadmin.infra.config;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 自定义权限加载接口实现类
+ * Sa-Token 权限与角色加载实现。
  */
-@Component    // 保证此类被 SpringBoot 扫描，完成 Sa-Token 的自定义权限验证扩展
-@RequiredArgsConstructor
+@Component
 public class StpInterfaceImpl implements StpInterface {
 
     /**
-     * 返回一个账号所拥有的权限码集合 
+     * 获取当前登录用户权限码集合。
+     *
+     * @param loginId 登录ID
+     * @param loginType 登录类型
+     * @return 权限码列表
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询权限
-        List<String> list = new ArrayList<String>();
-        // list.add("user.delete");
-        list.add("art.*");
-        return list;
+        return new ArrayList<>(PrettyAdminSecurityUtils.getCurrentUser().getPermissions());
     }
 
     /**
-     * 返回一个账号所拥有的角色标识集合 (权限与角色可分开校验)
+     * 获取当前登录用户角色集合。
+     *
+     * @param loginId 登录ID
+     * @param loginType 登录类型
+     * @return 角色列表
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询角色
-        List<String> list = new ArrayList<String>();    
-        list.add("admin");
-        list.add("super-admin");
-        return list;
+        return new ArrayList<>(PrettyAdminSecurityUtils.getCurrentUser().getRoles());
     }
-
 }

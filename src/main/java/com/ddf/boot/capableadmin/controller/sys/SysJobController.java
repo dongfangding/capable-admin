@@ -1,5 +1,6 @@
 package com.ddf.boot.capableadmin.controller.sys;
 
+import com.ddf.boot.capableadmin.infra.audit.AdminAuditLog;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobQuery;
 import com.ddf.boot.capableadmin.model.response.sys.SysJobRes;
@@ -16,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 岗位
- *
- * @author snowball
- * @since 2025/1/3 下午5:15
- **/
+ * 岗位管理控制器。
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("sys-job")
@@ -29,10 +27,10 @@ public class SysJobController {
     private final SysJobService sysJobService;
 
     /**
-     * 列表查询
+     * 分页查询岗位列表。
      *
-     * @param query
-     * @return
+     * @param query 查询条件
+     * @return 岗位分页结果
      */
     @GetMapping("query")
     public ResponseData<PageResult<SysJobRes>> queryJob(SysJobQuery query) {
@@ -40,23 +38,25 @@ public class SysJobController {
     }
 
     /**
-     * 持久化岗位
+     * 新增或修改岗位。
      *
-     * @param request
-     * @return
+     * @param request 岗位保存请求
+     * @return 是否保存成功
      */
     @PostMapping("persist")
+    @AdminAuditLog(module = "岗位管理", action = "保存岗位")
     public ResponseData<Boolean> persist(@Validated @RequestBody SysJobCreateRequest request) {
         return ResponseData.success(sysJobService.persist(request) > 0);
     }
 
     /**
-     * 删除岗位
+     * 批量删除岗位。
      *
-     * @param ids
-     * @return
+     * @param ids 岗位ID集合
+     * @return 是否删除成功
      */
     @PostMapping("delete")
+    @AdminAuditLog(module = "岗位管理", action = "删除岗位")
     public ResponseData<Boolean> deleteJob(@RequestBody Set<Long> ids) {
         return ResponseData.success(sysJobService.deleteJob(ids) > 0);
     }

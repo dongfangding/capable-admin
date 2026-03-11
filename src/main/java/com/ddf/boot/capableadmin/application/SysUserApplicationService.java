@@ -11,11 +11,15 @@ import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.entity.SysUserDept;
 import com.ddf.boot.capableadmin.model.request.sys.EnableRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysDeptQuery;
+import com.ddf.boot.capableadmin.model.request.sys.UserChangePasswordRequest;
+import com.ddf.boot.capableadmin.model.request.sys.UserProfileUpdateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysUserCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysUserHomePageModifyRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysUserListRequest;
 import com.ddf.boot.capableadmin.model.response.sys.SysDeptNode;
 import com.ddf.boot.capableadmin.model.response.sys.SysUserRes;
+import com.ddf.boot.capableadmin.model.response.sys.UserProfileResponse;
+import com.ddf.boot.capableadmin.service.PrettyAdminCacheManager;
 import com.ddf.boot.capableadmin.service.SysDeptService;
 import com.ddf.boot.common.api.exception.BusinessException;
 import com.ddf.boot.common.api.model.common.response.PageResult;
@@ -51,6 +55,7 @@ public class SysUserApplicationService {
     private final SysUserJobMapper sysUserJobMapper;
     private final SysUserRoleMapper sysUserRoleMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PrettyAdminCacheManager cacheManager;
 
     @Transactional(rollbackFor = Exception.class)
     public void persistUser(SysUserCreateRequest request) {
@@ -144,6 +149,64 @@ public class SysUserApplicationService {
         return sysUserMapper.updateByPrimaryKeySelective(sysUser);
     }
 
+    /**
+     * 查询当前登录用户个人资料。
+     *
+     * @param userId 当前用户ID
+     * @return 个人资料响应
+     */
+    public UserProfileResponse getCurrentUserProfile(Long userId) {
+        final SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        if (Objects.isNull(sysUser)) {
+            throw new BusinessException(PrettyAdminExceptionCode.SYS_USER_NOT_EXISTS);
+        }
+        return BeanCopierUtils.copy(sysUser, UserProfileResponse.class);
+    }
+
+    /**
+     * 更新当前登录用户个人资料，并清理用户缓存。
+     *
+     * @param userId  当前用户ID
+     * @param request 资料更新请求
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void updateCurrentUserProfile(Long userId, UserProfileUpdateRequest request) {
+        final SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        if (Objects.isNull(sysUser)) {
+            throw new BusinessException(PrettyAdminExceptionCode.SYS_USER_NOT_EXISTS);
+        }
+        checkCurrentUserDuplicateFields(userId, request.getEmail(), request.getMobile());
+        sysUser.setNickname(request.getNickname());
+        sysUser.setEmail(request.getEmail());
+        sysUser.setMobile(request.getMobile());
+        sysUser.setAvatar(request.getAvatar());
+        sysUser.setSex(request.getSex());
+        sysUserMapper.updateByPrimaryKeySelective(sysUser);
+        cacheManager.cleanUserAllCache(userId);
+    }
+
+    /**
+     * 修改当前登录用户密码，并清理用户缓存。
+     *
+     * @param userId  当前用户ID
+     * @param request 修改密码请求
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void changeCurrentUserPassword(Long userId, UserChangePasswordRequest request) {
+        final SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        if (Objects.isNull(sysUser)) {
+            throw new BusinessException(PrettyAdminExceptionCode.SYS_USER_NOT_EXISTS);
+        }
+        if (!bCryptPasswordEncoder.matches(request.getOldPassword(), sysUser.getPassword())) {
+            throw new BusinessException(PrettyAdminExceptionCode.SYS_PASSWORD_NOT_MATCH);
+        }
+        if (Objects.equals(request.getOldPassword(), request.getNewPassword())) {
+            throw new BusinessException(PrettyAdminExceptionCode.SYS_PASSWORD_NOT_MATCH);
+        }
+        sysUserMapper.updatePassword(userId, bCryptPasswordEncoder.encode(request.getNewPassword()), new Date());
+        cacheManager.cleanUserAllCache(userId);
+    }
+
     private void checkDuplicateUserFields(SysUserCreateRequest request, boolean isUpdate) {
         final SysUser byUsername = sysUserMapper.selectByUsername(request.getUsername());
         if (Objects.nonNull(byUsername) && (!isUpdate || !Objects.equals(byUsername.getUserId(), request.getUserId()))) {
@@ -215,5 +278,28 @@ public class SysUserApplicationService {
             relationMap.computeIfAbsent(userIdNumber.longValue(), key -> new HashSet<>()).add(relationIdNumber.longValue());
         }
         return relationMap;
+    }
+
+    /**
+     * 校验当前用户更新资料时的邮箱和手机号唯一性。
+     *
+     * @param userId 当前用户ID
+     * @param email  待校验邮箱
+     * @param mobile 待校验手机号
+     */
+    private void checkCurrentUserDuplicateFields(Long userId, String email, String mobile) {
+        if (email != null && !email.isBlank()) {
+            final SysUser byEmail = sysUserMapper.selectByEmail(email);
+            if (Objects.nonNull(byEmail) && !Objects.equals(byEmail.getUserId(), userId)) {
+                throw new BusinessException(PrettyAdminExceptionCode.EMAIL_EXISTS);
+            }
+        }
+
+        if (mobile != null && !mobile.isBlank()) {
+            final SysUser byMobile = sysUserMapper.selectByMobile(mobile);
+            if (Objects.nonNull(byMobile) && !Objects.equals(byMobile.getUserId(), userId)) {
+                throw new BusinessException(PrettyAdminExceptionCode.MOBILE_EXISTS);
+            }
+        }
     }
 }
