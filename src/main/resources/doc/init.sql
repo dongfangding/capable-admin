@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 11/03/2026 18:59:41
+ Date: 12/03/2026 19:55:17
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `sys_dept`  (
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -52,6 +52,7 @@ INSERT INTO `sys_dept` VALUES (4, 2, '牛马部', 4, b'1', 'admin', 'admin', 168
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict`  (
                              `dict_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                             `dict_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典代码',
                              `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典名称',
                              `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
                              `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
@@ -59,11 +60,12 @@ CREATE TABLE `sys_dict`  (
                              `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
+INSERT INTO `sys_dict` VALUES (1, 'enabled', '启用禁用标识', '通用表述启用禁用的标识', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_detail
@@ -72,6 +74,7 @@ DROP TABLE IF EXISTS `sys_dict_detail`;
 CREATE TABLE `sys_dict_detail`  (
                                     `detail_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
                                     `dict_id` bigint NULL DEFAULT NULL COMMENT '字典id',
+                                    `detail_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典明细编码',
                                     `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典标签',
                                     `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典值',
                                     `dict_sort` int NOT NULL DEFAULT 0 COMMENT '排序',
@@ -80,12 +83,14 @@ CREATE TABLE `sys_dict_detail`  (
                                     `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
                                     `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                     PRIMARY KEY (`detail_id`) USING BTREE,
-                                    INDEX `FK5tpkputc6d9nboxojdbgnpmyb`(`dict_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
+                                    INDEX `IDX_dict_id`(`dict_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_detail
 -- ----------------------------
+INSERT INTO `sys_dict_detail` VALUES (1, 1, 'enabled', '启用', '1', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_detail` VALUES (2, 1, 'disabled', '禁用', '0', 0, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -102,12 +107,12 @@ CREATE TABLE `sys_job`  (
                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`job_id`) USING BTREE,
                             UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES (1, '监管', b'1', 1, 'admin', 'admin', 1683010740, 1683010740);
+INSERT INTO `sys_job` VALUES (1, '监管', b'1', 1, 'admin', 'snowball', 1683010740, 1773312937);
 INSERT INTO `sys_job` VALUES (2, '研发', b'1', 2, 'admin', 'admin', 1683010740, 1683010740);
 INSERT INTO `sys_job` VALUES (3, '测试', b'1', 3, 'admin', 'admin', 1683010740, 1683010740);
 INSERT INTO `sys_job` VALUES (4, '财务', b'1', 4, 'admin', 'admin', 1683010740, 1683010740);
@@ -121,26 +126,33 @@ INSERT INTO `sys_job` VALUES (7, '产品经理', b'1', 7, 'admin', 'admin', 1683
 DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log`  (
                             `log_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                            `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `log_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-                            `request_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `time` bigint NULL DEFAULT NULL,
-                            `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
-                            `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                            `exception_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-                            `create_time` bigint NULL DEFAULT NULL,
+                            `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+                            `log_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '结果',
+                            `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '方法',
+                            `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '入参',
+                            `request_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求ip',
+                            `time` bigint NULL DEFAULT NULL COMMENT '耗时',
+                            `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
+                            `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地址信息',
+                            `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'user_agent',
+                            `exception_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '异常详情',
+                            `create_time` bigint NULL DEFAULT NULL COMMENT '创建时间',
                             PRIMARY KEY (`log_id`) USING BTREE,
                             INDEX `log_create_time_index`(`create_time` ASC) USING BTREE,
                             INDEX `inx_log_type`(`log_type` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
+INSERT INTO `sys_log` VALUES (21, '岗位管理:保存岗位', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysJobController.persist(com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest)', '{\"request\":{\"jobId\":1,\"name\":\"监管\",\"enabled\":false,\"sort\":1}}', '0:0:0:0:0:0:0:1', 27, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773312695089);
+INSERT INTO `sys_log` VALUES (22, '岗位管理:保存岗位', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysJobController.persist(com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest)', '{\"request\":{\"jobId\":1,\"name\":\"监管\",\"enabled\":false,\"sort\":1}}', '0:0:0:0:0:0:0:1', 31, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773312934163);
+INSERT INTO `sys_log` VALUES (23, '岗位管理:保存岗位', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysJobController.persist(com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest)', '{\"request\":{\"jobId\":1,\"name\":\"监管\",\"enabled\":true,\"sort\":1}}', '0:0:0:0:0:0:0:1', 21, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773312937573);
+INSERT INTO `sys_log` VALUES (24, '字典管理:保存字典', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysDictController.persist(com.ddf.boot.capableadmin.model.request.sys.SysDictPersistRequest)', '{\"request\":{\"dictId\":1,\"name\":\"启用禁用标识\",\"dictCode\":\"enabled\",\"description\":\"通用表述启用禁用的标识\"}}', '0:0:0:0:0:0:0:1', 20, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773313415307);
+INSERT INTO `sys_log` VALUES (25, '字典明细管理:保存字典明细', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysDictDetailController.persist(com.ddf.boot.capableadmin.model.request.sys.SysDictDetailPersistRequest)', '{\"request\":{\"detailId\":2,\"dictId\":1,\"label\":\"禁用\",\"value\":\"0\",\"dictSort\":0}}', '0:0:0:0:0:0:0:1', 10, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773313425285);
+INSERT INTO `sys_log` VALUES (26, '字典明细管理:保存字典明细', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysDictDetailController.persist(com.ddf.boot.capableadmin.model.request.sys.SysDictDetailPersistRequest)', '{\"request\":{\"detailId\":2,\"dictId\":1,\"label\":\"禁用\",\"value\":\"0\",\"dictSort\":0}}', '0:0:0:0:0:0:0:1', 5, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773313436455);
+INSERT INTO `sys_log` VALUES (27, '字典明细管理:保存字典明细', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysDictDetailController.persist(com.ddf.boot.capableadmin.model.request.sys.SysDictDetailPersistRequest)', '{\"request\":{\"detailId\":2,\"dictId\":1,\"detailCode\":\"disabled\",\"label\":\"禁用\",\"value\":\"0\",\"dictSort\":0}}', '0:0:0:0:0:0:0:1', 160, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773313512643);
+INSERT INTO `sys_log` VALUES (28, '字典明细管理:保存字典明细', 'SUCCESS', 'public com.ddf.boot.common.api.model.common.response.ResponseData<java.lang.Boolean> com.ddf.boot.capableadmin.controller.sys.SysDictDetailController.persist(com.ddf.boot.capableadmin.model.request.sys.SysDictDetailPersistRequest)', '{\"request\":{\"detailId\":1,\"dictId\":1,\"detailCode\":\"enabled\",\"label\":\"启用\",\"value\":\"1\",\"dictSort\":1}}', '0:0:0:0:0:0:0:1', 21, 'snowball', 'IANA保留地址', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', NULL, 1773313517724);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -168,25 +180,11 @@ CREATE TABLE `sys_menu`  (
                              PRIMARY KEY (`menu_id`) USING BTREE,
                              INDEX `INX_pid`(`pid` ASC) USING BTREE,
                              INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20206 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 804201 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (2, 0, 'catalog', 'System', 'System', 'carbon:settings', '/system', NULL, NULL, 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', '', NULL, NULL, 1772377377, 1772377377, 2);
-INSERT INTO `sys_menu` VALUES (9, 0, 'catalog', 'Project', 'Project', 'carbon:data-center', '/vben-admin', NULL, NULL, 0, b'1', '{\"badgeType\": \"dot\", \"order\": 9998, \"title\": \"demos.vben.title\", \"icon\": \"carbon:data-center\"}', '', NULL, NULL, 1772377377, 1772377377, 3);
-INSERT INTO `sys_menu` VALUES (10, 0, 'menu', 'About', '关于', 'lucide:copyright', '/about', NULL, '_core/about/index', 0, b'1', '{\"icon\": \"lucide:copyright\", \"order\": 9999, \"title\": \"demos.vben.about\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (102, 0, 'menu', 'Workspace', 'page.dashboard.workspace', 'mdi:dashboard', '/workspace', NULL, '/dashboard/workspace/index', 0, b'1', '{\"affixTab\":true,\"icon\":\"carbon:workspace\",\"title\":\"page.dashboard.workspace\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (201, 2, 'menu', 'SystemMenu', '菜单管理', 'carbon:menu', '/system/menu', NULL, '/system/menu/list', 0, b'1', '{\"icon\": \"carbon:menu\", \"title\": \"system.menu.title\"}', 'System:Menu:List', NULL, NULL, 1772377377, 1772377377, 3);
-INSERT INTO `sys_menu` VALUES (202, 2, 'menu', 'SystemDept', '部门管理', 'carbon:container-services', '/system/dept', NULL, '/system/dept/list', 0, b'1', '{\"icon\": \"carbon:container-services\", \"title\": \"system.dept.title\"}', 'System:Dept:List', NULL, NULL, 1772377377, 1772377377, 3);
-INSERT INTO `sys_menu` VALUES (901, 9, 'embedded', 'VbenDocument', '文档', 'carbon:book', '/vben-admin/document', NULL, 'IFrameView', 0, b'1', '{\"icon\": \"carbon:book\", \"iframeSrc\": \"https://doc.vben.pro\", \"title\": \"demos.vben.document\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (902, 9, 'link', 'VbenGithub', 'Github', 'carbon:logo-github', '/vben-admin/github', NULL, 'IFrameView', 0, b'1', '{\"icon\": \"carbon:logo-github\", \"link\": \"https://github.com/vbenjs/vue-vben-admin\", \"title\": \"Github\"}', '', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20101, 201, 'button', 'SystemMenuCreate', '新增', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.create\"}', 'System:Menu:Create', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20102, 201, 'button', 'SystemMenuEdit', '编辑', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.edit\"}', 'System:Menu:Edit', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20103, 201, 'button', 'SystemMenuDelete', '删除', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.delete\"}', 'System:Menu:Delete', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20201, 202, 'button', 'SystemDeptCreate', '新增', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.create\"}', 'System:Dept:Create', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20202, 202, 'button', 'SystemDeptEdit', '编辑', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.edit\"}\"', 'System:Dept:Edit', NULL, NULL, 1772377377, 1772377377, 0);
-INSERT INTO `sys_menu` VALUES (20203, 202, 'button', 'SystemDeptDelete', '删除', '', '', NULL, NULL, 0, b'1', '{\"title\": \"common.delete\"}', 'System:Dept:Delete', NULL, NULL, 1772377377, 1772377377, 0);
 INSERT INTO `sys_menu` VALUES (800000, 0, 'catalog', 'Dashboard', 'Dashboard', 'lucide:layout-dashboard', '/dashboard', NULL, NULL, 0, b'1', '{\"icon\":\"lucide:layout-dashboard\",\"order\":-1,\"title\":\"page.dashboard.title\"}', '', NULL, NULL, 1773224290, 1773224290, 2);
 INSERT INTO `sys_menu` VALUES (800001, 800000, 'menu', 'Analytics', 'Analytics', 'lucide:area-chart', '/analytics', NULL, '/dashboard/analytics/index', 1, b'1', '{\"affixTab\":true,\"icon\":\"lucide:area-chart\",\"keepAlive\":true,\"title\":\"page.dashboard.analytics\"}', '', NULL, NULL, 1773224290, 1773224290, 0);
 INSERT INTO `sys_menu` VALUES (800002, 800000, 'menu', 'Workspace', 'Workspace', 'carbon:workspace', '/workspace', NULL, '/dashboard/workspace/index', 2, b'1', '{\"icon\":\"carbon:workspace\",\"title\":\"page.dashboard.workspace\"}', '', NULL, NULL, 1773224290, 1773224290, 0);
@@ -348,12 +346,12 @@ CREATE TABLE `sys_role`  (
                              `menu_ids` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拥有的菜单id集合，逗号分隔，程序自行处理，不需要外部传参',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', 1, '超级管理员', '', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1', '2,901,20101,102,902,20102,20103,9,201,20201,10,202,20202,20203');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 0, '超级管理员', '', 'admin', 'admin', 1683010740, 1683010740, 0, b'1', b'1', '2,804100,9,10,800000,802304,800001,800002,801304,801300,801301,801302,801303,802600,802601,802104,802105,802106,802100,802101,802102,802103,801100,801101,801102,801103,801108,801109,801104,801105,801106,801107,804200,102,802404,802400,802401,802402,802403,801404,801405,801406,801407,801400,801401,801402,801403,802700,802701,802702,802703,901,20101,902,20102,20103,801412,801408,801409,801410,801411,802204,802205,802206,802207,802200,802201,802202,802203,802704,802705,802706,802216,802212,804004,802213,804005,802214,804006,802215,804007,802208,804000,802209,804001,802210,804002,802211,804003,803004,803005,803006,803007,801208,803000,801209,803001,803002,803003,801204,801205,801206,801207,801200,801201,801202,801203,803021,803022,803023,802500,803012,201,802501,803013,202,802502,803014,802503,803011,803032,803033,803031,802000,803024,803052,801000,803051,803044,20201,20202,20203,803041,803042,803043,802300,802301,802302,802303,803071,803064,803065,803066,802804,802805,803061,802806,803062,802807,803063,802800,802801,802802,802803');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -370,6 +368,146 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (800000, 1);
+INSERT INTO `sys_role_menu` VALUES (800001, 1);
+INSERT INTO `sys_role_menu` VALUES (800002, 1);
+INSERT INTO `sys_role_menu` VALUES (801000, 1);
+INSERT INTO `sys_role_menu` VALUES (801100, 1);
+INSERT INTO `sys_role_menu` VALUES (801101, 1);
+INSERT INTO `sys_role_menu` VALUES (801102, 1);
+INSERT INTO `sys_role_menu` VALUES (801103, 1);
+INSERT INTO `sys_role_menu` VALUES (801104, 1);
+INSERT INTO `sys_role_menu` VALUES (801105, 1);
+INSERT INTO `sys_role_menu` VALUES (801106, 1);
+INSERT INTO `sys_role_menu` VALUES (801107, 1);
+INSERT INTO `sys_role_menu` VALUES (801108, 1);
+INSERT INTO `sys_role_menu` VALUES (801109, 1);
+INSERT INTO `sys_role_menu` VALUES (801200, 1);
+INSERT INTO `sys_role_menu` VALUES (801201, 1);
+INSERT INTO `sys_role_menu` VALUES (801202, 1);
+INSERT INTO `sys_role_menu` VALUES (801203, 1);
+INSERT INTO `sys_role_menu` VALUES (801204, 1);
+INSERT INTO `sys_role_menu` VALUES (801205, 1);
+INSERT INTO `sys_role_menu` VALUES (801206, 1);
+INSERT INTO `sys_role_menu` VALUES (801207, 1);
+INSERT INTO `sys_role_menu` VALUES (801208, 1);
+INSERT INTO `sys_role_menu` VALUES (801209, 1);
+INSERT INTO `sys_role_menu` VALUES (801300, 1);
+INSERT INTO `sys_role_menu` VALUES (801301, 1);
+INSERT INTO `sys_role_menu` VALUES (801302, 1);
+INSERT INTO `sys_role_menu` VALUES (801303, 1);
+INSERT INTO `sys_role_menu` VALUES (801304, 1);
+INSERT INTO `sys_role_menu` VALUES (801400, 1);
+INSERT INTO `sys_role_menu` VALUES (801401, 1);
+INSERT INTO `sys_role_menu` VALUES (801402, 1);
+INSERT INTO `sys_role_menu` VALUES (801403, 1);
+INSERT INTO `sys_role_menu` VALUES (801404, 1);
+INSERT INTO `sys_role_menu` VALUES (801405, 1);
+INSERT INTO `sys_role_menu` VALUES (801406, 1);
+INSERT INTO `sys_role_menu` VALUES (801407, 1);
+INSERT INTO `sys_role_menu` VALUES (801408, 1);
+INSERT INTO `sys_role_menu` VALUES (801409, 1);
+INSERT INTO `sys_role_menu` VALUES (801410, 1);
+INSERT INTO `sys_role_menu` VALUES (801411, 1);
+INSERT INTO `sys_role_menu` VALUES (801412, 1);
+INSERT INTO `sys_role_menu` VALUES (802000, 1);
+INSERT INTO `sys_role_menu` VALUES (802100, 1);
+INSERT INTO `sys_role_menu` VALUES (802101, 1);
+INSERT INTO `sys_role_menu` VALUES (802102, 1);
+INSERT INTO `sys_role_menu` VALUES (802103, 1);
+INSERT INTO `sys_role_menu` VALUES (802104, 1);
+INSERT INTO `sys_role_menu` VALUES (802105, 1);
+INSERT INTO `sys_role_menu` VALUES (802106, 1);
+INSERT INTO `sys_role_menu` VALUES (802200, 1);
+INSERT INTO `sys_role_menu` VALUES (802201, 1);
+INSERT INTO `sys_role_menu` VALUES (802202, 1);
+INSERT INTO `sys_role_menu` VALUES (802203, 1);
+INSERT INTO `sys_role_menu` VALUES (802204, 1);
+INSERT INTO `sys_role_menu` VALUES (802205, 1);
+INSERT INTO `sys_role_menu` VALUES (802206, 1);
+INSERT INTO `sys_role_menu` VALUES (802207, 1);
+INSERT INTO `sys_role_menu` VALUES (802208, 1);
+INSERT INTO `sys_role_menu` VALUES (802209, 1);
+INSERT INTO `sys_role_menu` VALUES (802210, 1);
+INSERT INTO `sys_role_menu` VALUES (802211, 1);
+INSERT INTO `sys_role_menu` VALUES (802212, 1);
+INSERT INTO `sys_role_menu` VALUES (802213, 1);
+INSERT INTO `sys_role_menu` VALUES (802214, 1);
+INSERT INTO `sys_role_menu` VALUES (802215, 1);
+INSERT INTO `sys_role_menu` VALUES (802216, 1);
+INSERT INTO `sys_role_menu` VALUES (802300, 1);
+INSERT INTO `sys_role_menu` VALUES (802301, 1);
+INSERT INTO `sys_role_menu` VALUES (802302, 1);
+INSERT INTO `sys_role_menu` VALUES (802303, 1);
+INSERT INTO `sys_role_menu` VALUES (802304, 1);
+INSERT INTO `sys_role_menu` VALUES (802400, 1);
+INSERT INTO `sys_role_menu` VALUES (802401, 1);
+INSERT INTO `sys_role_menu` VALUES (802402, 1);
+INSERT INTO `sys_role_menu` VALUES (802403, 1);
+INSERT INTO `sys_role_menu` VALUES (802404, 1);
+INSERT INTO `sys_role_menu` VALUES (802500, 1);
+INSERT INTO `sys_role_menu` VALUES (802501, 1);
+INSERT INTO `sys_role_menu` VALUES (802502, 1);
+INSERT INTO `sys_role_menu` VALUES (802503, 1);
+INSERT INTO `sys_role_menu` VALUES (802600, 1);
+INSERT INTO `sys_role_menu` VALUES (802601, 1);
+INSERT INTO `sys_role_menu` VALUES (802700, 1);
+INSERT INTO `sys_role_menu` VALUES (802701, 1);
+INSERT INTO `sys_role_menu` VALUES (802702, 1);
+INSERT INTO `sys_role_menu` VALUES (802703, 1);
+INSERT INTO `sys_role_menu` VALUES (802704, 1);
+INSERT INTO `sys_role_menu` VALUES (802705, 1);
+INSERT INTO `sys_role_menu` VALUES (802706, 1);
+INSERT INTO `sys_role_menu` VALUES (802800, 1);
+INSERT INTO `sys_role_menu` VALUES (802801, 1);
+INSERT INTO `sys_role_menu` VALUES (802802, 1);
+INSERT INTO `sys_role_menu` VALUES (802803, 1);
+INSERT INTO `sys_role_menu` VALUES (802804, 1);
+INSERT INTO `sys_role_menu` VALUES (802805, 1);
+INSERT INTO `sys_role_menu` VALUES (802806, 1);
+INSERT INTO `sys_role_menu` VALUES (802807, 1);
+INSERT INTO `sys_role_menu` VALUES (803000, 1);
+INSERT INTO `sys_role_menu` VALUES (803001, 1);
+INSERT INTO `sys_role_menu` VALUES (803002, 1);
+INSERT INTO `sys_role_menu` VALUES (803003, 1);
+INSERT INTO `sys_role_menu` VALUES (803004, 1);
+INSERT INTO `sys_role_menu` VALUES (803005, 1);
+INSERT INTO `sys_role_menu` VALUES (803006, 1);
+INSERT INTO `sys_role_menu` VALUES (803007, 1);
+INSERT INTO `sys_role_menu` VALUES (803011, 1);
+INSERT INTO `sys_role_menu` VALUES (803012, 1);
+INSERT INTO `sys_role_menu` VALUES (803013, 1);
+INSERT INTO `sys_role_menu` VALUES (803014, 1);
+INSERT INTO `sys_role_menu` VALUES (803021, 1);
+INSERT INTO `sys_role_menu` VALUES (803022, 1);
+INSERT INTO `sys_role_menu` VALUES (803023, 1);
+INSERT INTO `sys_role_menu` VALUES (803024, 1);
+INSERT INTO `sys_role_menu` VALUES (803031, 1);
+INSERT INTO `sys_role_menu` VALUES (803032, 1);
+INSERT INTO `sys_role_menu` VALUES (803033, 1);
+INSERT INTO `sys_role_menu` VALUES (803041, 1);
+INSERT INTO `sys_role_menu` VALUES (803042, 1);
+INSERT INTO `sys_role_menu` VALUES (803043, 1);
+INSERT INTO `sys_role_menu` VALUES (803044, 1);
+INSERT INTO `sys_role_menu` VALUES (803051, 1);
+INSERT INTO `sys_role_menu` VALUES (803052, 1);
+INSERT INTO `sys_role_menu` VALUES (803061, 1);
+INSERT INTO `sys_role_menu` VALUES (803062, 1);
+INSERT INTO `sys_role_menu` VALUES (803063, 1);
+INSERT INTO `sys_role_menu` VALUES (803064, 1);
+INSERT INTO `sys_role_menu` VALUES (803065, 1);
+INSERT INTO `sys_role_menu` VALUES (803066, 1);
+INSERT INTO `sys_role_menu` VALUES (803071, 1);
+INSERT INTO `sys_role_menu` VALUES (804000, 1);
+INSERT INTO `sys_role_menu` VALUES (804001, 1);
+INSERT INTO `sys_role_menu` VALUES (804002, 1);
+INSERT INTO `sys_role_menu` VALUES (804003, 1);
+INSERT INTO `sys_role_menu` VALUES (804004, 1);
+INSERT INTO `sys_role_menu` VALUES (804005, 1);
+INSERT INTO `sys_role_menu` VALUES (804006, 1);
+INSERT INTO `sys_role_menu` VALUES (804007, 1);
+INSERT INTO `sys_role_menu` VALUES (804100, 1);
+INSERT INTO `sys_role_menu` VALUES (804200, 1);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -392,12 +530,12 @@ CREATE TABLE `sys_user`  (
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `UK_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 161 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 162 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'snowball', 'snowball', 1, '10000000000', 'snowball@gmail.com', '', '$2a$10$TmU7VviHhXGW4ibcarlOY.loEOHioXKGgU6kIwECzY10cLc9avg.m', b'1', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user` VALUES (1, 'snowball', 'snowball', 1, '1000000000', 'snowball@gmail.com', '2222', '$2a$10$R4m6xQQ3vsxyk9kMt7zDfu0lCxmL/Upygn4xM7fbsKjHd9cGWl2n.', b'1', NULL, NULL, '2026-03-12 18:43:53', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
