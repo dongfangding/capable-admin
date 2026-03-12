@@ -9,14 +9,20 @@ import lombok.Data;
 @Data
 public class SysDictDetailListRequest implements PageRequest {
 
-    /** 页码。 */
-    private Integer pageNum;
-    /** 每页条数。 */
-    private Integer pageSize;
-    /** 所属字典ID。 */
-    private Long dictId;
-    /** 标签。 */
-    private String label;
-    /** 值。 */
-    private String value;
+	/**
+	 * 页码。
+	 */
+	private Integer pageNum;
+	/**
+	 * 每页条数。
+	 */
+	private Integer pageSize;
+	/**
+	 * 所属字典ID。
+	 */
+	private Long dictId;
+	/**
+	 * 关键词
+	 */
+	private String keyword;
 }

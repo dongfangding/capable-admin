@@ -24,8 +24,6 @@ public class SysLogResponse {
     private Long time;
     /** 操作用户名。 */
     private String username;
-    /** 手机号。 */
-    private String phone;
     /** 地址。 */
     private String address;
     /** 浏览器信息。 */

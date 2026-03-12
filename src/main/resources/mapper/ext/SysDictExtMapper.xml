@@ -5,6 +5,7 @@
   <select id="listByCondition" resultType="com.ddf.boot.capableadmin.model.response.sys.SysDictResponse">
     select
       dict_id,
+	  dict_code,
       name,
       description,
       create_by,
@@ -13,8 +14,8 @@
       update_time
     from sys_dict
     <where>
-      <if test="name != null and name != ''">
-        and name like concat('%', #{name}, '%')
+      <if test="keyword != null and keyword != ''">
+        and (name like concat('%', #{keyword}, '%') or dict_code like concat('%', #{keyword}, '%'))
       </if>
     </where>
     order by dict_id desc

@@ -7,7 +7,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @since 2026/02/27 17:52
+* @since 2026/03/12 18:41
 */
 
 
@@ -21,27 +21,58 @@ public class SysLog {
      */
     private Long logId;
 
+    /**
+     * 描述
+     */
     private String description;
 
+    /**
+     * 结果
+     */
     private String logType;
 
+    /**
+     * 方法
+     */
     private String method;
 
+    /**
+     * 入参
+     */
     private String params;
 
+    /**
+     * 请求ip
+     */
     private String requestIp;
 
+    /**
+     * 耗时
+     */
     private Long time;
 
+    /**
+     * 用户名
+     */
     private String username;
 
-    private String phone;
-
+    /**
+     * 地址信息
+     */
     private String address;
 
+    /**
+     * user_agent
+     */
     private String browser;
 
+    /**
+     * 异常详情
+     */
     private String exceptionDetail;
 
+    /**
+     * 创建时间
+     */
     private Long createTime;
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 *
 * @author Snowball
 * @version 1.0
-* @since 2026/02/27 17:52
+* @since 2026/03/12 17:53
 */
 
 
@@ -26,6 +26,11 @@ public class SysDictDetail {
      * 字典id
      */
     private Long dictId;
+
+    /**
+     * 字典明细编码
+     */
+    private String detailCode;
 
     /**
      * 字典标签

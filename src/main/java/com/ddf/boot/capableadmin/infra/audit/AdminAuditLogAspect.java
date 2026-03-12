@@ -1,9 +1,12 @@
 package com.ddf.boot.capableadmin.infra.audit;
 
+import com.ddf.boot.capableadmin.infra.util.CapableAdminUtils;
 import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.entity.SysLog;
 import com.ddf.boot.capableadmin.service.AdminAuditLogService;
 import com.ddf.boot.common.api.util.JsonUtil;
+import com.ddf.boot.common.mvc.util.AopUtil;
+import com.ddf.boot.common.mvc.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
@@ -62,16 +65,13 @@ public class AdminAuditLogAspect {
         log.setDescription(adminAuditLog.module() + ":" + adminAuditLog.action());
         log.setLogType(throwable == null ? "SUCCESS" : "FAIL");
         log.setMethod(((MethodSignature) joinPoint.getSignature()).getMethod().toGenericString());
-        log.setParams(toJson(joinPoint.getArgs()));
+        log.setParams(JsonUtil.toJson(AopUtil.getSerializableParamMap(joinPoint)));
         log.setTime(System.currentTimeMillis() - start);
         log.setUsername(resolveUsername());
         log.setCreateTime(Instant.now().toEpochMilli());
-
-        HttpServletRequest request = currentRequest();
-        if (request != null) {
-            log.setRequestIp(request.getRemoteAddr());
-            log.setBrowser(request.getHeader("User-Agent"));
-        }
+		log.setRequestIp(WebUtil.getHost());
+		log.setAddress(CapableAdminUtils.getAddressByIp(log.getRequestIp()));
+		log.setBrowser(WebUtil.getUserAgent());
         if (throwable != null) {
             log.setExceptionDetail(throwable.getClass().getSimpleName() + ":" + throwable.getMessage());
         }
@@ -104,18 +104,5 @@ public class AdminAuditLogAspect {
         } catch (Exception e) {
             return "<unserializable>";
         }
-    }
-
-    /**
-     * 获取当前线程绑定的 HTTP 请求对象。
-     *
-     * @return 当前请求，若不存在则返回 null
-     */
-    private HttpServletRequest currentRequest() {
-        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        if (attributes instanceof ServletRequestAttributes servletRequestAttributes) {
-            return servletRequestAttributes.getRequest();
-        }
-        return null;
     }
 }

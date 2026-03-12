@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 管理后台操作审计注解。
  * 标注在需要记录操作日志的控制器写接口上。
+ * @author Administrator
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

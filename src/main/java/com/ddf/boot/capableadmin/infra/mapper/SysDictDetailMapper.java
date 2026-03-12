@@ -7,7 +7,7 @@ import com.ddf.boot.capableadmin.model.entity.SysDictDetail;
  *
  * @author Snowball
  * @version 1.0
- * @since 2026/02/27 17:52
+ * @since 2026/03/12 17:53
  */
 public interface SysDictDetailMapper {
     int deleteByPrimaryKey(Long detailId);

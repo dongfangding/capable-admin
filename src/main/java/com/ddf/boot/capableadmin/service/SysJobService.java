@@ -1,6 +1,7 @@
 package com.ddf.boot.capableadmin.service;
 
 import com.ddf.boot.capableadmin.infra.mapper.SysJobMapper;
+import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
 import com.ddf.boot.capableadmin.model.entity.SysJob;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobCreateRequest;
 import com.ddf.boot.capableadmin.model.request.sys.SysJobQuery;
@@ -53,13 +54,16 @@ public class SysJobService {
      */
     public int persist(SysJobCreateRequest request) {
         final Long jobId = request.getJobId();
-        if (Objects.isNull(jobId)) {
+		final String username = PrettyAdminSecurityUtils.getCurrentUsername();
+		if (Objects.isNull(jobId)) {
             PreconditionUtil.checkArgument(
                     Objects.isNull(sysJobMapper.findByName(request.getName())), "岗位名称已存在");
             SysJob job = BeanCopierUtils.copy(request, SysJob.class);
             final Long currentTimeSeconds = DateUtils.currentTimeSeconds();
             job.setCreateTime(currentTimeSeconds);
             job.setUpdateTime(currentTimeSeconds);
+			job.setCreateBy(username);
+			job.setUpdateBy(username);
             return sysJobMapper.insertSelective(job);
         } else {
             final SysJob job = sysJobMapper.selectByPrimaryKey(jobId);
@@ -71,6 +75,8 @@ public class SysJobService {
                     tmpJob = sysJobMapper.findByName(request.getName())) && !Objects.equals(request.getJobId(), tmpJob.getJobId())) {
                 throw new BusinessException("岗位名称已存在");
             }
+			BeanCopierUtils.copy(request, job);
+			job.setUpdateBy(username);
             job.setUpdateTime(DateUtils.currentTimeSeconds());
             return sysJobMapper.updateByPrimaryKeySelective(job);
         }

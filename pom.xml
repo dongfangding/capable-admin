@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>ddf-common</artifactId>
 		<groupId>io.github.dongfangding</groupId>
-		<version>boot3.5-2025.1-SNAPSHOT</version>
+		<version>boot3.5-2026.1-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
 
@@ -18,7 +18,7 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<ddf-common.version>boot3.5-2025.1-SNAPSHOT</ddf-common.version>
+		<ddf-common.version>boot3.5-2026.1-SNAPSHOT</ddf-common.version>
 	</properties>
 
     <dependencies>
@@ -27,6 +27,30 @@
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-security</artifactId>-->
 <!--		</dependency>-->
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-starter-default</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-captcha</artifactId>
+			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.dongfangding</groupId>
+			<artifactId>ddf-common-redis</artifactId>
+			<version>${ddf-common.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-boot-starter-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 
 		<dependency>
@@ -43,64 +67,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.github.dongfangding</groupId>
-			<artifactId>ddf-common-core</artifactId>
-			<version>${ddf-common.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.dongfangding</groupId>
-			<artifactId>ddf-common-mvc</artifactId>
-			<version>${ddf-common.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.dongfangding</groupId>
-			<artifactId>ddf-common-captcha</artifactId>
-			<version>${ddf-common.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.dongfangding</groupId>
-			<artifactId>ddf-common-limit</artifactId>
-			<version>${ddf-common.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.dongfangding</groupId>
-			<artifactId>ddf-common-redis</artifactId>
-			<version>${ddf-common.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.github.dongfangding</groupId>
 			<artifactId>ddf-common-s3</artifactId>
 			<version>${ddf-common.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.dreamlu/mica-ip2region -->
+		<dependency>
+			<groupId>net.dreamlu</groupId>
+			<artifactId>mica-ip2region</artifactId>
+			<version>3.5.7</version>
 		</dependency>
 
 	</dependencies>

@@ -12,7 +12,6 @@
       request_ip,
       `time`,
       username,
-      phone,
       address,
       browser,
       exception_detail,
