@@ -18,7 +18,7 @@ class SysDictControllerTest {
         SysDictApplicationService applicationService = Mockito.mock(SysDictApplicationService.class);
         SysDictController controller = new SysDictController(applicationService);
         SysDictListRequest request = new SysDictListRequest();
-        request.setName("status");
+        request.setKeyword("status");
         PageResult<SysDictResponse> pageResult = new PageResult<>();
         pageResult.setContent(List.of(new SysDictResponse()));
         Mockito.when(applicationService.listDict(request)).thenReturn(pageResult);

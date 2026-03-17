@@ -87,7 +87,7 @@ class UserControllerTest {
         user.setNickname("tester");
         user.setPassword("pwd");
         user.setEnabled(Boolean.TRUE);
-        return new PrettyAdminUserDetails(user, java.util.Set.of("admin"), java.util.Set.of("System:User:Edit"), 1);
+        return new PrettyAdminUserDetails(user, java.util.Set.of("admin"), java.util.Set.of("System:User:Edit"), 1, false);
     }
 
     private UserProfileResponse buildProfileResponse() {

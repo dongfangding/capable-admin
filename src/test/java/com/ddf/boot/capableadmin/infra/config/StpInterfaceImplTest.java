@@ -36,6 +36,6 @@ class StpInterfaceImplTest {
         sysUser.setNickname("tester");
         sysUser.setPassword("pwd");
         sysUser.setEnabled(Boolean.TRUE);
-        return new PrettyAdminUserDetails(sysUser, roles, permissions, 1);
+        return new PrettyAdminUserDetails(sysUser, roles, permissions, 1, false);
     }
 }
