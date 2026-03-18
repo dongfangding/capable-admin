@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+SERVER_NAME=java-capable-admin
 # 使用环境变量的方式，避免泄漏
 : "${DOCKER_USER:?DOCKER_USER is required}"
 : "${DOCKER_PWD:?DOCKER_PWD is required}"
@@ -18,10 +19,9 @@ mvn --settings D:/develop_tools/apache-maven-3.9.9/conf/settings-snowball.xml -U
 # 设置默认标签
 tag=${1:-latest}
 DOCKER_FILE=Dockerfile
-NAMESPACE=capable-admin
 # 基础仓库地址（不含标签）， 使用环境变量的方式，避免泄漏到脚本中，实际部署到服务器可以写死
 REGISTRY_NAMESPACE_VAL="$REGISTRY_NAMESPACE_URL"
-REGISTRY_URL="$REGISTRY_NAMESPACE_VAL/$NAMESPACE:$tag"
+REGISTRY_URL="$REGISTRY_NAMESPACE_VAL/$SERVER_NAME:$tag"
 
 echo "Starting build for: $REGISTRY_URL"
 

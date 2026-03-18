@@ -16,31 +16,7 @@ DEFAULT_JVM_OPTS="-Xmx${HeapSize:-512m} -Xms${HeapSize:-512m} \
 -Xlog:gc*,gc+heap=info,gc+age=trace:file=gc-%t.log:time,uptime,level,tags:filecount=10,filesize=10M"
 
 # JDK 17 强一致性模块开放参数 (模块化解封)
-MODULE_OPTS="--add-exports=java.base/sun.nio.ch=ALL-UNNAMED \
---add-opens=java.base/java.lang=ALL-UNNAMED \
---add-opens=java.base/java.lang.reflect=ALL-UNNAMED \
---add-opens=java.base/java.lang.ref=ALL-UNNAMED \
---add-opens=java.base/java.io=ALL-UNNAMED \
---add-opens=java.base/java.nio=ALL-UNNAMED \
---add-opens=java.base/java.net=ALL-UNNAMED \
---add-opens=java.base/jdk.internal.ref=ALL-UNNAMED \
---add-opens=java.base/java.math=ALL-UNNAMED \
---add-opens=java.base/java.security=ALL-UNNAMED \
---add-opens=java.base/java.text=ALL-UNNAMED \
---add-opens=java.base/java.time=ALL-UNNAMED \
---add-opens=java.base/java.util=ALL-UNNAMED \
---add-opens=java.base/jdk.internal.access=ALL-UNNAMED \
---add-opens=java.base/jdk.internal.misc=ALL-UNNAMED \
---add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED \
---add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED \
---add-exports=java.desktop/sun.awt=ALL-UNNAMED \
---add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor.event=ALL-UNNAMED \
---add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED \
---add-exports=java.desktop/sun.swing=ALL-UNNAMED \
---add-exports=jdk.attach/sun.tools.attach=ALL-UNNAMED \
---add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED \
---add-opens=java.desktop/javax.swing=ALL-UNNAMED \
---add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED"
+MODULE_OPTS=""
 
 # 执行 Java 进程 (使用 exec 确保 java 进程为 PID 1，以便接收退出信号)
-exec java ${DEFAULT_JVM_OPTS} ${MODULE_OPTS} ${VM_OPTIONS} -jar spring-boot-quick.jar
+exec java "${DEFAULT_JVM_OPTS}" "${MODULE_OPTS}" "${VM_OPTIONS}" -jar capable-admin.jar
