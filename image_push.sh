@@ -1,16 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# 不包含docker login前奏， docker login手动登录后，密码会自动保存，所以也没必要在脚本中内置进来
+REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+# 使用环境变量的方式，避免泄漏
+: "${DOCKER_USER:?DOCKER_USER is required}"
+: "${DOCKER_PWD:?DOCKER_PWD is required}"
+: "${REGISTRY_NAMESPACE_URL:?REGISTRY_NAMESPACE_URL is required}"
+
+
+
+# 登录，通过读取变量
+printf '%s' "$DOCKER_PWD" | docker login \
+  --username "$DOCKER_USER" \
+  --password-stdin \
+  "$REGISTRY"
 
 mvn --settings D:/develop_tools/apache-maven-3.9.9/conf/settings-snowball.xml -U clean package
-
 # 设置默认标签
 tag=${1:-latest}
 DOCKER_FILE=Dockerfile
 NAMESPACE=capable-admin
 # 基础仓库地址（不含标签）， 使用环境变量的方式，避免泄漏到脚本中，实际部署到服务器可以写死
-BASE_URL=$BASE_REGISTRY_URL
-REGISTRY_URL="$BASE_URL/$NAMESPACE:$tag"
+REGISTRY_NAMESPACE_VAL="$REGISTRY_NAMESPACE_URL"
+REGISTRY_URL="$REGISTRY_NAMESPACE_VAL/$NAMESPACE:$tag"
 
 echo "Starting build for: $REGISTRY_URL"
 

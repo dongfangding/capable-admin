@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # 默认 JVM 基础参数
 DEFAULT_JVM_OPTS="-Xmx${HeapSize:-512m} -Xms${HeapSize:-512m} \
 -XX:MetaspaceSize=${MetaspaceSize:-256m} -XX:MaxMetaspaceSize=${MetaspaceSize:-256m} \

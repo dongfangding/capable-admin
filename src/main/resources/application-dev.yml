@@ -1,0 +1,20 @@
+mysql_host: localhost
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 1
+      password: Aa&123456
+
+customizer:
+  infra:
+    s3:
+      enable: true
+      endpoint: http://localhost:9000
+      access-key: rYxKvE6Oko9Xq95wRe0x
+      secret-key: cBVpU9I2QwtnMml3r98Z2N42jFWkvUDBvQBLmdQQ
+      bucket-name: group-purchase
+      region: cn-bj1
+      secure: false
+      path-style-access: true
