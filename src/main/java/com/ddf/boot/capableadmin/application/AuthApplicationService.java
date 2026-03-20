@@ -4,19 +4,15 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
 import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
-import com.ddf.boot.capableadmin.infra.util.PrettyAdminSecurityUtils;
+import com.ddf.boot.capableadmin.infra.repository.SysUserRepository;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
-import com.ddf.boot.capableadmin.model.response.auth.LoginUserRes;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.capableadmin.service.PrettyAdminCacheManager;
 import com.ddf.boot.capableadmin.service.PrettyAdminUserDetailsService;
-import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
-import com.ddf.boot.common.core.util.BeanCopierUtils;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +38,8 @@ public class AuthApplicationService {
     private final SysUserMapper sysUserMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PrettyAdminCacheManager cacheManager;
-    private final RedisCommandHelper redisCommandHelper;
 	private final PrettyAdminUserDetailsService prettyAdminUserDetailsService;
+	private final SysUserRepository sysUserRepository;
 
     /**
      * 用户登录
@@ -61,12 +57,12 @@ public class AuthApplicationService {
 		StpUtil.login(userId);
 
 		final PrettyAdminUserDetails details = prettyAdminUserDetailsService.loadUserById(userId);
-		StpUtil.getSession(true).set(PrettyAdminRedisKeyEnum.USER_DETAILS.getKey(userId.toString()), JsonUtil.toJson(details));
+		sysUserRepository.setUserLoginDetails(details);
 
 		// 返回登录信息
         final PrettyAdminLoginResponse response = new PrettyAdminLoginResponse();
         response.setAccessToken(StpUtil.getTokenValue());
-		response.setDetails(PrettyAdminSecurityUtils.getCurrentUser());
+		response.setDetails(details);
         log.info("用户登录成功, userId: {}, username: {}", userId, sysUser.getUsername());
         return response;
     }
@@ -127,8 +123,7 @@ public class AuthApplicationService {
         String userInfo = String.format("{\"userId\":%d,\"username\":\"%s\",\"loginTime\":%d}",
                 sysUser.getUserId(), sysUser.getUsername(), System.currentTimeMillis());
 
-        redisCommandHelper.setEx(onlineUserKey, userInfo,
-                PrettyAdminRedisKeyEnum.ONLINE_USER.getTtl().getSeconds());
+
 
         log.debug("保存在线用户信息, userId: {}, token: {}", sysUser.getUserId(), token);
     }

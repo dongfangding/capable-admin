@@ -2,14 +2,26 @@ package com.ddf.boot.capableadmin.infra.util;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
+import com.ddf.boot.capableadmin.infra.repository.SysUserRepository;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
+import com.ddf.boot.capableadmin.service.PrettyAdminUserDetailsService;
 import com.ddf.boot.common.api.exception.UnauthorizedException;
 import com.ddf.boot.common.api.util.JsonUtil;
+import com.ddf.boot.common.core.helper.SpringContextHolder;
+import javax.swing.Spring;
 
 /**
  * 当前登录用户安全工具类。
  */
 public class PrettyAdminSecurityUtils {
+
+	private static final SysUserRepository SYS_USER_REPOSITORY;
+	private static final PrettyAdminUserDetailsService PRETTY_ADMIN_USER_DETAILS_SERVICE;
+
+	static {
+		SYS_USER_REPOSITORY = SpringContextHolder.getBean(SysUserRepository.class);
+		PRETTY_ADMIN_USER_DETAILS_SERVICE = SpringContextHolder.getBean(PrettyAdminUserDetailsService.class);
+	}
 
     /**
      * 获取当前登录用户ID。
@@ -32,12 +44,7 @@ public class PrettyAdminSecurityUtils {
     public static PrettyAdminUserDetails getCurrentUser() {
         StpUtil.checkLogin();
         long userId = StpUtil.getLoginIdAsLong();
-        Object detailObject = StpUtil.getSession(true)
-                .get(PrettyAdminRedisKeyEnum.USER_DETAILS.getKey(Long.toString(userId)));
-        if (detailObject == null) {
-            throw new UnauthorizedException("用户未登录");
-        }
-        return JsonUtil.toBean(detailObject.toString(), PrettyAdminUserDetails.class);
+        return PRETTY_ADMIN_USER_DETAILS_SERVICE.loadUserById(userId);
     }
 
     /**

@@ -5,7 +5,7 @@ import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
 
 /**
- * <p>description</p >
+ * IP 归属地工具类。
  *
  * @author Snowball
  * @version 1.0
@@ -14,17 +14,21 @@ import net.dreamlu.mica.ip2region.core.IpInfo;
 public class CapableAdminUtils {
 
 	/**
-	 * ip低于搜索
-	 */
-	private final static Ip2regionSearcher IP_REGION_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
-
-	/**
-	 * 根据ip获取详细地址
+	 * 根据 IP 获取详细地址。
 	 */
 	public static String getAddressByIp(String ip) {
-		IpInfo ipInfo = IP_REGION_SEARCHER.memorySearch(ip);
-		if (ipInfo != null) {
-			return ipInfo.getAddress();
+		if (ip == null || ip.isBlank()) {
+			return null;
+		}
+		try {
+			// 非 Spring 上下文场景下降级为 null，避免类初始化失败影响业务流程和单元测试。
+			Ip2regionSearcher ipRegionSearcher = SpringContextHolder.getBean(Ip2regionSearcher.class);
+			IpInfo ipInfo = ipRegionSearcher.memorySearch(ip);
+			if (ipInfo != null) {
+				return ipInfo.getAddress();
+			}
+		} catch (Exception ignored) {
+			return null;
 		}
 		return null;
 	}

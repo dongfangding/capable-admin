@@ -148,3 +148,33 @@ customizer:
         - org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
         - org.springframework.web.bind.MissingServletRequestParameterException
         - org.apache.catalina.connector.ClientAbortException
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 只暴露健康检查和指标，严禁使用 "*"
+        include: health, metrics
+      base-path: /monitor  # 修改默认的 /actuator 路径，增加扫描难度
+  endpoint:
+    health:
+      # 生产环境建议设为 when-authorized 或 never
+      # 配合下面的 role 配置，只有监控系统能看到详细的数据库/Redis 状态
+      show-details: when_authorized
+      roles: "ROLE_MONITOR"
+      probes:
+        enabled: true # 开启 Liveness 和 Readiness
+  health:
+    defaults:
+      enabled: true
+    # 具体的组件健康检查
+    db:
+      enabled: true
+    redis:
+      enabled: true
+    mail:
+      enabled: false
+  prometheus:
+    metrics:
+      export:
+        enabled: true
