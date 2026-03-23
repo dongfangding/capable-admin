@@ -148,13 +148,26 @@ customizer:
         - org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
         - org.springframework.web.bind.MissingServletRequestParameterException
         - org.apache.catalina.connector.ClientAbortException
+  governance:
+    observability:
+      enabled: true
+      thread-pool:
+        enabled: true
+        metric-name: custom.thread.pool
+        scan-all: false
+        include-bean-name-patterns:
+          - "*Executor"
+          - "*Pool"
+          - "*Scheduler"
+        exclude-bean-name-patterns:
+          - "applicationTaskExecutor"
 
 management:
   endpoints:
     web:
       exposure:
         # 只暴露健康检查和指标，严禁使用 "*"
-        include: health, metrics
+        include: health,info,metrics,prometheus
       base-path: /monitor  # 修改默认的 /actuator 路径，增加扫描难度
   endpoint:
     health:
