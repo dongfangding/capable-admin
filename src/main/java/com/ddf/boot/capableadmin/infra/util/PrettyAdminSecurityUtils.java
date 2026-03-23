@@ -44,8 +44,10 @@ public class PrettyAdminSecurityUtils {
     public static PrettyAdminUserDetails getCurrentUser() {
         StpUtil.checkLogin();
         long userId = StpUtil.getLoginIdAsLong();
-        return PRETTY_ADMIN_USER_DETAILS_SERVICE.loadUserById(userId);
+		return SYS_USER_REPOSITORY.getUserLoginDetails(userId);
+//        return PRETTY_ADMIN_USER_DETAILS_SERVICE.loadUserById(userId);
     }
+
 
     /**
      * 获取当前登录用户名。
