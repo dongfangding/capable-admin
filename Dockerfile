@@ -16,6 +16,7 @@ WORKDIR /data
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
 COPY target/capable-admin.jar capable-admin.jar
+COPY opentelemetry-javaagent.ja opentelemetry-javaagent.ja
 
 # 默认环境变量
 ENV PROFILE=local \

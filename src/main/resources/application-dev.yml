@@ -5,8 +5,10 @@ spring:
       host: 10.88.1.165
       port: 6379
       database: 1
-      password: Aa&123456
-
+      password: ItIsSnowball
+  datasource:
+    druid:
+      password: ItIsSnowball
 customizer:
   infra:
     s3:

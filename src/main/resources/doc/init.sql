@@ -4,15 +4,19 @@
  Source Server         : 虚拟机
  Source Server Type    : MySQL
  Source Server Version : 80032
- Source Host           : 10.88.1.175:3306
+ Source Host           : 10.88.1.165:3306
  Source Schema         : capable_admin
 
  Target Server Type    : MySQL
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 12/03/2026 19:55:17
+ Date: 25/03/2026 11:10:56
 */
+
+create database if not exists capable_admin charset utf8mb4 collate utf8mb4_0900_ai_ci;
+
+use capable_admin;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -36,7 +40,7 @@ CREATE TABLE `sys_dept`  (
                              PRIMARY KEY (`dept_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE,
                              INDEX `IDX_pid`(`pid` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -60,7 +64,7 @@ CREATE TABLE `sys_dict`  (
                              `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -84,7 +88,7 @@ CREATE TABLE `sys_dict_detail`  (
                                     `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                     PRIMARY KEY (`detail_id`) USING BTREE,
                                     INDEX `IDX_dict_id`(`dict_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典详情' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_detail
@@ -107,7 +111,7 @@ CREATE TABLE `sys_job`  (
                             `update_time` bigint NULL DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`job_id`) USING BTREE,
                             UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -140,7 +144,7 @@ CREATE TABLE `sys_log`  (
                             PRIMARY KEY (`log_id`) USING BTREE,
                             INDEX `log_create_time_index`(`create_time` ASC) USING BTREE,
                             INDEX `inx_log_type`(`log_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
@@ -180,7 +184,7 @@ CREATE TABLE `sys_menu`  (
                              PRIMARY KEY (`menu_id`) USING BTREE,
                              INDEX `INX_pid`(`pid` ASC) USING BTREE,
                              INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 804201 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 804200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -346,7 +350,7 @@ CREATE TABLE `sys_role`  (
                              `menu_ids` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拥有的菜单id集合，逗号分隔，程序自行处理，不需要外部传参',
                              PRIMARY KEY (`role_id`) USING BTREE,
                              UNIQUE INDEX `UK_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -368,6 +372,20 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (2, 1);
+INSERT INTO `sys_role_menu` VALUES (9, 1);
+INSERT INTO `sys_role_menu` VALUES (10, 1);
+INSERT INTO `sys_role_menu` VALUES (102, 1);
+INSERT INTO `sys_role_menu` VALUES (201, 1);
+INSERT INTO `sys_role_menu` VALUES (202, 1);
+INSERT INTO `sys_role_menu` VALUES (901, 1);
+INSERT INTO `sys_role_menu` VALUES (902, 1);
+INSERT INTO `sys_role_menu` VALUES (20101, 1);
+INSERT INTO `sys_role_menu` VALUES (20102, 1);
+INSERT INTO `sys_role_menu` VALUES (20103, 1);
+INSERT INTO `sys_role_menu` VALUES (20201, 1);
+INSERT INTO `sys_role_menu` VALUES (20202, 1);
+INSERT INTO `sys_role_menu` VALUES (20203, 1);
 INSERT INTO `sys_role_menu` VALUES (800000, 1);
 INSERT INTO `sys_role_menu` VALUES (800001, 1);
 INSERT INTO `sys_role_menu` VALUES (800002, 1);
@@ -530,7 +548,7 @@ CREATE TABLE `sys_user`  (
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `UK_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 162 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 161 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user

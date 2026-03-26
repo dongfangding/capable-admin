@@ -16,6 +16,10 @@ mkdir -p ./logs
 # 将参数组织为数组（Array）是 Bash 中处理复杂参数最稳妥的方法
 # 数组可以完美处理空格，且不需要担心字符串拼接时的引号嵌套问题
 DEFAULT_JVM_OPTS=(
+    "-javaagent:opentelemetry-javaagent.jar"
+    "-Dotel.service.name=${APP_NAME}"
+    "-Dotel.service.name=my-java-app"
+    "-Dotel.service.name=my-java-app"
     "-Xmx${HEAP_SIZE}"
     "-Xms${HEAP_SIZE}"
     "-XX:+UseContainerSupport"
