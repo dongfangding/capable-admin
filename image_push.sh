@@ -15,6 +15,7 @@ printf '%s' "$DOCKER_PWD" | docker login \
   --password-stdin \
   "$REGISTRY"
 
+# 放到脚本中，其实不统一，不过更方便，使用时自己改，或者抽变量
 mvn --settings D:/develop_tools/apache-maven-3.9.9/conf/settings-snowball.xml -U clean package
 # 设置默认标签
 tag=${1:-latest}
