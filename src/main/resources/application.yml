@@ -75,8 +75,6 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 1041765757@qq.com
-    password: nwvxzrwawmwubdic
     properties:
       from: Snowball Notice <1041765757@qq.com>
       mail:
