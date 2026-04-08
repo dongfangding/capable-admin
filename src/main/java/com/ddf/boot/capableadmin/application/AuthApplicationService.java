@@ -94,8 +94,8 @@ public class AuthApplicationService {
     }
 
     /**
-     * 校验验证码
-     * 验证成功后验证码自动失效（防止重放攻击）
+     * 校验验证码（二次验证）
+     * 使用 /captcha/check 接口返回的 captchaVerification 进行二次校验
      *
      * @param request 登录请求
      */
@@ -104,11 +104,12 @@ public class AuthApplicationService {
                 .uuid(request.getUuid())
                 .verifyCode(request.getCode())
                 .captchaType(CaptchaType.CLICK_WORDS)
-                .verification(false)
-                .captchaVerification("")
+                .verification(true)
+                .captchaVerification(request.getCaptchaVerification() != null
+                        ? request.getCaptchaVerification() : "")
                 .build();
         captchaHelper.check(captchaRequest);
-        log.debug("验证码校验成功, uuid: {}", request.getUuid());
+        log.debug("验证码二次校验成功, uuid: {}", request.getUuid());
     }
 
     /**

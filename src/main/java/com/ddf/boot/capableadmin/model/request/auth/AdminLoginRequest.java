@@ -31,4 +31,9 @@ public class AdminLoginRequest implements Serializable {
      */
     @NotBlank(message = "验证码ID不能为空")
     private String uuid;
+
+    /**
+     * 二次校验凭证（由 /captcha/check 接口返回）
+     */
+    private String captchaVerification;
 }
