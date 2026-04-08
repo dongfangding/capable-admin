@@ -11,8 +11,11 @@ import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.capableadmin.service.PrettyAdminCacheManager;
 import com.ddf.boot.capableadmin.service.PrettyAdminUserDetailsService;
+import com.ddf.boot.common.api.model.captcha.CaptchaType;
+import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
 import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
 import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.common.captcha.helper.CaptchaHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +43,7 @@ public class AuthApplicationService {
     private final PrettyAdminCacheManager cacheManager;
 	private final PrettyAdminUserDetailsService prettyAdminUserDetailsService;
 	private final SysUserRepository sysUserRepository;
+	private final CaptchaHelper captchaHelper;
 
     /**
      * 用户登录
@@ -51,6 +55,9 @@ public class AuthApplicationService {
      */
     @Transactional(rollbackFor = Exception.class)
     public PrettyAdminLoginResponse login(AdminLoginRequest request, HttpServletRequest httpRequest) {
+        // 校验验证码
+        validateCaptcha(request);
+
         final SysUser sysUser = validateCredentials(request);
 
 		final Long userId = sysUser.getUserId();
@@ -84,6 +91,24 @@ public class AuthApplicationService {
         } catch (Exception e) {
             log.error("用户登出失败", e);
         }
+    }
+
+    /**
+     * 校验验证码
+     * 验证成功后验证码自动失效（防止重放攻击）
+     *
+     * @param request 登录请求
+     */
+    private void validateCaptcha(AdminLoginRequest request) {
+        final CaptchaCheckRequest captchaRequest = CaptchaCheckRequest.builder()
+                .uuid(request.getUuid())
+                .verifyCode(request.getCode())
+                .captchaType(CaptchaType.CLICK_WORDS)
+                .verification(false)
+                .captchaVerification("")
+                .build();
+        captchaHelper.check(captchaRequest);
+        log.debug("验证码校验成功, uuid: {}", request.getUuid());
     }
 
     /**

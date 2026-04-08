@@ -21,12 +21,14 @@ public class AdminLoginRequest implements Serializable {
     private String password;
 
     /**
-     * 验证码(临时关闭校验)
+     * 验证码答案（点选坐标JSON数组序列化字符串）
      */
+    @NotBlank(message = "验证码不能为空")
     private String code;
 
     /**
-     * uuid(临时关闭校验)
+     * 验证码唯一标识
      */
+    @NotBlank(message = "验证码ID不能为空")
     private String uuid;
 }
