@@ -1,8 +1,8 @@
-mysql_host: 10.88.1.23
+mysql_host: 10.88.1.25
 spring:
   data:
     redis:
-      host: 10.88.1.23
+      host: 10.88.1.25
       port: 6379
       database: 1
       password: xxxx
@@ -17,7 +17,7 @@ customizer:
   infra:
     s3:
       enable: true
-      endpoint: http://10.88.1.23:9000
+      endpoint: http://10.88.1.25:9000
       access-key: xxx
       secret-key: xxx
       bucket-name: group-purchase
