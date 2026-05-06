@@ -11,8 +11,7 @@ import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
 import com.ddf.boot.capableadmin.model.response.auth.PrettyAdminLoginResponse;
 import com.ddf.boot.capableadmin.service.PrettyAdminCacheManager;
 import com.ddf.boot.capableadmin.service.PrettyAdminUserDetailsService;
-import com.ddf.boot.common.api.model.captcha.CaptchaType;
-import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
+import com.ddf.boot.common.api.model.captcha.request.CaptchaSecondCheckRequest;
 import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.common.captcha.helper.CaptchaHelper;
@@ -56,7 +55,7 @@ public class AuthApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public PrettyAdminLoginResponse login(AdminLoginRequest request, HttpServletRequest httpRequest) {
         // 校验验证码
-        validateCaptcha(request);
+        secondVerify(request);
 
         final SysUser sysUser = validateCredentials(request);
 
@@ -99,16 +98,12 @@ public class AuthApplicationService {
      *
      * @param request 登录请求
      */
-    private void validateCaptcha(AdminLoginRequest request) {
-        final CaptchaCheckRequest captchaRequest = CaptchaCheckRequest.builder()
+    private void secondVerify(AdminLoginRequest request) {
+        final CaptchaSecondCheckRequest captchaRequest = CaptchaSecondCheckRequest.builder()
                 .uuid(request.getUuid())
-                .verifyCode(request.getCode())
-                .captchaType(CaptchaType.CLICK_WORDS)
-                .verification(true)
-                .captchaVerification(request.getCaptchaVerification() != null
-                        ? request.getCaptchaVerification() : "")
+				.captchaVerification(request.getCaptchaVerification())
                 .build();
-        captchaHelper.check(captchaRequest);
+        captchaHelper.serverSecondCheck(captchaRequest);
         log.debug("验证码二次校验成功, uuid: {}", request.getUuid());
     }
 
