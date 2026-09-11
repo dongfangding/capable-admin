@@ -3,8 +3,10 @@ package com.ddf.boot.capableadmin.application;
 import cn.dev33.satoken.stp.StpUtil;
 import com.ddf.boot.capableadmin.enums.PrettyAdminExceptionCode;
 import com.ddf.boot.capableadmin.enums.PrettyAdminRedisKeyEnum;
+import com.ddf.boot.capableadmin.facade.PushFacade;
 import com.ddf.boot.capableadmin.infra.mapper.SysUserMapper;
 import com.ddf.boot.capableadmin.infra.repository.SysUserRepository;
+import com.ddf.boot.capableadmin.model.dto.LoginNoticeData;
 import com.ddf.boot.capableadmin.model.dto.PrettyAdminUserDetails;
 import com.ddf.boot.capableadmin.model.entity.SysUser;
 import com.ddf.boot.capableadmin.model.request.auth.AdminLoginRequest;
@@ -43,6 +45,7 @@ public class AuthApplicationService {
 	private final PrettyAdminUserDetailsService prettyAdminUserDetailsService;
 	private final SysUserRepository sysUserRepository;
 	private final CaptchaHelper captchaHelper;
+	private final PushFacade pushFacade;
 
     /**
      * 用户登录
@@ -70,7 +73,13 @@ public class AuthApplicationService {
         response.setAccessToken(StpUtil.getTokenValue());
 		response.setDetails(details);
         log.info("用户登录成功, userId: {}, username: {}", userId, sysUser.getUsername());
-        return response;
+
+		final LoginNoticeData loginNoticeData = new LoginNoticeData();
+		loginNoticeData.setUserId(userId);
+		loginNoticeData.setUsername(sysUser.getUsername());
+		loginNoticeData.setNickname(sysUser.getNickname());
+		pushFacade.pushLoginMsg(loginNoticeData);
+		return response;
     }
 
     /**

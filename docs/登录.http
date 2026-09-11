@@ -1,0 +1,73 @@
+### 登录
+POST http://localhost:8083/capable-admin/auth/login
+Content-Type: application/json
+
+{
+  "username" : "snowball",
+  "password" : "Aa&123456",
+  "code" : " ",
+  "uuid" : " ",
+  "captchaVerification" : " "
+}
+
+### 面板
+GET http://localhost:9107/game/bull-fight/panel?uid=1267
+Content-Type: application/json
+
+
+
+### 开始匹配
+POST http://localhost:9107/game/bull-fight/start-match
+Content-Type: application/json
+
+{
+  "mode": 2,
+  "uid": 1267,
+  "targetUid": 1268
+}
+
+### 取消匹配
+POST http://localhost:9107/game/bull-fight/cancel-match
+Content-Type: application/json
+
+{
+  "mode": 2,
+  "uid": 1267,
+  "targetUid": 1268
+}
+
+### 放置战斗旗子
+POST http://localhost:9107/game/bull-fight/fight
+Content-Type: application/json
+
+{
+  "uid": 1267,
+  "roundId": 1260,
+  "line": 2,
+  "chessPieceId": "1#1001",
+  "fightType": 0
+}
+
+### 扣血
+POST http://localhost:9107/game/bull-fight/deduct-blood
+Content-Type: application/json
+
+{
+  "uid": 1267,
+  "roundId": 1249,
+  "chessPieceId": "1#1001",
+  "fightType": 0,
+  "line": 2
+}
+
+### 扣血
+GET http://localhost:9107/game/bull-fight/check-match-result?uid=1267
+Content-Type: application/json
+
+{
+  "uid": 1267
+}
+
+### 榜单
+GET http://localhost:9107/game/bull-fight/ranking?uid=1267
+Content-Type: application/json

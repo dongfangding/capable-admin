@@ -5,7 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.strategy.SaStrategy;
 import com.ddf.boot.common.api.model.authentication.UserClaim;
 import com.ddf.boot.common.api.util.DateUtils;
-import com.ddf.boot.common.core.authentication.TokenUtil;
+import com.ddf.boot.common.core.authentication.TokenGenerator;
 import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +25,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class PrettyAdminWebConfig implements WebMvcConfigurer {
+
+	private final TokenGenerator tokenGenerator;
+
+	PrettyAdminWebConfig(TokenGenerator tokenGenerator) {
+		this.tokenGenerator = tokenGenerator;
+	}
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -57,7 +63,7 @@ public class PrettyAdminWebConfig implements WebMvcConfigurer {
 			final UserClaim claim = new UserClaim();
 			claim.setUserId(loginId.toString());
 			claim.setProperties(Map.of("ctime", DateUtils.currentTimeSeconds()));
-			return TokenUtil.createToken(claim).getToken();
+			return tokenGenerator.createToken(claim).getToken();
 		};
 	}
 }
