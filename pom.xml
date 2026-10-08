@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>ddf-common</artifactId>
 		<groupId>io.github.dongfangding</groupId>
-		<version>boot3.5-2026.1-SNAPSHOT</version>
+		<version>boot3.5-2026.2-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
 
@@ -18,10 +18,18 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<ddf-common.version>boot3.5-2026.1-SNAPSHOT</ddf-common.version>
+		<ddf-common.version>boot3.5-2026.2-SNAPSHOT</ddf-common.version>
 	</properties>
 
     <dependencies>
+
+		<!-- 升级时用来验证一些属性，正常使用时不要引入 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-properties-migrator</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+
 		<!--Spring boot 安全框架-->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->

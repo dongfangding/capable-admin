@@ -3,6 +3,7 @@ package com.ddf.boot.capableadmin.facade;
 import com.ddf.boot.capableadmin.model.dto.LoginNoticeData;
 import com.ddf.boot.common.stomp.helpere.StompMessageHelper;
 import com.ddf.boot.common.stomp.model.req.StompMessageRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class PushFacade {
 	 */
 	public void pushLoginMsg(LoginNoticeData loginNoticeData) {
 		final StompMessageRequest<LoginNoticeData> request = new StompMessageRequest<>();
-		request.setTopic(LOGIN_TOPIC);
+		request.setTopics(List.of(LOGIN_TOPIC));
 		request.setTitle("登录通知");
 		request.setMessageCode("auth_login");
 		request.setData(loginNoticeData);
